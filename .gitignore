@@ -1,4 +1,4 @@
-# 编译后的文件或目录
+# Ignore the automatically generated file  or directory
 *.class
 *.metadata/
 *.settings/
