@@ -1,4 +1,23 @@
+# 编译后的文件或目录
 *.class
+*.metadata/
+*.settings/
+*.classpath
+*target/
+*.tomcatplugin
+bin/
+*.class
+.checkstyle
+.fbprefs
+.project
+.hibernateSynchronizer3/
+.svn/
+.skin
+*data/
+*wblog/
+*logs/
+.idea/
+*.iml
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
