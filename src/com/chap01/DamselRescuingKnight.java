@@ -7,7 +7,7 @@ import com.chap01.assist.RescueDamseQuest;
 
 
 /**
- * @program 程序清单1.2 
+ * @program 程序清单1.2 - P29
  * @description 实现 Quest.embark()的调用
  * @author YC.Yin 
  * @date 2017-4-20

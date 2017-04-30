@@ -5,7 +5,7 @@ import static org.mockito.Mockito.*;
 import com.chap01.assist.Quest;
 
 /**
- * @program 程序清单1.4
+ * @program 程序清单1.4 - P31
  * @description 使用 JUnit + Mockito 测试 调用BraveKnight.embarOnQuest()
  * @author YC.Yin 
  * @date 2017-4-20

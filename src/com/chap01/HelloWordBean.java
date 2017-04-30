@@ -1,7 +1,7 @@
 package com.chap01;
 
 /**
- * @program 程序清单1.1 
+ * @program 程序清单1.1 - P28
  * @description hello word bean
  * @author YC.Yin 
  * @date 2017-4-20
