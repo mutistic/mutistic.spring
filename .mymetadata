@@ -7,7 +7,7 @@
   j2ee-spec="5.0"
   archive="SpringIA.war">
   <attributes>
-    <attribute name="webrootdir" value="WebRoot" />
+    <attribute name="webrootdir" value="web" />
   </attributes>
 </project-module>
 

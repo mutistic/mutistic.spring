@@ -2,7 +2,8 @@
 *.class
 *.metadata/
 *.settings/
-*.classpath
+.classpath
+.mymetadata
 *target/
 *.tomcatplugin
 bin/
