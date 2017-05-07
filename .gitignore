@@ -1,13 +1,10 @@
 # Ignore the automatically generated file  or directory
-*.class
-*.metadata/
-*.settings/
-.classpath
-.mymetadata
-*target/
+.metadata/
+target/
 *.tomcatplugin
-bin/
-*.class
+bin
+classes/
+.settings/
 .checkstyle
 .fbprefs
 .project
@@ -24,7 +21,7 @@ bin/
 .mtj.tmp/
 
 # Package Files #
-*.jar
+#*.jar
 *.war
 *.ear
 

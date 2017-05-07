@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-module
   type="WEB"
-  name="SpringIA"
+  name="SpirngIA"
   id="myeclipse.1492691526842"
   context-root="/SpirngIA"
   j2ee-spec="5.0"
