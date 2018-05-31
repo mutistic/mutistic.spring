@@ -23,3 +23,11 @@
 /dist/
 /nbdist/
 /.nb-gradle/
+
+/.svn
+/.git
+bin/
+*.class
+*.ldb
+
+!/com.mutistic.spring/WebRoot/WEB-INF/lib
