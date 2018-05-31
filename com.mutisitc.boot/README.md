@@ -1,5 +1,7 @@
-# 学习Spring Boot
-此项目是使用 Eclipse 集成的 STS插件自动创建的Spring Boot项目。
+# Spring Boot
+此项目基于Craig Walls的《Spring Boot实战》一书，进行Spring Bott的练习项目。使用的是Eclipse 集成的 STS插件自动创建的Spring Boot项目。
+
+
 
 ## 目录结构说明：
 1、.gradle、gradle、build.gradle、gradlew、gradlew.bat、settings.gradle：<br/>
