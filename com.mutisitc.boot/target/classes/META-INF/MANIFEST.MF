@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: com.mutisitc.boot
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: yinyc
+Implementation-Vendor-Id: com.mutistic
+Build-Jdk: 1.8.0_73
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/com.mutistic.demo
+Created-By: Maven Integration for Eclipse
+
