@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<!-- 项目基本信息 -->
+	<!-- 1、项目基本信息 -->
 	<groupId>com.mutistic</groupId>
 	<artifactId>com.mutistic.boot</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -13,7 +13,7 @@
 	<description>此项目基于Craig Walls的《Spring Boot实战》一书。使用的是Eclipse 集成的 STS插件自动创建的Spring Boot项目</description>
 
 
-	<!-- 从 spring-boot-starter-parent 继承版本号：
+	<!-- 2、从 spring-boot-starter-parent 继承版本号：
 	将spring-boot-starter-parent作为上一级，这样一来就能利用Maven的依赖管理功能，继承很多常用库的依赖版本，在声明依赖时就不用再去指定版本号了
 	-->
 	<parent>
@@ -23,14 +23,8 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
-	<!-- 编码格式及JDK版本信息 -->
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>1.8</java.version>
-	</properties>
 
-	<!-- 起步依赖：
+	<!-- 3、起步依赖：
 		起步依赖本质上是一个Maven项目对象模型（Project Object Model，POM），定义了对其他库的传递依赖，这些东西加在一起即支持某项功能。很多起步依赖的命名都暗示了它们提供的某种或某类功能 
 	-->
 	<dependencies>
@@ -67,7 +61,14 @@
 		</dependency>
 	</dependencies>
 
-	<!-- 运用spring boot 构建插件： maven
+	<!-- 4、配置文件和构建等编码格式和JDK版本信息 -->
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+	</properties>
+	
+	<!-- 5、配置spring boot 构建信息： maven
 	  	构建插件的主要功能是把项目打包成一个可执行的超级JAR（uber-JAR），包括把应用程序的所有依赖打入JAR文件内，并为JAR添加一个描述文件，其中的内容能让你用 java -jar 来运行应用程序
 	-->
 	<build>
