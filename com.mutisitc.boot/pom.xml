@@ -5,7 +5,7 @@
 
 	<!-- 项目基本信息 -->
 	<groupId>com.mutistic</groupId>
-	<artifactId>com.mutistic.demo</artifactId>
+	<artifactId>com.mutistic.boot</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
@@ -45,7 +45,7 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- JPA：在关系型数据库里持久化数据：包引入会报错 -->
+		<!-- JPA：在关系型数据库里持久化数据：application.propertions未配置DB和JPA信息的话，引入此包会报错 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -56,9 +56,14 @@
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
 		<!-- H2：h2数据库 -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
+		</dependency> -->
+		<!-- Mysql：Mysql数据库 -->
+		<dependency>
+			<groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
 		</dependency>
 	</dependencies>
 
@@ -73,6 +78,5 @@
 			</plugin>
 		</plugins>
 	</build>
-
 
 </project>

@@ -1,7 +1,7 @@
 package com.mutistic.demo;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+//import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * @program Spring Boot Application模板类
@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author mutisitic
  * @date 2018年5月31日
  */
-@SpringBootApplication
+//@SpringBootApplication
 public class DemoApplication {
 
 	/**
