@@ -73,6 +73,7 @@ public class DemoApplicationTests {
 2.3、@ActiveProfiles(profiles = "test")：在测试类上面指定profiles，可以改变当前spring 的profile，来达到多环境的测试<br/>
 
 ### 三、pom.xml：POM文件<br/>
+3.1、配置项目基本信息：<br/>
 ```
 <!-- 1、项目基本信息 -->
 <groupId>com.mutistic</groupId>
@@ -82,7 +83,6 @@ public class DemoApplicationTests {
 <name>com.mutisitc.boot</name>
 <description>此项目基于Craig Walls的《Spring Boot实战》一书。使用的是Eclipse 集成的 STS插件自动创建的Spring Boot项目</description>
 ```
-3.1、配置项目基本信息：<br/>
 ```
 name：项目名称。
 groupId：项目组名。
@@ -99,6 +99,7 @@ Java Version：Java版本号。
 Package：项目包名。
 Woring sets / Add project to workong sets：是否需要引入其他工作项目。
 ```
+3.2：将spring-boot-starter-parent作为上一级，这样一来就能利用Maven的依赖管理功能，继承很多常用库的依赖版本，在声明依赖时就不用再去指定版本号了。<br/>
 ```
 <!-- 2、从 spring-boot-starter-parent 继承版本号 -->
 <parent>
@@ -108,7 +109,7 @@ Woring sets / Add project to workong sets：是否需要引入其他工作项目
 	<relativePath/> <!-- lookup parent from repository -->
 </parent>
 ```
-3.2：将spring-boot-starter-parent作为上一级，这样一来就能利用Maven的依赖管理功能，继承很多常用库的依赖版本，在声明依赖时就不用再去指定版本号了。<br/>
+3.3：起步依赖本质上是一个Maven项目对象模型（Project Object Model，POM），定义了对其他库的传递依赖，这些东西加在一起即支持某项功能。很多起步依赖的命名都暗示了它们提供的某种或某类功能 。<br/>
 ```
 <!-- 3、起步依赖-->
 <dependencies>
@@ -145,7 +146,7 @@ Woring sets / Add project to workong sets：是否需要引入其他工作项目
 	</dependency>
 </dependencies>
 ```
-3.3：起步依赖本质上是一个Maven项目对象模型（Project Object Model，POM），定义了对其他库的传递依赖，这些东西加在一起即支持某项功能。很多起步依赖的命名都暗示了它们提供的某种或某类功能 。<br/>
+3.4：配置文件和构建等编码格式和JDK版本信息等 。<br/>
 ```
 <!-- 4、配置文件和构建等编码格式和JDK版本信息 -->
 <properties>
@@ -154,7 +155,7 @@ Woring sets / Add project to workong sets：是否需要引入其他工作项目
 	<java.version>1.8</java.version>
 </properties>
 ```
-3.4：配置文件和构建等编码格式和JDK版本信息等 。<br/>
+3.5、配置构建信息：构建插件的主要功能是把项目打包成一个可执行的超级JAR（uber-JAR），包括把应用程序的所有依赖打入JAR文件内，并为JAR添加一个描述文件，其中的内容能让你用 java -jar 来运行应用程序。<br/>
 ```	
 <!-- 5、配置spring boot 构建信息： maven -->
 <build>
@@ -166,8 +167,6 @@ Woring sets / Add project to workong sets：是否需要引入其他工作项目
 	</plugins>
 </build>
 ```
-3.5、配置构建信息：构建插件的主要功能是把项目打包成一个可执行的超级JAR（uber-JAR），包括把应用程序的所有依赖打入JAR文件内，并为JAR添加一个描述文件，其中的内容能让你用 java -jar 来运行应用程序。<br/>
-
 ### 四、application.properties：配置文件<br/>
 ```
 #设置server信息
