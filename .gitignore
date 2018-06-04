@@ -1,5 +1,4 @@
-target/
-!.mvn/wrapper/maven-wrapper.jar
+
 
 ### STS ###
 .apt_generated
@@ -27,5 +26,7 @@ target/
 bin/
 *.class
 *.ldb
+target/
 
+!.mvn/wrapper/maven-wrapper.jar
 !/com.mutistic.spring/WebRoot/WEB-INF/lib
