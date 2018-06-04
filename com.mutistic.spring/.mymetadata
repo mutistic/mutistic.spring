@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-module
   type="WEB"
-  name="SpirngIA"
+  name="com.mutistic.spring"
   id="myeclipse.1492691526842"
-  context-root="/SpirngIA"
+  context-root="/spring"
   j2ee-spec="5.0"
-  archive="SpringIA.war">
+  archive="com.mutistic.spring.war">
   <attributes>
     <attribute name="webrootdir" value="web" />
   </attributes>
