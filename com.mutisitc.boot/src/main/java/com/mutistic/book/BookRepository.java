@@ -1,8 +1,6 @@
 package com.mutistic.book;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Component;
-
 
 /**
  * @program 图书接口
@@ -10,7 +8,7 @@ import org.springframework.stereotype.Component;
  * @author mutisitic
  * @date 2018年6月4日
  */
-@Component
+//@Repository(path = "people")
 public interface BookRepository extends JpaRepository<BookEntity, Long> {
 	
 	

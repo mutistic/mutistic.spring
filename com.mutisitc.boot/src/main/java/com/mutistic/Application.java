@@ -13,10 +13,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
  * @date 2018年5月31日
  */
 @SpringBootApplication
+//@ServletComponentScan
 public class Application extends WebMvcConfigurationSupport {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
+//		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(BookConfig.class);
+//		System.out.println(context.getBean(BookEntity.class));
 	}
 	
     @Override

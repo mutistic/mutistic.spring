@@ -1,61 +1,103 @@
 package com.mutistic;
-
-import javax.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
-import org.springframework.transaction.PlatformTransactionManager;
-
-@Configuration
-@EnableJpaRepositories(value = "com.lc.springBoot.jpa.repository",
-                        entityManagerFactoryRef = "writeEntityManagerFactory",
-                        transactionManagerRef="writeTransactionManager")
-public class DataSourceConfig {
-	@Autowired
-    JpaProperties jpaProperties;
-
-    @Autowired
-    @Qualifier("dataSource")
-    private DataSource dataSource;
-
-    /**
-     * EntityManagerFactory类似于Hibernate的SessionFactory,mybatis的SqlSessionFactory
-     * 总之,在执行操作之前,我们总要获取一个EntityManager,这就类似于Hibernate的Session,
-     * mybatis的sqlSession.
-     * @return
-     */
-    @Bean(name = "entityManagerFactory")
-    @Primary
-    public EntityManagerFactory entityManagerFactory() {
-        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
-        factory.setJpaVendorAdapter(vendorAdapter);
-        factory.setPackagesToScan("com.lc.springBoot.jpa.entity");
-        factory.setDataSource(dataSource);//数据源
-
-        factory.setJpaPropertyMap(jpaProperties.getProperties());
-        factory.afterPropertiesSet();//在完成了其它所有相关的配置加载以及属性设置后,才初始化
-        return factory.getObject();
-    }
-
-    /**
-     * 配置事物管理器
-     * @return
-     */
-    @Bean(name = "transactionManager")
-    @Primary
-    public PlatformTransactionManager writeTransactionManager() {
-        JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
-        jpaTransactionManager.setEntityManagerFactory(this.entityManagerFactory());
-        return jpaTransactionManager;
-    }
+public class JPASourceConfig {
+	
 }
+//
+//import java.util.Map;
+//
+//import javax.persistence.EntityManager;
+//import javax.sql.DataSource;
+//
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.beans.factory.annotation.Qualifier;
+//import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
+//import org.springframework.boot.context.properties.ConfigurationProperties;
+//import org.springframework.boot.jdbc.DataSourceBuilder;
+//import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
+//import org.springframework.context.annotation.Bean;
+//import org.springframework.context.annotation.Configuration;
+//import org.springframework.context.annotation.Primary;
+//import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+//import org.springframework.jdbc.core.JdbcTemplate;
+//import org.springframework.orm.jpa.JpaTransactionManager;
+//import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+//import org.springframework.transaction.PlatformTransactionManager;
+//import org.springframework.transaction.annotation.EnableTransactionManagement;
+//
+//@Configuration
+////@EnableJpaRepositories(value = "com.lc.springBoot.jpa.repository",
+////                        entityManagerFactoryRef = "entityManagerFactory",
+////                        transactionManagerRef="transactionManager")
+//
+//@EnableTransactionManagement
+//@EnableJpaRepositories( entityManagerFactoryRef = "entityManagerFactory", 
+//	transactionManagerRef = "transactionManager", 
+//	basePackages = { "src.main.resources.application.properties" })
+//public class JPASourceConfig {
+////	@Autowired
+////    JpaProperties jpaProperties;
+////
+////    @Autowired
+////    @Qualifier("dataSource")
+////    private DataSource dataSource;
+//
+//	
+//	@Bean(name = "dataSource")
+//    @Qualifier("dataSource")
+//    @ConfigurationProperties(prefix="spring.datasource")
+//    public DataSource primaryDataSource() {
+//        return DataSourceBuilder.create().build();
+//
+//    }
+//	
+//	@Bean(name = "jdbcTemplate")
+//    public JdbcTemplate primaryJdbcTemplate(@Qualifier("dataSource") DataSource dataSource) {
+//        return new JdbcTemplate(dataSource);
+//    }
+//	
+//	/**
+//     * EntityManagerFactory类似于Hibernate的SessionFactory,mybatis的SqlSessionFactory
+//     * 总之,在执行操作之前,我们总要获取一个EntityManager,这就类似于Hibernate的Session,
+//     * mybatis的sqlSession.
+//     * @return
+//     */
+//@Autowired
+//@Qualifier("dataSource")
+//private DataSource dataSource;
+//
+// 
+//
+//@Primary
+//@Bean(name = "entityManager")
+//public EntityManager entityManager(EntityManagerFactoryBuilder builder) {
+//return entityManagerFactoryPrimary(builder).getObject().createEntityManager();
+//}
+//
+// 
+//
+//@Primary
+//@Bean(name = "entityManagerFactory")
+//public LocalContainerEntityManagerFactoryBean entityManagerFactoryPrimary(EntityManagerFactoryBuilder builder) {
+//return builder.dataSource(dataSource).properties(getVendorProperties(dataSource)).packages("src.main.resources.application.properties") // 设置实体类所在位置
+//.persistenceUnit("persistenceUnit").build();
+//}
+//
+// 
+//
+//@Autowired
+//private JpaProperties jpaProperties;
+//
+// 
+//
+//private Map<String, String> getVendorProperties(DataSource dataSource) {
+//return jpaProperties.getHibernateProperties(dataSource);
+//}
+//
+// 
+//
+//@Primary
+//@Bean(name = "transactionManager")
+//public PlatformTransactionManager transactionManagerPrimary(EntityManagerFactoryBuilder builder) {
+//return new JpaTransactionManager(entityManagerFactoryPrimary(builder).getObject());
+//}
+//}
