@@ -1,4 +1,4 @@
-package com.chap01;
+package com.mutisitic.chap01;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;

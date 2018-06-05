@@ -1,9 +1,9 @@
-package com.chap01;
+package com.mutisitic.chap01;
 
 import org.junit.Test;
 
-import com.chap01.assist.Knight;
-import com.chap01.assist.RescueDamseQuest;
+import com.mutisitic.chap01.assist.Knight;
+import com.mutisitic.chap01.assist.RescueDamseQuest;
 
 
 /**

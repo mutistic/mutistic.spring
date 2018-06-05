@@ -1,4 +1,4 @@
-package com.chap01.assist;
+package com.mutisitic.chap01.assist;
 
 /**
  * @program 程序清单1.1

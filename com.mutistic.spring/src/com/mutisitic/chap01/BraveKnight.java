@@ -1,10 +1,10 @@
-package com.chap01;
+package com.mutisitic.chap01;
 
 import org.junit.Test;
 
-import com.chap01.assist.Knight;
-import com.chap01.assist.Quest;
-import com.chap01.assist.RescueDamseQuest;
+import com.mutisitic.chap01.assist.Knight;
+import com.mutisitic.chap01.assist.Quest;
+import com.mutisitic.chap01.assist.RescueDamseQuest;
 
 /**
  * @program 程序清单1.3 - P30

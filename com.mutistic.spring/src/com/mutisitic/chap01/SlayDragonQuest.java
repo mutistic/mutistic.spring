@@ -1,8 +1,8 @@
-package com.chap01;
+package com.mutisitic.chap01;
 
 import java.io.PrintStream;
 
-import com.chap01.assist.Quest;
+import com.mutisitic.chap01.assist.Quest;
 
 /**
  * @program 查询清单1.5 - P31
