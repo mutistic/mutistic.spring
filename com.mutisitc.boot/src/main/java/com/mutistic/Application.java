@@ -2,6 +2,9 @@ package com.mutistic;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+
 
 /**
  * @program Spring Boot Application 应用启动类
@@ -10,9 +13,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2018年5月31日
  */
 @SpringBootApplication
-public class Application {
+public class Application extends WebMvcConfigurationSupport {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
+	
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+      registry.addRedirectViewController("/", "/bookList");
+    }
+    
 }
