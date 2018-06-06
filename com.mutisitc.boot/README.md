@@ -36,7 +36,6 @@ SpringBoot提供了_钟快速使用Spring的方式
 2、Spring Bott 使配置变得简单
 3、Spring Bott 使部署变得简单
 4、Spring Bott 使监控变得简单
-
 ```
 
 5、Spring Boot 缺点
