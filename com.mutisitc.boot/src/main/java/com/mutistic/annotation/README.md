@@ -1,91 +1,25 @@
-# [Spring Boot](https://spring.io/projects/spring-boot)
-此项目基于Craig Walls的《Spring Boot实战》一书。使用的是Eclipse 集成的 STS插件自动创建的Spring Boot项目。
+# [Spring4](https://docs.spring.io/spring/docs/current/javadoc-api)
+Spring Boot
 
-1、Spring Boot 是什么
+## [独立的应用程序上下文：org.springframework.context.annotation.AnnotationConfigApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/AnnotationConfigApplicationContext.html)：
 ```
-Spring Boot是由Pivotal团队提供的全新框架，其设计目的是用来简化新Spring应用的初始搭建以及开发过程。
-该框架使用了特定的方式来进行配置，从而使开发人员不再需要定义样板化的配置。
-通过这种方式，Spring Boot致力于在蓬勃发展的快速应用开发领域(rapid application development)成为领导者
+独立的应用程序上下文，接受注释类作为输入 - 特别是注释类 @Configuration，但也包括普通 @Component类型和使用javax.inject注释的符合JSR-250和JSR-330的类。
+允许使用逐个注册类register(Class...)以及使用类路径扫描 scan(String...)。
+在多个@Configuration类的情况下，Bean后面的类中定义的@ 方法将覆盖在之前的类中定义的那些方法。这可以用来通过一个额外的@Configuration 类故意重写某些bean定义
 ```
-
-2、Spring Boot 有什么用
+### 一、使用@Configuration注解类<br/>
 ```
-SpringBoot的目的在于创建和启动新的基于Spring框架的项目。
-SpringBoot会选择最适合的Spring子项目和第三方开源库进行整合。
-大部分SpringBoot应用只需要非常少的配置就可以快速运行起来
-SpringBoot是伴随着Spring4.0诞生的
-SpringBoot提供了_钟快速使用Spring的方式
+AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AnnotationConfig.class);
+context.close();
 ```
-
-4、Spring Boot 特点
-```
-1、为基于spring的开发提供更决的入门体验
-2、创建可以独立运行的spring应用
-3、直接嵌入Tomcat或Jetty服务器，不需要打包成WAR文件
-4、提供推荐的基础POM文件（starter）来简化Apache Maven配置
-5、尽可能的根据工页目依赖来自动配置spring框架
-6、提供可以直接在生产环境中使用的功能，如性能指标、应用信息和应用亻建康检查
-7、开箱即用，没有代码生成，也无需XML配置。同时也可以修改默认值来满足特定的需求
-8、其他大量的项目都是基于spring Boot之上的，如Sping Cloud
-```
-
-
-4、Spring Boot 优点
-```
-1、Spring Bott 使编码变得简单
-2、Spring Bott 使配置变得简单
-3、Spring Bott 使部署变得简单
-4、Spring Bott 使监控变得简单
-
-```
-
-5、Spring Boot 缺点
-```
-1、依赖太多，随便一个Spring Boot应用都有几十M到几百M（继承至spring-boot-starter-parent）。
-2、缺少服务的注册和发现等解决方案
-3、缺少监控集成方案、安全管理方案
-4、中文的文档和资料太少且不够深入（有英文API）
-```
-
-## 目录结构说明：
-1、.gradle、gradle、build.gradle、gradlew、gradlew.bat、settings.gradle：<br/>
-Eclipse集成STS插件或Spring Boot CLI初始化应用程序，创建Spring Boot项目，采用Gradle打包发布软件时会生成这些与Gradle相关文件。<br/>
-2、.mvn、mvnw、mvnw.cmd、pom.xml、.target：<br/>
-Eclipse集成STS插件，创建Spring Boot项目，采用Maven打包发布软件时会生成这些与Maven相关文件。<br/>
-3、application.properties：用于配置应用程序和Spring Boot的属性。<br/>
-4、DemoApplication.java：模板类：应用程序的启动引导类（bootstrap class），也是主要的Spring配置类。<br/>
-5、DemoApplicationTests.java：模板测试类：一个基本的集成测试类。<br/>
-6、src/main/resources：项目文件资源主目录。<br/>
-6.1、src/main/resources/static：静态文件资源目录，如css、js。<br/>
-6.2、src/main/resources/templates：模板文件资源目录，如vm、excel。<br/>
-
-## 注解及代码说明：
-### 一、DemoApplication.java：启动类<br/>
-```
-package com.mutistic.demo;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-@SpringBootApplication
-public class DemoApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
-	}
-}
-```
-1.1、@SpringBootApplication：开启(Spring)组件扫描和(Spring Boot)自动配置：<br/>
-
+1.1、[org.springframework.context.annotation.Configuration](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Configuration.html)：<br/>
 ```
   实际上，@SpringBootApplication将三个有用的注解组合在了一起，早期版本1.2.0之前还是需要同时标注这三个注解。
   1、Spring的 @Configuration：标明该类使用Spring基于Java的配置。作为Java开发者会更倾向于使用基于Java而不是XML的配置。
   2、Spring的 @ComponentScan：启用组件扫描，这样Web控制器类和其他组件才能被自动发现并注册为Spring应用程序上下文里的Bean。
   3、Spring Boot的 @EnableAutoConfiguration：这个注解也可以称为 @Abracadabra，就是这一行配置开启了SpringBoot自动配置的功能，避免再写成篇的配置。
 ```
-
 1.2、SpringApplication.run(DemoApplication.class,args)：负责启动引导应用程序：<br/>
-
 ```
   DemoApplication 本身还是一个启动引导类，提供main()方法。要运行Spring Boot应用程序有几种方式，其中包含传统的WAR文件部署。
   但这里的 main() 方法让你可以在命令行里把该应用程序当作一个可执行JAR文件来运行。
@@ -113,20 +47,16 @@ public class DemoApplicationTests {
 
 }
 ```
-
 2.1、@RunWith(SpringRunner.class)：RunWith：运行器。SpringRunner.class：运行Spring测试环境<br/>
 2.2、@SpringBootTest：SpringBoot自1.4.0版本开始引入的一个用于测试的注解。<br/>
-
 ```
   classes：属性指定具体的启动类。
   SpringBootTest.WebEnvironment.RANDOM_PORT 经常和测试类中 @LocalServerPort 一起在注入属性时使用。会随机生成一个端口号。
 ```
-
 2.3、@ActiveProfiles(profiles = "test")：在测试类上面指定profiles，可以改变当前spring 的profile，来达到多环境的测试<br/>
 
 ### 三、pom.xml：POM文件<br/>
 3.1、配置项目基本信息：<br/>
-
 ```
 <!-- 1、项目基本信息 -->
 <groupId>com.mutistic</groupId>
@@ -136,7 +66,6 @@ public class DemoApplicationTests {
 <name>com.mutisitc.boot</name>
 <description>此项目基于Craig Walls的《Spring Boot实战》一书。使用的是Eclipse 集成的 STS插件自动创建的Spring Boot项目</description>
 ```
-
 ```
 name：项目名称。
 groupId：项目组名。
@@ -153,9 +82,7 @@ Java Version：Java版本号。
 Package：项目包名。
 Woring sets / Add project to workong sets：是否需要引入其他工作项目。
 ```
-
 3.2：将spring-boot-starter-parent作为上一级，这样一来就能利用Maven的依赖管理功能，继承很多常用库的依赖版本，在声明依赖时就不用再去指定版本号了。<br/>
-
 ```
 <!-- 2、从 spring-boot-starter-parent 继承版本号 -->
 <parent>
@@ -165,9 +92,7 @@ Woring sets / Add project to workong sets：是否需要引入其他工作项目
 	<relativePath/> <!-- lookup parent from repository -->
 </parent>
 ```
-
 3.3：起步依赖本质上是一个Maven项目对象模型（Project Object Model，POM），定义了对其他库的传递依赖，这些东西加在一起即支持某项功能。很多起步依赖的命名都暗示了它们提供的某种或某类功能 。<br/>
-
 ```
 <!-- 3、起步依赖-->
 <dependencies>
@@ -204,9 +129,7 @@ Woring sets / Add project to workong sets：是否需要引入其他工作项目
 	</dependency>
 </dependencies>
 ```
-
 3.4：配置文件和构建等编码格式和JDK版本信息等 。<br/>
-
 ```
 <!-- 4、配置文件和构建等编码格式和JDK版本信息 -->
 <properties>
@@ -215,9 +138,7 @@ Woring sets / Add project to workong sets：是否需要引入其他工作项目
 	<java.version>1.8</java.version>
 </properties>
 ```
-
 3.5、配置构建信息：构建插件的主要功能是把项目打包成一个可执行的超级JAR（uber-JAR），包括把应用程序的所有依赖打入JAR文件内，并为JAR添加一个描述文件，其中的内容能让你用 java -jar 来运行应用程序。<br/>
-
 ```	
 <!-- 5、配置spring boot 构建信息： maven -->
 <build>
@@ -229,7 +150,6 @@ Woring sets / Add project to workong sets：是否需要引入其他工作项目
 	</plugins>
 </build>
 ```
-
 ### 四、application.properties：配置文件<br/>
 ```
 #设置server信息
