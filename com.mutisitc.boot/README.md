@@ -10,11 +10,11 @@ Spring Boot是由Pivotal团队提供的全新框架，其设计目的是用来�
 
 2、Spring Boot 有什么用
 ```
-SpringBoot的目的在于创建和启动新的基于Spring框架的项目。
-SpringBoot会选择最适合的Spring子项目和第三方开源库进行整合。
-大部分SpringBoot应用只需要非常少的配置就可以快速运行起来
-SpringBoot是伴随着Spring4.0诞生的
-SpringBoot提供了_钟快速使用Spring的方式
+Spring Boot的目的在于创建和启动新的基于Spring框架的项目。
+Spring Boot会选择最适合的Spring子项目和第三方开源库进行整合。
+大部分Spring Boot应用只需要非常少的配置就可以快速运行起来
+Spring Boot是伴随着Spring4.0诞生的
+Spring Boot提供了一种快速使用Spring的方式
 ```
 
 4、Spring Boot 特点
