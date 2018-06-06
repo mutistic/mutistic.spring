@@ -5,18 +5,18 @@ Spring Boot 是伴随着[Spring4.0](https://github.com/mutistic/mutistic.spring/
 
 1、Spring Boot 是什么
 ```
-Spring Boot是由Pivotal团队提供的全新框架，其设计目的是用来简化新Spring应用的初始搭建以及开发过程。
-该框架使用了特定的方式来进行配置，从而使开发人员不再需要定义样板化的配置。
-通过这种方式，Spring Boot致力于在蓬勃发展的快速应用开发领域(rapid application development)成为领导者
+1、Spring Boot是由Pivotal团队提供的全新框架，其设计目的是用来简化新Spring应用的初始搭建以及开发过程。
+2、该框架使用了特定的方式来进行配置，从而使开发人员不再需要定义样板化的配置。
+3、通过这种方式，Spring Boot致力于在蓬勃发展的快速应用开发领域(rapid application development)成为领导者
 ```
 
 2、Spring Boot 有什么用
 ```
-Spring Boot的目的在于创建和启动新的基于Spring框架的项目。
-Spring Boot会选择最适合的Spring子项目和第三方开源库进行整合。
-大部分Spring Boot应用只需要非常少的配置就可以快速运行起来
-Spring Boot是伴随着Spring4.0诞生的
-Spring Boot提供了一种快速使用Spring的方式
+1、Spring Boot的目的在于创建和启动新的基于Spring框架的项目。
+2、Spring Boot会选择最适合的Spring子项目和第三方开源库进行整合。
+3、大部分Spring Boot应用只需要非常少的配置就可以快速运行起来
+4、Spring Boot是伴随着Spring4.0诞生的
+5、Spring Boot提供了一种快速使用Spring的方式
 ```
 
 4、Spring Boot 特点
