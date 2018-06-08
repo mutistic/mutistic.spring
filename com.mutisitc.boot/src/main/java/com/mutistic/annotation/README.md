@@ -10,13 +10,11 @@
 2、允许使用逐个注册类register(Class...)以及使用类路径扫描 scan(String...)。
 3、在多个@Configuration类的情况下，Bean后面的类中定义的@ 方法将覆盖在之前的类中定义的那些方法。
 这可以用来通过一个额外的@Configuration 类故意重写某些bean定义
-
+```
+```
 AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AnnotationConfig.class);
 context.close();
 ```
-
-1、流程：
-
 
 ### 一、使用@Configuration注解类<br/>
 1.1、引导@Configuration类：</br>
