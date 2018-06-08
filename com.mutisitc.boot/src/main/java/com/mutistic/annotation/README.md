@@ -75,12 +75,12 @@ AnnotationConfigApplicationContext context_mode2 = new AnnotationConfigApplicati
 ```
 ```
 @Bean
-public MyBean myBean() { return new MyBean(); }
+public MyBean craeterMyBean() { return new MyBean(); }
 
 @Bean({"myBean1", "myBean2"})
 public MyBean myBean() { return new MyBean(); }
 
-@Bean
+@Bean(name = "myBean")
 @Profile("production")
 @Scope("prototype")
 public MyBean myBean() { return new MyBean(); }
