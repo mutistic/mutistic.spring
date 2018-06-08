@@ -1,5 +1,8 @@
 # [Spring](https://docs.spring.io/spring/docs/current/javadoc-api)
 [Spring Boot](https://github.com/mutistic/mutistic.spring/blob/master/com.mutisitc.boot/README.md)是伴随着Spring4.0诞生的
+[spring Framework API](https://docs.spring.io/spring/docs/current/javadoc-api)<br/>
+[spring Framework API-无框架](https://docs.spring.io/spring/docs/current/javadoc-api/overview-summary.html)<br/>
+[Spring Framework Documentation](https://docs.spring.io/spring/docs/current/spring-framework-reference)<br/>
 
 ### 一、AnnotationConfigApplicationContext 独立的应用程序上下文：</br>
 [org.springframework.context.annotation.AnnotationConfigApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/AnnotationConfigApplicationContext.html)
@@ -21,9 +24,9 @@ AnnotationConfigApplicationContext context_mode2 = new AnnotationConfigApplicati
 
 ### 二、@Configuration 注解类<br/>
 2.1、引导@Configuration类：</br>
-[org.springframework.context.annotation.Configuration](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Configuration.html)</br>
-[org.springframework.web.context.support.AnnotationConfigWebApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/web/context/support/AnnotationConfigWebApplicationContext.html)</br>
-[org.springframework.context.support.ClassPathXmlApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/support/ClassPathXmlApplicationContext.html)</br>
+@Configuration [org.springframework.context.annotation.Configuration](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Configuration.html)</br>
+AnnotationConfigWebApplicationContext [org.springframework.web.context.support.AnnotationConfigWebApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/web/context/support/AnnotationConfigWebApplicationContext.html)</br>
+ClassPathXmlApplicationContext [org.springframework.context.support.ClassPathXmlApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/support/ClassPathXmlApplicationContext.html)</br>
 
 ```
 从Spring3.0，@Configuration用于定义配置类，可替换xml配置文件（等同于xml文件中的<beans>标签）。
@@ -47,7 +50,7 @@ AnnotationConfigApplicationContext context_mode2 = new AnnotationConfigApplicati
 ```
 
 2.3、通过 Spring <beans> XML 配置</br>
-[org.springframework.context.annotation.ConfigurationClassPostProcessor](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/ConfigurationClassPostProcessor.html)
+ConfigurationClassPostProcessor [org.springframework.context.annotation.ConfigurationClassPostProcessor](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/ConfigurationClassPostProcessor.html)
   
 ```
 1、作为@Configuration直接针对bean 注册类 的替代方法AnnotationConfigApplicationContext，@Configuration类可以<bean>在Spring XML文件中声明为正常的定义。
@@ -62,11 +65,11 @@ AnnotationConfigApplicationContext context_mode2 = new AnnotationConfigApplicati
 
 ### 三、@Bean 注解<br/>
 3.1、指示一个方法产生一个由Spring容器管理的bean：</br>
-[org.springframework.context.annotation.Bean](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Bean.html)</br>
-[org.springframework.context.annotation.Profile](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Profile.html)</br>
-[org.springframework.context.annotation.Scope](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Scope.html)</br>
-[org.springframework.context.annotation.Primary](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Primary.html)</br>
-[org.springframework.beans.factory.annotation.Qualifier](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/annotation/Qualifier.html)</br>
+@Bean [org.springframework.context.annotation.Bean](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Bean.html)</br>
+@Profile [org.springframework.context.annotation.Profile](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Profile.html)</br>
+@Scope [org.springframework.context.annotation.Scope](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Scope.html)</br>
+@Primary [org.springframework.context.annotation.Primary](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Primary.html)</br>
+@Qualifier [org.springframework.beans.factory.annotation.Qualifier](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/annotation/Qualifier.html)</br>
 ```
 1、bean名称的默认策略是使用@Bean方法的名称。
 2、使用该 name属性（或其别名value）。name接受一个字符串数组，允许为一个bean提供多个名称（即主bean名称加上一个或多个别名）。
