@@ -19,7 +19,7 @@ Spring Boot 是伴随着[Spring4.0](https://github.com/mutistic/mutistic.spring/
 5、Spring Boot提供了一种快速使用Spring的方式
 ```
 
-4、Spring Boot 特点
+3、Spring Boot 特点
 ```
 1、为基于spring的开发提供更决的入门体验
 2、创建可以独立运行的spring应用
