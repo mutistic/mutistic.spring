@@ -2,6 +2,7 @@
 此项目基于Craig Walls的《Spring Boot实战》一书。<br/>
 使用的是Eclipse 集成的 STS插件自动创建的Spring Boot项目。<br/>
 Spring Boot 是伴随着[Spring4.0](https://github.com/mutistic/mutistic.spring/blob/master/com.mutistic.boot/src/main/java/com/mutistic/annotation/README.md)诞生的。<br/>
+
 [spring Boot API](https://docs.spring.io/spring-boot/docs/current/api)<br/>
 [spring Boot API-无框架](https://docs.spring.io/spring-boot/docs/current/api/overview-summary.html)<br/>
 [Spring Boot Actuator Web API.PDF](https://docs.spring.io/spring-boot/docs/current/actuator-api/pdf/spring-boot-actuator-web-api.pdf)<br/>
@@ -66,6 +67,7 @@ Eclipse集成STS插件，创建Spring Boot项目，采用Maven打包发布软件
 
 ## 注解及代码说明：
 ### 一、DemoApplication.java：启动类<br/>
+@SpringBootApplication [org.springframework.boot.SpringApplication](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/SpringApplication.html)<br/>
 
 ```Java
 package com.mutistic.demo;
@@ -82,7 +84,6 @@ public class DemoApplication {
 ```
 
 1.1、@SpringBootApplication：开启(Spring)组件扫描和(Spring Boot)自动配置：<br/>
-@SpringBootApplication [org.springframework.boot.SpringApplication](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/SpringApplication.html)<br/>
 
 ```
   实际上，@SpringBootApplication将三个有用的注解组合在了一起，早期版本1.2.0之前还是需要同时标注这三个注解。
