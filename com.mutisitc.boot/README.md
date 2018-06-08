@@ -81,7 +81,7 @@ public class DemoApplication {
 ```
 
 1.1、@SpringBootApplication：开启(Spring)组件扫描和(Spring Boot)自动配置：<br/>
-[org.springframework.boot.SpringApplication](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/SpringApplication.html)<br/>
+@SpringBootApplication [org.springframework.boot.SpringApplication](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/SpringApplication.html)<br/>
 
 ```
   实际上，@SpringBootApplication将三个有用的注解组合在了一起，早期版本1.2.0之前还是需要同时标注这三个注解。
@@ -99,9 +99,9 @@ public class DemoApplication {
 ```
 
 ### 二、DemoApplicationTests.java：测试类<br/>
-[org.springframework.boot.test.context.SpringBootTest](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/test/context/SpringBootTest.html)</br>
-[org.springframework.test.context.ActiveProfiles](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/test/context/ActiveProfiles.html)</br>
-[org.springframework.test.context.junit4.SpringRunner](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/test/context/junit4/SpringRunner.html)</br>
+@SpringBootTest [org.springframework.boot.test.context.SpringBootTest](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/test/context/SpringBootTest.html)</br>
+@ActiveProfiles [org.springframework.test.context.ActiveProfiles](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/test/context/ActiveProfiles.html)</br>
+@SpringRunner [org.springframework.test.context.junit4.SpringRunner](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/test/context/junit4/SpringRunner.html)</br>
 
 ```Java
 package com.mutistic.demo;
