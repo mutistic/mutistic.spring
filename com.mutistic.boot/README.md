@@ -1,7 +1,7 @@
 # [Spring Boot](https://spring.io/projects/spring-boot)
 此项目基于Craig Walls的《Spring Boot实战》一书。<br/>
 使用的是Eclipse 集成的 STS插件自动创建的Spring Boot项目。<br/>
-Spring Boot 是伴随着[Spring4.0](https://github.com/mutistic/mutistic.spring/blob/master/com.mutisitc.boot/src/main/java/com/mutistic/annotation/README.md)诞生的。<br/>
+Spring Boot 是伴随着[Spring4.0](https://github.com/mutistic/mutistic.spring/blob/master/com.mutistic.boot/src/main/java/com/mutistic/annotation/README.md)诞生的。<br/>
 [spring Boot API](https://docs.spring.io/spring-boot/docs/current/api)<br/>
 [spring Boot API-无框架](https://docs.spring.io/spring-boot/docs/current/api/overview-summary.html)<br/>
 [Spring Boot Actuator Web API.PDF](https://docs.spring.io/spring-boot/docs/current/actuator-api/pdf/spring-boot-actuator-web-api.pdf)<br/>
@@ -145,7 +145,7 @@ public class DemoApplicationTests {
 <arrtifactId>com.mutistic.boot</artifactId>
 <version>0.0.1-SNAPSHOT</version>
 <packaging>jar</packaging>
-<name>com.mutisitc.boot</name>
+<name>com.mutistic.boot</name>
 <description>此项目基于Craig Walls的《Spring Boot实战》一书。使用的是Eclipse 集成的 STS插件自动创建的Spring Boot项目</description>
 ```
 
@@ -273,14 +273,14 @@ spring.jpa.show-sql=true
 ```
 
 
-## [spring boot 入坑总结](https://github.com/mutistic/mutistic.spring/tree/master/com.mutisitc.boot/notes/pit)<br/>
-[pit1、spring boot之 maven install 报错[Maven]](https://github.com/mutistic/mutistic.spring/blob/master/com.mutisitc.boot/notes/pit/pit1_spring%20boot%E4%B9%8B%20maven%20install%20%E6%8A%A5%E9%94%99%5BMaven%5D.docx)<br/>
-[pit2、pom.xml无法找到[Maven]](https://github.com/mutistic/mutistic.spring/blob/master/com.mutisitc.boot/notes/pit/pit2_pom.xml%E6%97%A0%E6%B3%95%E6%89%BE%E5%88%B0%5BMaven%5D.docx)<br/>
-[pit3、引入spring-boot-starter-data-jpa 后启动项目报错[JPA]](https://github.com/mutistic/mutistic.spring/blob/master/com.mutisitc.boot/notes/pit/pit3_%E5%BC%95%E5%85%A5spring-boot-starter-data-jpa%20%E5%90%8E%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%9B%AE%E6%8A%A5%E9%94%99%5BJPA%5D.docx)<br/>
-[pit4、继承JpaRepository时报错[JPA]](https://github.com/mutistic/mutistic.spring/blob/master/com.mutisitc.boot/notes/pit/pit4_%E7%BB%A7%E6%89%BFJpaRepository%E6%97%B6%E6%8A%A5%E9%94%99%5BJPA%5D.docx)<br/>
+## [spring boot 入坑总结](https://github.com/mutistic/mutistic.spring/tree/master/com.mutistic.boot/notes/pit)<br/>
+[pit1、spring boot之 maven install 报错[Maven]](https://github.com/mutistic/mutistic.spring/blob/master/com.mutistic.boot/notes/pit/pit1_spring%20boot%E4%B9%8B%20maven%20install%20%E6%8A%A5%E9%94%99%5BMaven%5D.docx)<br/>
+[pit2、pom.xml无法找到[Maven]](https://github.com/mutistic/mutistic.spring/blob/master/com.mutistic.boot/notes/pit/pit2_pom.xml%E6%97%A0%E6%B3%95%E6%89%BE%E5%88%B0%5BMaven%5D.docx)<br/>
+[pit3、引入spring-boot-starter-data-jpa 后启动项目报错[JPA]](https://github.com/mutistic/mutistic.spring/blob/master/com.mutistic.boot/notes/pit/pit3_%E5%BC%95%E5%85%A5spring-boot-starter-data-jpa%20%E5%90%8E%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%9B%AE%E6%8A%A5%E9%94%99%5BJPA%5D.docx)<br/>
+[pit4、继承JpaRepository时报错[JPA]](https://github.com/mutistic/mutistic.spring/blob/master/com.mutistic.boot/notes/pit/pit4_%E7%BB%A7%E6%89%BFJpaRepository%E6%97%B6%E6%8A%A5%E9%94%99%5BJPA%5D.docx)<br/>
 
-## [sql](https://github.com/mutistic/mutistic.spring/tree/master/com.mutisitc.boot/notes/sql)
-[ddl_creater_database_study](https://github.com/mutistic/mutistic.spring/blob/master/com.mutisitc.boot/notes/sql/ddl_creater_database_study.sql)
+## [sql](https://github.com/mutistic/mutistic.spring/tree/master/com.mutistic.boot/notes/sql)
+[ddl_creater_database_study](https://github.com/mutistic/mutistic.spring/blob/master/com.mutistic.boot/notes/sql/ddl_creater_database_study.sql)
 
 
 
