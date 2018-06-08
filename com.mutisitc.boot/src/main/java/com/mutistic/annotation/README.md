@@ -30,7 +30,7 @@ AnnotationConfigApplicationContext context_mode2 = new AnnotationConfigApplicati
 被注解的类内部包含有一个或多个被@Bean注解的方法，这些方法将会被AnnotationConfigApplicationContext或AnnotationConfigWebApplicationContext类（替代了加载xml配置文件的ClassPathXmlApplicationContext类）进行扫描，并用于构建bean定义，初始化Spring容器。
 ```
 
-1.2、通过 AnnotationConfigApplicationContext 指定加载
+1.2、通过 AnnotationConfigApplicationContext 指定加载</br>
 
 ```
 1、@Configuration类通常使用任何一个AnnotationConfigApplicationContext或者具有web-capable的变体，来引导 AnnotationConfigWebApplicationContext。
@@ -46,7 +46,7 @@ context_mode1.refresh();
 AnnotationConfigApplicationContext context_mode2 = new AnnotationConfigApplicationContext(MyConfig.class);
 ```
 
-1.3、通过 Spring <beans> XML 配置
+1.3、通过 Spring <beans> XML 配置</br>
 [org.springframework.context.annotation.ConfigurationClassPostProcessor](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/ConfigurationClassPostProcessor.html)
   
 ```
