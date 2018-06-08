@@ -1,7 +1,6 @@
 # [Spring](https://docs.spring.io/spring/docs/current/javadoc-api)
 [Spring Boot](https://github.com/mutistic/mutistic.spring/blob/master/com.mutisitc.boot/README.md)是伴随着Spring4.0诞生的
 
-=
 ### 一、AnnotationConfigApplicationContext 独立的应用程序上下文：</br>
 [org.springframework.context.annotation.AnnotationConfigApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/AnnotationConfigApplicationContext.html)
 
@@ -20,7 +19,6 @@ context_mode1.refresh();
 AnnotationConfigApplicationContext context_mode2 = new AnnotationConfigApplicationContext(MyConfig.class);
 ```
 
-=
 ### 二、@Configuration 注解类<br/>
 2.1、引导@Configuration类：</br>
 [org.springframework.context.annotation.Configuration](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Configuration.html)</br>
@@ -62,7 +60,6 @@ AnnotationConfigApplicationContext context_mode2 = new AnnotationConfigApplicati
 </beans>
 ```
 
-=
 ### 三、@Bean 注解<br/>
 3.1、指示一个方法产生一个由Spring容器管理的bean：</br>
 [org.springframework.context.annotation.Bean](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Bean.html)</br>
