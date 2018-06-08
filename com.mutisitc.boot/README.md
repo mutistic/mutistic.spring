@@ -2,6 +2,9 @@
 此项目基于Craig Walls的《Spring Boot实战》一书。<br/>
 使用的是Eclipse 集成的 STS插件自动创建的Spring Boot项目。<br/>
 Spring Boot 是伴随着[Spring4.0](https://github.com/mutistic/mutistic.spring/blob/master/com.mutisitc.boot/src/main/java/com/mutistic/annotation/README.md)诞生的。<br/>
+[spring Boot API](https://docs.spring.io/spring-boot/docs/current/api)<br/>
+[spring Boot API.HTML](https://docs.spring.io/spring-boot/docs/current/api/overview-summary.html)<br/>
+[Spring Boot API.PDF](https://docs.spring.io/spring-boot/docs/current/actuator-api/pdf/spring-boot-actuator-web-api.pdf)<br/>
 
 1、Spring Boot 是什么
 ```
@@ -62,7 +65,8 @@ Eclipse集成STS插件，创建Spring Boot项目，采用Maven打包发布软件
 
 ## 注解及代码说明：
 ### 一、DemoApplication.java：启动类<br/>
-```
+
+```Java
 package com.mutistic.demo;
 
 import org.springframework.boot.SpringApplication;
@@ -70,13 +74,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class DemoApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
 	}
 }
 ```
+
 1.1、@SpringBootApplication：开启(Spring)组件扫描和(Spring Boot)自动配置：<br/>
+[org.springframework.boot.SpringApplication](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/SpringApplication.html)<br/>
 
 ```
   实际上，@SpringBootApplication将三个有用的注解组合在了一起，早期版本1.2.0之前还是需要同时标注这三个注解。
@@ -92,8 +97,13 @@ public class DemoApplication {
   但这里的 main() 方法让你可以在命令行里把该应用程序当作一个可执行JAR文件来运行。
   这里向 SpringApplication.run() 传递了一个DemoApplication 类的引用，还有命令行参数，通过这些东西启动应用程序。
 ```
+
 ### 二、DemoApplicationTests.java：测试类<br/>
-```
+[org.springframework.boot.test.context.SpringBootTest](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/test/context/SpringBootTest.html)</br>
+[org.springframework.test.context.ActiveProfiles](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/test/context/ActiveProfiles.html)</br>
+[org.springframework.test.context.junit4.SpringRunner](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/test/context/junit4/SpringRunner.html)</br>
+
+```Java
 package com.mutistic.demo;
 
 import org.junit.Test;
@@ -128,7 +138,7 @@ public class DemoApplicationTests {
 ### 三、pom.xml：POM文件<br/>
 3.1、配置项目基本信息：<br/>
 
-```
+```xml
 <!-- 1、项目基本信息 -->
 <groupId>com.mutistic</groupId>
 <arrtifactId>com.mutistic.boot</artifactId>
@@ -157,7 +167,7 @@ Woring sets / Add project to workong sets：是否需要引入其他工作项目
 
 3.2：将spring-boot-starter-parent作为上一级，这样一来就能利用Maven的依赖管理功能，继承很多常用库的依赖版本，在声明依赖时就不用再去指定版本号了。<br/>
 
-```
+```xml
 <!-- 2、从 spring-boot-starter-parent 继承版本号 -->
 <parent>
 	<groupId>org.springframework.boot</groupId>
@@ -169,7 +179,7 @@ Woring sets / Add project to workong sets：是否需要引入其他工作项目
 
 3.3：起步依赖本质上是一个Maven项目对象模型（Project Object Model，POM），定义了对其他库的传递依赖，这些东西加在一起即支持某项功能。很多起步依赖的命名都暗示了它们提供的某种或某类功能 。<br/>
 
-```
+```xml
 <!-- 3、起步依赖-->
 <dependencies>
 	<!-- Web：web项目 -->
@@ -208,7 +218,7 @@ Woring sets / Add project to workong sets：是否需要引入其他工作项目
 
 3.4：配置文件和构建等编码格式和JDK版本信息等 。<br/>
 
-```
+```xml
 <!-- 4、配置文件和构建等编码格式和JDK版本信息 -->
 <properties>
 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -219,7 +229,7 @@ Woring sets / Add project to workong sets：是否需要引入其他工作项目
 
 3.5、配置构建信息：构建插件的主要功能是把项目打包成一个可执行的超级JAR（uber-JAR），包括把应用程序的所有依赖打入JAR文件内，并为JAR添加一个描述文件，其中的内容能让你用 java -jar 来运行应用程序。<br/>
 
-```	
+```xml
 <!-- 5、配置spring boot 构建信息： maven -->
 <build>
 	<plugins>
@@ -232,7 +242,7 @@ Woring sets / Add project to workong sets：是否需要引入其他工作项目
 ```
 
 ### 四、application.properties：配置文件<br/>
-```
+```properties
 #设置server信息
 #设置Tomcat的监听端口
 server.port=8888
