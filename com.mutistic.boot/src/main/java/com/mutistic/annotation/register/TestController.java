@@ -1,5 +1,9 @@
 package com.mutistic.annotation.register;
 
+import javax.annotation.Resource;
+import javax.inject.Inject;
+
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 
 /**
@@ -14,4 +18,23 @@ import org.springframework.stereotype.Controller;
 //@Controller(value = "myTestController") 
 public class TestController {
 
+	/**
+	 * 使用 JSR-250 @Resource 自动注入 bean
+	 */
+	@Resource
+	private TestService TestService;
+
+	/**
+	 * 使用 JSR-330 @Resource 自动注入 bean
+	 */
+	@Inject
+	@Qualifier("testRepositoryDao")
+	private TestRepositoryDao testRepositoryDao;
+
+	@Override
+	public String toString() {
+		return "TestController [TestService=" + TestService + ", testRepositoryDao=" + testRepositoryDao + "]";
+	}
+	
+	
 }

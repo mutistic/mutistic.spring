@@ -383,16 +383,29 @@ public class TestRepositoryDao { }
 
 ```Java
 package com.mutistic.annotation.register;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 /**
- * 使用  @Service 注解声明一个(service)bean
- * 一般用在业务逻辑层。@Service注解上不支持指定initial和destroy方法
+ * @program 使用  @Service 注解声明一个(service)bean
+ * @description 一般用在业务逻辑层。@Service注解上不支持指定initial和destroy方法
  */
 @Service // 声明一个bean。bean名称默认为类名（首字母小写），value属性值指定其bean名称（不支持多个），其中value可以省略。
 //@Service("testService")
 //@Service(value = "myTestService") 
-public class TestService { }
+public class TestService {
+	// 使用 @Autowired 自动注入 bean。	使用 @Qualifier 指定具体一个bean
+	@Autowired
+//	@Qualifier("testRepositoryDao") // 存在多个同类的bean，可以用使用@Qualifier指定具体一个bean。或已有@Primary声明的主bean
+	private TestRepositoryDao testRepositoryDao;
+
+	@Override
+	public String toString() {
+		return "TestService [testRepositoryDao=" + testRepositoryDao + "]";
+	}
+}
 ```
 
 5.4、@Controller [org.springframework.stereotype.Controller](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/stereotype/Controller.html)<br/>
@@ -400,16 +413,44 @@ public class TestService { }
 
 ```Java
 package com.mutistic.annotation.register;
+import javax.annotation.Resource;
+import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 
 /**
- * 使用  @Controller 注解声明一个(controller)bean
- * 一般用在数据展示层。@Controller注解上不支持指定initial和destroy方法
+ * @program 使用  @Controller 注解声明一个(controller)bean
+ * @description 一般用在数据展示层。@Controller注解上不支持指定initial和destroy方法
  */
 @Controller // 声明一个bean。bean名称默认为类名（首字母小写），value属性值指定其bean名称（不支持多个），其中value可以省略。
 //@Controller("testController")
 //@Controller(value = "myTestController") 
-public class TestController { }
+public class TestController {
+
+	// 使用 JSR-250 @Resource 自动注入 bean
+	@Resource
+	private TestService TestService;
+
+	// 使用 JSR-330 @Inject 自动注入 bean。使用 @Qualifier 指定具体一个bean
+	@Inject
+	@Qualifier("testRepositoryDao")
+	private TestRepositoryDao testRepositoryDao;
+
+	@Override
+	public String toString() {
+		return "TestController [TestService=" + TestService + ", testRepositoryDao=" + testRepositoryDao + "]";
+	}
+}
+```
+
+JSR-330（javax.inject） pom依赖：
+
+```xml
+<dependency>
+    <groupId>javax.inject</groupId>
+    <artifactId>javax.inject</artifactId>
+    <version>1</version>
+</dependency>
 ```
 
 5.5、@Aspect [org.aspectj.lang.annotation.Aspect](https://www.eclipse.org/aspectj/doc/released/aspectj5rt-api/org/aspectj/lang/annotation/Aspect.html)<br/>

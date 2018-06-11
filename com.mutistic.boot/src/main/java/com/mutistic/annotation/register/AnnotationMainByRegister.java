@@ -21,9 +21,8 @@ public class AnnotationMainByRegister {
 		getBeanByClass();
 	}
 	
-	
 	private static void getBeanByClass() {
-		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(TestComponentBean.class, 
+		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(RegisterConfig.class, TestComponentBean.class, 
 				TestRepositoryDao.class, TestService.class, TestController.class, TestAspect.class);
 
 //		CommonConstant.printline("@Indexed注解");
@@ -35,7 +34,7 @@ public class AnnotationMainByRegister {
 		context.getBean(TestComponentBean.class).show();
 		
 		CommonConstant.printline("@Repository注解");
-		System.out.println(CommonConstant.PRINT_PREF +"使用 @Repository注解的(dao)bean：class获取"+ context.getBean(TestRepositoryDao.class));
+		System.out.println(CommonConstant.PRINT_PREF +"使用 @Repository注解的(dao)bean：class获取"+ context.getBeansOfType(TestRepositoryDao.class));
 		
 		CommonConstant.printline("@Service注解");
 		System.out.println(CommonConstant.PRINT_PREF +"使用 @Service注解的(service)bean：class获取"+ context.getBean(TestService.class));

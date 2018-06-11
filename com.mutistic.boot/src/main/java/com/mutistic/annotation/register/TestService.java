@@ -1,5 +1,8 @@
 package com.mutistic.annotation.register;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,4 +17,17 @@ import org.springframework.stereotype.Service;
 //@Service(value = "myTestService") 
 public class TestService {
 
+	/**
+	 * 使用 @Autowired 自动注入 TestRepositoryDao
+	 * 使用 @Qualifier 指定具体一个bean
+	 */
+	@Autowired
+//	@Qualifier("testRepositoryDao") // 存在多个同类的bean，可以用使用@Qualifier指定具体一个bean。或已有@Primary声明的主bean
+	private TestRepositoryDao testRepositoryDao;
+
+	@Override
+	public String toString() {
+		return "TestService [testRepositoryDao=" + testRepositoryDao + "]";
+	}
+	
 }
