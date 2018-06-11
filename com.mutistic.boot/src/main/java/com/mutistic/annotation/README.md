@@ -345,8 +345,8 @@ import org.springframework.stereotype.Component;
 import com.mutistic.utils.CommonConstant;
 
 /**
- * @program 使用  @Component 注解声明一个bean
- * @description 一般用在没有明确的角色的bean可以用。@Component注解上不支持指定initial和destroy方法
+ * 使用  @Component 注解声明一个bean
+ * 一般用在没有明确的角色的bean可以用。@Component注解上不支持指定initial和destroy方法
  */
 @Component // 声明一个bean。bean名称默认为类名（首字母小写），value属性值指定其bean名称（不支持多个），其中value可以省略。
 //@Component("testComponentBean")
@@ -361,7 +361,7 @@ public class TestComponentBean {
 }
 ```
 
-5.2、@Repository [org.springframework.stereotype.Repository](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/stereotype/Repository.html))<br/>
+5.2、@Repository [org.springframework.stereotype.Repository](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/stereotype/Repository.html)<br/>
 一般用在数据访问层，也可以将这个注解应用到DAO类中。@Repository注解上不支持指定initial和destroy方法<br/>
 
 ```Java
@@ -369,8 +369,8 @@ package com.mutistic.annotation.register;
 import org.springframework.stereotype.Repository;
 
 /**
- * @program 使用  @Repository 注解声明一个(dao)bean
- * @description 一般用在数据访问层，也可以将这个注解应用到DAO类中。@Repository注解上不支持指定initial和destroy方法
+ * 使用  @Repository 注解声明一个(dao)bean
+ * 一般用在数据访问层，也可以将这个注解应用到DAO类中。@Repository注解上不支持指定initial和destroy方法
  */
 @Repository
 //@Repository("testRepositoryDao")
@@ -386,8 +386,8 @@ package com.mutistic.annotation.register;
 import org.springframework.stereotype.Service;
 
 /**
- * @program 使用  @Service 注解声明一个(service)bean
- * @description 一般用在业务逻辑层。@Service注解上不支持指定initial和destroy方法
+ * 使用  @Service 注解声明一个(service)bean
+ * 一般用在业务逻辑层。@Service注解上不支持指定initial和destroy方法
  */
 @Service // 声明一个bean。bean名称默认为类名（首字母小写），value属性值指定其bean名称（不支持多个），其中value可以省略。
 //@Service("testService")
@@ -403,8 +403,8 @@ package com.mutistic.annotation.register;
 import org.springframework.stereotype.Controller;
 
 /**
- * @program 使用  @Controller 注解声明一个(controller)bean
- * @description 一般用在数据展示层。@Controller注解上不支持指定initial和destroy方法
+ * 使用  @Controller 注解声明一个(controller)bean
+ * 一般用在数据展示层。@Controller注解上不支持指定initial和destroy方法
  */
 @Controller // 声明一个bean。bean名称默认为类名（首字母小写），value属性值指定其bean名称（不支持多个），其中value可以省略。
 //@Controller("testController")
@@ -420,10 +420,8 @@ package com.mutistic.annotation.register;
 import org.aspectj.lang.annotation.Aspect;
 
 /**
- * @program 使用  @Aspect 注解声明一个bean
- * @description 把当前类标识为一个切面供容器读取。@Aspect注解上不支持指定initial和destroy方法
- * @author mutisitic
- * @date 2018年6月11日
+ * 使用  @Aspect 注解声明一个bean
+ * 把当前类标识为一个切面供容器读取。@Aspect注解上不支持指定initial和destroy方法
  */
 @Aspect
 //@Component("testComponentBean") //声明一个bean。bean名称默认为类名（首字母小写），value属性值指定其bean名称（不支持多个），其中value可以省略。
