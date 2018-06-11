@@ -1,4 +1,4 @@
-package com.mutistic.annotation.bean;
+package com.mutistic.annotation.beans;
 
 /**
  * @program Focus 简单工厂类

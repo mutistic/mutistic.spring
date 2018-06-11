@@ -1,4 +1,4 @@
-package com.mutistic.annotation.bean;
+package com.mutistic.annotation.beans;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.beans.factory.BeanFactory;
@@ -15,7 +15,7 @@ import com.mutistic.utils.CommonConstant;
  * @author mutisitic
  * @date 2018年6月5日
  */
-public class AnnotationMain {
+public class AnnotationBeansMain {
 
 	/**
 	 * 1、AnnotationConfigApplicationContext：独立的应用程序上下文

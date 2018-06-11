@@ -1,4 +1,4 @@
-package com.mutistic.annotation.bean;
+package com.mutistic.annotation.beans;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
