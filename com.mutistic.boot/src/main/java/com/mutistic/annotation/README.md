@@ -453,7 +453,7 @@ JSR-330（javax.inject） pom依赖：
 </dependency>
 ```
 
-5.5、@Aspect [org.aspectj.lang.annotation.Aspect](https://www.eclipse.org/aspectj/doc/released/aspectj5rt-api/org/aspectj/lang/annotation/Aspect.html)<br/>
+5.5、@Aspect [org.aspectj.lang.annotation.Aspect]<br/>(https://www.eclipse.org/aspectj/doc/released/aspectj5rt-api/org/aspectj/lang/annotation/Aspect.html)<br/>
 把当前类标识为一个切面供容器读取。@Aspect注解上不支持指定initial和destroy方法<br/>
 
 ```Java

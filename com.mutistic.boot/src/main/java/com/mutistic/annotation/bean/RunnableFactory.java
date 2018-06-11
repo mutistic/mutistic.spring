@@ -1,4 +1,4 @@
-package com.mutistic.annotation;
+package com.mutistic.annotation.bean;
 
 import org.springframework.beans.factory.FactoryBean;
 

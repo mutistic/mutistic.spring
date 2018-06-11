@@ -1,4 +1,4 @@
-package com.mutistic.annotation;
+package com.mutistic.annotation.bean;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -85,7 +85,9 @@ public class AnnotationConfig {
 	 * @return FocusBeanFactory Bean 
 	 */
 	@Bean
-	@Profile("dev") // 指定当一个或多个指定的配置文件处于活动状态时，组件可以注册
+	@Profile("dev") // 指定当一个或多个指定的配置文件处于活动状态时，组件可以注册。
+//	@Profile({"dev", "test"}) 
+//	@Profile(value = {"dev", "test"})
 	public FocusBeanFactory craeterFocusBeanFactory() {
 		return new FocusBeanFactory();
 	}
