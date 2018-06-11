@@ -33,7 +33,7 @@ public class AnnotationMain {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		CommonConstant.PRINTLN();
+		CommonConstant.println();
 		String pref = "使用AnnotationConfigApplicationContext根据";
 
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AnnotationConfig.class);
@@ -42,7 +42,7 @@ public class AnnotationMain {
 		getJeepByFactoryBean(context, pref);
 		getFocusByFactory2(context, pref);
 
-		CommonConstant.PRINTLN();
+		CommonConstant.println();
 		context.close();
 	}
 
@@ -54,7 +54,7 @@ public class AnnotationMain {
 	 * @param pref
 	 */
 	private static void getTestBean(AnnotationConfigApplicationContext context, String pref) {
-		CommonConstant.PRINTLINE();
+		CommonConstant.printline();
 		// 通过@Bean直接创建 bean
 		System.out.println(CommonConstant.PRINTLN_PREF + "获取 AnnotationTestBean简单实 bean：");
 		System.out.println(CommonConstant.PRINT_PREF + pref + "class获取AnnotationTestBean bean【"
@@ -76,7 +76,7 @@ public class AnnotationMain {
 	 * @param pref
 	 */
 	private static void getRunnableByFactoryBean(AnnotationConfigApplicationContext context, String pref) {
-		CommonConstant.PRINTLINE();
+		CommonConstant.printline();
 		// 通过 FactoryBean<T>接口实现类 创建 bean：  & = org.springframework.beans.factory.BeanFactory.FACTORY_BEAN_PREFIX
 		System.out.println(CommonConstant.PRINTLN_PREF + "获取 RunnableFactory简单工厂bean：");
 		System.out.println(CommonConstant.PRINT_PREF + pref + "class获取RunnableFactory bean【"
@@ -97,7 +97,7 @@ public class AnnotationMain {
 	 * @param pref
 	 */
 	private static void getJeepByFactoryBean(AnnotationConfigApplicationContext context, String pref) {
-		CommonConstant.PRINTLINE();
+		CommonConstant.printline();
 		// 通过 FactoryBean<T>接口实现类 创建 bean
 		System.out.println(CommonConstant.PRINTLN_PREF + "获取 JeepBeanFactory简单工厂bean：");
 		System.out.println(CommonConstant.PRINT_PREF + pref + "class获取JeepBeanFactory bean【"
@@ -118,7 +118,7 @@ public class AnnotationMain {
 	 * @param pref
 	 */
 	private static void getFocusByFactory2(AnnotationConfigApplicationContext context, String pref) {
-		CommonConstant.PRINTLINE();
+		CommonConstant.printline();
 		// 通过简单工厂类 创建 bean
 		System.out.println(CommonConstant.PRINTLN_PREF + "获取 FocusBeanFactory简单工厂bean：");
 		System.out.println(CommonConstant.PRINT_PREF + pref + "class获取FocusBeanFactory bean【"

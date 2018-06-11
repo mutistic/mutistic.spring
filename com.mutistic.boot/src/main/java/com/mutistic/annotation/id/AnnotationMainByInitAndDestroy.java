@@ -17,28 +17,20 @@ import com.mutistic.utils.CommonConstant;
 public class AnnotationMainByInitAndDestroy {
 
 	public static void main(String[] args) {
-		CommonConstant.PRINTLN();
-		getBeanByClass();
+		CommonConstant.println();
+		getBeanByConfig();
 	}
 	
 	
-	private static void getBeanByClass() {
-		CommonConstant.PRINTLINE("使用AnnotationConfigApplicationContext演示 init 和 destroy方法：");
-		
+	private static void getBeanByConfig() {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
 		context.register(IDConfig.class);
 		context.refresh();
 		
-		System.out.println(CommonConstant.PRINT_PREF +"实现接口方式："+ context.getBean(IDByInterface.class));
-		CommonConstant.PRINTLN();
-		
-		System.out.println(CommonConstant.PRINT_PREF +"@Bean initMethod和destroyMethod 指定具体的方法："+ context.getBean(IDByBean.class));
-		CommonConstant.PRINTLN();
-		
-		System.out.println(CommonConstant.PRINT_PREF +"使用JSR-250@PostConstruct和@PreDestroy方式指定："+ context.getBean(IDByJSR250.class));
-		CommonConstant.PRINTLN();
-		
-		
+		CommonConstant.printline("使用AnnotationConfigApplicationContext演示 init 和 destroy方法：");
+		System.out.println(CommonConstant.PRINTLN_PREF +"通过InitializingBean和DisposableBean接口方式实现："+ context.getBean(IDByInterface.class));
+		System.out.println(CommonConstant.PRINTLN_PREF +"@Bean initMethod和destroyMethod 指定具体的方法："+ context.getBean(IDByBean.class));
+		System.out.println(CommonConstant.PRINTLN_PREF +"使用JSR-250@PostConstruct和@PreDestroy方式指定："+ context.getBean(IDByJSR250.class));
 		
 		context.close(); // 资源关闭后调用 DisposableBean.destroty(); bean销毁方法
 	}

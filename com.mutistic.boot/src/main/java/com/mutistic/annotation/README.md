@@ -332,4 +332,102 @@ public class IDByJSR250 {
 }
 ```
 
+### 五、使用@Component、@Repository、@Service、@Controller、@Aspect 等方式注册bean<br/>
+5.1、@Component [org.springframework.stereotype.Component](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/stereotype/Component.html)<br/>
+一般用在没有明确的角色的bean可以用。@Component注解上不支持指定initial和destroy方法<br/>
+
+```Java
+package com.mutistic.annotation.register;
+import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
+import com.mutistic.utils.CommonConstant;
+
+/**
+ * @program 使用  @Component 注解声明一个bean
+ * @description 一般用在没有明确的角色的bean可以用。@Component注解上不支持指定initial和destroy方法
+ */
+@Component // 声明一个bean。bean名称默认为类名（首字母小写），value属性值指定其bean名称（不支持多个），其中value可以省略。
+//@Component("testComponentBean")
+//@Component(value = "myTestComponentBean") 
+public class TestComponentBean {
+	@Autowired // 使用 spring  @Autowired 自动注入bean
+//	@Resource  // 使用 JSR-250 @Resource:javax.annotation.Resource 自动注入bean
+	private ApplicationContext applicationContext;
+	public void show() {
+		System.out.println("TestComponentBean 使用 @Autowried自动注入的ApplicationConext："+ applicationContext.getClass());
+	}
+}
+```
+
+5.2、@Repository [org.springframework.stereotype.Repository](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/stereotype/Repository.html))<br/>
+一般用在数据访问层，也可以将这个注解应用到DAO类中。@Repository注解上不支持指定initial和destroy方法<br/>
+
+```Java
+package com.mutistic.annotation.register;
+import org.springframework.stereotype.Repository;
+
+/**
+ * @program 使用  @Repository 注解声明一个(dao)bean
+ * @description 一般用在数据访问层，也可以将这个注解应用到DAO类中。@Repository注解上不支持指定initial和destroy方法
+ */
+@Repository
+//@Repository("testRepositoryDao")
+//@Repository(value = "myTestRepositoryDao") 
+public class TestRepositoryDao { }
+```
+
+5.3、@Service [org.springframework.stereotype.Service](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/stereotype/Service.html)<br/>
+一般用在业务逻辑层。@Service注解上不支持指定initial和destroy方法<br/>
+
+```Java
+package com.mutistic.annotation.register;
+import org.springframework.stereotype.Service;
+
+/**
+ * @program 使用  @Service 注解声明一个(service)bean
+ * @description 一般用在业务逻辑层。@Service注解上不支持指定initial和destroy方法
+ */
+@Service // 声明一个bean。bean名称默认为类名（首字母小写），value属性值指定其bean名称（不支持多个），其中value可以省略。
+//@Service("testService")
+//@Service(value = "myTestService") 
+public class TestService { }
+```
+
+5.4、@Controller [org.springframework.stereotype.Controller](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/stereotype/Controller.html)<br/>
+一般用在数据展示层。@Controller注解上不支持指定initial和destroy方法<br/>
+
+```Java
+package com.mutistic.annotation.register;
+import org.springframework.stereotype.Controller;
+
+/**
+ * @program 使用  @Controller 注解声明一个(controller)bean
+ * @description 一般用在数据展示层。@Controller注解上不支持指定initial和destroy方法
+ */
+@Controller // 声明一个bean。bean名称默认为类名（首字母小写），value属性值指定其bean名称（不支持多个），其中value可以省略。
+//@Controller("testController")
+//@Controller(value = "myTestController") 
+public class TestController { }
+```
+
+5.5、@Aspect [org.aspectj.lang.annotation.Aspect](https://www.eclipse.org/aspectj/doc/released/aspectj5rt-api/org/aspectj/lang/annotation/Aspect.html)<br/>
+把当前类标识为一个切面供容器读取。@Aspect注解上不支持指定initial和destroy方法<br/>
+
+```Java
+package com.mutistic.annotation.register;
+import org.aspectj.lang.annotation.Aspect;
+
+/**
+ * @program 使用  @Aspect 注解声明一个bean
+ * @description 把当前类标识为一个切面供容器读取。@Aspect注解上不支持指定initial和destroy方法
+ * @author mutisitic
+ * @date 2018年6月11日
+ */
+@Aspect
+//@Component("testComponentBean") //声明一个bean。bean名称默认为类名（首字母小写），value属性值指定其bean名称（不支持多个），其中value可以省略。
+//@Component(value = "myTestComponentBean") 
+public class TestAspect { }
+```
 

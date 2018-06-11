@@ -11,16 +11,17 @@ public class CommonConstant {
 	public final static String PRINT_PREF = "==========";
 	public final static String PRINTLN_PREF = "\n==========";
 	public final static String PRINT_LINE = "========================================";
-
-	public static void PRINTLN() {
+	public final static String PRINTLN_LINE = "\n========================================";
+	
+	public static void println() {
 		System.out.println();
 	}
 
-	public static void PRINTLINE() {
-		System.out.println(PRINT_LINE);
+	public static void printline() {
+		System.out.println(PRINTLN_LINE);
 	}
 
-	public static void PRINTLINE(String str) {
-		System.out.println(PRINT_LINE + str);
+	public static void printline(String str) {
+		System.out.println(PRINTLN_LINE + str);
 	}
 }
