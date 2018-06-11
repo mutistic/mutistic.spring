@@ -10,7 +10,7 @@ import com.mutistic.utils.CommonConstant;
  * @author mutisitic
  * @date 2018年6月11日
  */
-public class AnnotationMainByExpand {
+public class AnnotationMainByRegister {
 
 	public static void main(String[] args) {
 		CommonConstant.PRINTLN();
@@ -20,13 +20,13 @@ public class AnnotationMainByExpand {
 	
 	private static void getBeanByAnnotationClass() {
 		CommonConstant.PRINTLINE();
-		String pref = "使用AnnotationConfigApplicationContext获注册后，";
 		
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
 		context.register(TestComponentBean.class);
 		context.refresh();
 		
-		System.out.println(CommonConstant.PRINTLN_PREF + pref +"使用 @Component注解的bean："+ context.getBean(TestComponentBean.class));
+		System.out.println(CommonConstant.PRINT_PREF +"使用 @Component注解的bean：class获取"+ context.getBean(TestComponentBean.class));
+		System.out.println(CommonConstant.PRINT_PREF +"使用 @Component注解的bean：name获取"+ context.getBean("testComponentBean", TestComponentBean.class));
 		context.getBean(TestComponentBean.class).show();
 		
 		context.close();

@@ -14,7 +14,6 @@ import com.mutistic.utils.CommonConstant;
 public class IDByInterface implements InitializingBean, DisposableBean {
 
 	/**
-	 * 
 	 * @description 在它设置了所有bean属性之后，由BeanFactory调用（并满足了BeanFactoryAware和applicationcontext）。这个方法允许bean实例只执行初始化
 	 * @author mutisitic
 	 * @date 2018年6月11日
@@ -27,7 +26,6 @@ public class IDByInterface implements InitializingBean, DisposableBean {
 	}
 
 	/**
-	 * 
 	 * @description 由一个BeanFactory调用的销毁单例对象（context.close();资源释放后调用bean消费方法）
 	 * @author mutisitic
 	 * @date 2018年6月11日

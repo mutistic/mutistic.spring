@@ -10,7 +10,7 @@ import com.mutistic.utils.CommonConstant;
 
 /**
  * @program AnnotationConfigApplicationContext Main 演示 initial(初始化) 和 destroy(销毁)方法
- * @description 1、实现接口方式。2、使用@Bean initMethod和destroyMethod 指定具体的方法。3、使用JSR-250@PostConstruct和@PreDestroy方式指定
+ * @description 1、通过InitializingBean和DisposableBean接口方式实现。2、使用@Bean initMethod和destroyMethod 指定具体的方法。3、使用JSR-250@PostConstruct和@PreDestroy方式指定
  * @author mutisitic
  * @date 2018年6月11日
  */

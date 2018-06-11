@@ -215,3 +215,118 @@ public class FocusBeanFactory {
 	
 }
 ```
+
+### 四、指定 bean的 initial（初始化） 和 destroy（销毁） 方法<br/>
+InitializingBean [org.springframework.beans.factory.InitializingBean](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/InitializingBean.html)</br>
+DisposableBean [org.springframework.beans.factory.DisposableBean](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/DisposableBean.html)</br>
+@PostConstruct [javax.annotation.PostConstruct](https://docs.oracle.com/javase/10/docs/api/javax/annotation/PostConstruct.html)</br>
+@PreDestroy [javax.annotation.PreDestroy](https://docs.oracle.com/javase/10/docs/api/javax/annotation/PreDestroy.html)</br>
+
+4.1、通过InitializingBean和DisposableBean接口方式实现：</br>
+
+```Java
+package com.mutistic.annotation.id;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
+
+/**
+ * @program 使用实现接口方式实现 BeanFactory 的初始化 和销毁 动作
+ * @description InitializingBean.afterPropertiesSet 指定初始化方法。DisposableBean.destroy 指定销毁方法
+ */
+public class IDByInterface implements InitializingBean, DisposableBean {
+	/**
+	 * @description 在它设置了所有bean属性之后，由BeanFactory调用（并满足了BeanFactoryAware和applicationcontext）。这个方法允许bean实例只执行初始化
+	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
+	 */
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		System.out.println("IDByImplements implements InitializingBean.afterPropertiesSet");
+	}
+
+	/**
+	 * @description 由一个BeanFactory调用的销毁单例对象（context.close();资源释放后调用bean消费方法）
+	 * @see org.springframework.beans.factory.DisposableBean#destroy()
+	 */
+	@Override
+	public void destroy() throws Exception {
+		System.out.println("IDByImplements implements DisposableBean.destroy");		
+	}
+}
+```
+
+4.2、使用@Bean initMethod和destroyMethod 指定具体的方法：</br>
+
+```Java
+package com.mutistic.annotation.id;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+/**
+ * @program initial AND destroy 配置类
+ */
+@Configuration
+public class IDConfig {
+	@Bean(initMethod = "initial", destroyMethod = "destroy") // 声明bean 指定其 init 和 destroy方法
+	public IDByBean idByBean() {
+		return new IDByBean();
+	}
+}
+```
+
+```Java
+package com.mutistic.annotation.id;
+import org.springframework.context.annotation.Bean;
+import com.mutistic.utils.CommonConstant;
+
+/**
+ * @program 使用@Bean initMethod和destroyMethod 指定具体的方法
+ * @description @Bean#initMethod 指定初始化方法。 @Bean#destroyMethod 指定销毁方法
+ */
+public class IDByBean {
+	/**
+	 * @description 声明initial方法-对指定bean生效
+	 */
+	public void initial() {
+		System.out.println("IDByBean： @Bean initMethod 指定initial");
+	}
+
+	/**
+	 * @description 声明destroy方法-对指定bean生效
+	 */
+	public void destroy() {
+		System.out.println("IDByBean： @Bean destroyMethod 指定destroy");		
+	}
+}
+```
+
+4.3、使用JSR-250 @PostConstruct和 @PreDestroy方式指定
+
+```Java
+package com.mutistic.annotation.id;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
+/**
+ * @program 使用JSR-250@PostConstruct和@PreDestroy方式指定
+ * @description @PostConstruct 指定 初始化方法。@PreDestroy 指定 销毁方法
+ */
+public class IDByJSR250 {
+	/**
+	 * @description 声明initial方法-对指定bean生效
+	 */
+	@PostConstruct // 指定 初始化方法
+	public void initial() {
+		System.out.println("IDByJSR25 @PostConstruct 指定initial");
+	}
+
+	/**
+	 * @description 声明destroy方法-对指定bean生效
+	 */
+	@PreDestroy // 指定 销毁方法
+	public void destroy() {
+		System.out.println("IDByJSR250 @PreDestroy 指定 destroy");		
+	}
+}
+```
+
+

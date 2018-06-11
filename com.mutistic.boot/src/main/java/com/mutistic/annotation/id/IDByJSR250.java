@@ -14,7 +14,6 @@ import com.mutistic.utils.CommonConstant;
 public class IDByJSR250 {
 
 	/**
-	 * 
 	 * @description 声明initial方法-对指定bean生效
 	 * @author mutisitic
 	 * @date 2018年6月11日
@@ -25,7 +24,6 @@ public class IDByJSR250 {
 	}
 
 	/**
-	 * 
 	 * @description 声明destroy方法-对指定bean生效
 	 * @author mutisitic
 	 * @date 2018年6月11日
