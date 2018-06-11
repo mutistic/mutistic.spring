@@ -93,6 +93,7 @@ ConfigurationClassPostProcessor [org.springframework.context.annotation.Configur
 ```
 
 AnnotationConfig.java
+
 ```Java
 package com.mutistic.annotation;
 
@@ -104,8 +105,8 @@ import org.springframework.context.annotation.Scope;
 
 @Configuration
 public class AnnotationConfig {
-    /**
-	 * @description 通过@Bean直接创建 bean
+	/**
+	 * 通过@Bean直接创建 bean
 	 * @return RunnableFactory Bean
 	 */
 	@Bean(name = "annotationTestBean") // 指定 bean 的具体名称
@@ -114,8 +115,8 @@ public class AnnotationConfig {
 		return new AnnotationTestBean();
 	}
 	
-    /**
-	 * @description 通过 FactoryBean<T>接口实现类 创建工厂 bean（name可以指定多个，默认为方法名）
+	/**
+	 * 通过 FactoryBean<T>接口实现类 创建工厂 bean（name可以指定多个，默认为方法名）
 	 * @return RunnableFactory Bean
 	 */
 	@Bean({"createrRunnableFactory", "runnableFactory"}) // 指定bean 多个名称
@@ -123,28 +124,28 @@ public class AnnotationConfig {
 		return new RunnableFactory();
 	}
 	
-    /**
-	 * @description 通过简单工厂类 创建工厂 bean 
+	/**
+	 * 通过简单工厂类 创建工厂 bean 
 	 * @return FocusBeanFactory Bean
 	 */
 	@Bean // 指定一个bean 其name默认为方法名
-    @Primary  // 声明同类型bean为其主bean
+	@Primary  // 声明同类型bean为其主bean
 	public FocusBeanFactory focusBeanFactory() {
 		return new FocusBeanFactory();
 	}
 	
-    /**
-	 * @description 通过简单工厂类 创建工厂 bean 
+	/**
+	 * 通过简单工厂类 创建工厂 bean 
 	 * @return FocusBeanFactory Bean
 	 */
 	@Bean
-    @Profile("dev") // 指定当一个或多个指定的配置文件处于活动状态时，组件可以注册
+	@Profile("dev") // 指定当一个或多个指定的配置文件处于活动状态时，组件可以注册
 	public FocusBeanFactory craeterFocusBeanFactory() {
 		return new FocusBeanFactory();
 	}
 	
 	/**
-	 * @description 通过简单工厂类 创建 实体bean 
+	 * 通过简单工厂类 创建 实体bean 
 	 * @param focusBeanFactory 检索后自动注入(spirng中无FocusBeanFactory：则无法自动注入。创建多个同类型bean可以使用 @Qualifier 指定具体一个bean)
 	 * @return Focus Bean
 	 */
@@ -156,18 +157,19 @@ public class AnnotationConfig {
 ```
 
 RunnableFactory.java
+
 ```Java
 package com.mutistic.annotation;
 import org.springframework.beans.factory.FactoryBean;
 
 /**
- * @program 通过 FactoryBean<T>接口实现类 创建工厂 RunnableFactory bean
- * @description 使用工厂类实现 org.springframework.beans.factory.FactoryBean<T> 创建bean实例，重写 getObject(); getObjectType(); isSingleton();
+ * 通过 FactoryBean<T>接口实现类 创建工厂 RunnableFactory bean
+ * 使用工厂类实现 org.springframework.beans.factory.FactoryBean<T> 创建bean实例，重写 getObject(); getObjectType(); isSingleton();
  */
 public class RunnableFactory implements FactoryBean<Runnable> {
 
 	/**
-	 * @description 获取 FactoryBean 创建的bean实例
+	 * 获取 FactoryBean 创建的bean实例
 	 * @return Runnable 实例bean
 	 * @see org.springframework.beans.factory.FactoryBean#getObject()
 	 */
@@ -177,7 +179,7 @@ public class RunnableFactory implements FactoryBean<Runnable> {
 	}
 
 	/**
-	 * @description 获取创建实例的类型
+	 * 获取创建实例的类型
 	 * @return Runnable.class
 	 * @see org.springframework.beans.factory.FactoryBean#getObjectType()
 	 */
@@ -187,7 +189,7 @@ public class RunnableFactory implements FactoryBean<Runnable> {
 	}
 
 	/**
-	 * @description 是否是单例模式(true：单例)(false：非单例)
+	 * 是否是单例模式(true：单例)(false：非单例)
 	 * @return 是否是单例模式
 	 * @see org.springframework.beans.factory.FactoryBean#isSingleton()
 	 */
@@ -201,18 +203,15 @@ public class RunnableFactory implements FactoryBean<Runnable> {
 ```
 
 FocusBeanFactory.java
+
 ```Java
 package com.mutistic.annotation;
 /**
- * @program Focus 简单工厂类
- * @description 工厂类实现创建具体bean方法，config使用 @Bean 注解实现工厂类bean的创建方法，confgi使用 @Bean 注解实现具体bean的创建方法，入参为 工厂类（会自动搜索工厂类bean）。
+ * Focus 简单工厂类
+ * 工厂类实现创建具体bean方法，config使用 @Bean 注解实现工厂类bean的创建方法，confgi使用 @Bean 注解实现具体bean的创建方法，入参为 工厂类（会自动搜索工厂类bean）。
  */
 public class FocusBeanFactory {
-
-	public Focus createrFocus() {
-		return new Focus();
-	}
-	
+	public Focus createrFocus() { return new Focus(); }
 }
 ```
 
@@ -230,12 +229,12 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 
 /**
- * @program 使用实现接口方式实现 BeanFactory 的初始化 和销毁 动作
- * @description InitializingBean.afterPropertiesSet 指定初始化方法。DisposableBean.destroy 指定销毁方法
+ * 使用实现接口方式实现 BeanFactory 的初始化 和销毁 动作
+ * InitializingBean.afterPropertiesSet 指定初始化方法。DisposableBean.destroy 指定销毁方法
  */
 public class IDByInterface implements InitializingBean, DisposableBean {
 	/**
-	 * @description 在它设置了所有bean属性之后，由BeanFactory调用（并满足了BeanFactoryAware和applicationcontext）。这个方法允许bean实例只执行初始化
+	 * 在它设置了所有bean属性之后，由BeanFactory调用（并满足了BeanFactoryAware和applicationcontext）。这个方法允许bean实例只执行初始化
 	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
 	 */
 	@Override
@@ -244,7 +243,7 @@ public class IDByInterface implements InitializingBean, DisposableBean {
 	}
 
 	/**
-	 * @description 由一个BeanFactory调用的销毁单例对象（context.close();资源释放后调用bean消费方法）
+	 * 由一个BeanFactory调用的销毁单例对象（context.close();资源释放后调用bean消费方法）
 	 * @see org.springframework.beans.factory.DisposableBean#destroy()
 	 */
 	@Override
@@ -256,13 +255,15 @@ public class IDByInterface implements InitializingBean, DisposableBean {
 
 4.2、使用@Bean initMethod和destroyMethod 指定具体的方法：</br>
 
+IDConfig.java
+
 ```Java
 package com.mutistic.annotation.id;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @program initial AND destroy 配置类
+ * initial AND destroy 配置类
  */
 @Configuration
 public class IDConfig {
@@ -273,25 +274,27 @@ public class IDConfig {
 }
 ```
 
+IDByBean.java
+
 ```Java
 package com.mutistic.annotation.id;
 import org.springframework.context.annotation.Bean;
 import com.mutistic.utils.CommonConstant;
 
 /**
- * @program 使用@Bean initMethod和destroyMethod 指定具体的方法
- * @description @Bean#initMethod 指定初始化方法。 @Bean#destroyMethod 指定销毁方法
+ * 使用@Bean initMethod和destroyMethod 指定具体的方法
+ * @Bean#initMethod 指定初始化方法。 @Bean#destroyMethod 指定销毁方法
  */
 public class IDByBean {
 	/**
-	 * @description 声明initial方法-对指定bean生效
+	 * 声明initial方法-对指定bean生效
 	 */
 	public void initial() {
 		System.out.println("IDByBean： @Bean initMethod 指定initial");
 	}
 
 	/**
-	 * @description 声明destroy方法-对指定bean生效
+	 * 声明destroy方法-对指定bean生效
 	 */
 	public void destroy() {
 		System.out.println("IDByBean： @Bean destroyMethod 指定destroy");		
@@ -307,12 +310,12 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 /**
- * @program 使用JSR-250@PostConstruct和@PreDestroy方式指定
- * @description @PostConstruct 指定 初始化方法。@PreDestroy 指定 销毁方法
+ * 使用JSR-250@PostConstruct和@PreDestroy方式指定
+ * @PostConstruct 指定 初始化方法。@PreDestroy 指定 销毁方法
  */
 public class IDByJSR250 {
 	/**
-	 * @description 声明initial方法-对指定bean生效
+	 * 声明initial方法-对指定bean生效
 	 */
 	@PostConstruct // 指定 初始化方法
 	public void initial() {
@@ -320,7 +323,7 @@ public class IDByJSR250 {
 	}
 
 	/**
-	 * @description 声明destroy方法-对指定bean生效
+	 * 声明destroy方法-对指定bean生效
 	 */
 	@PreDestroy // 指定 销毁方法
 	public void destroy() {
