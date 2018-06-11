@@ -1,3 +1,10 @@
+# Java
+[Java语言环境](http://www.oracle.com/technetwork/java/index-136113.html)
+[Java 10 文档](https://docs.oracle.com/javase/10)
+[Java 10 API](https://docs.oracle.com/javase/10/docs/api/index.html?overview-summary.html)
+[Java 10 API-无框架](https://docs.oracle.com/javase/10/docs/api/overview-summary.html)
+
+
 # [Spring](https://github.com/mutistic/mutistic.spring/blob/master/com.mutistic.spring/README.md)
 此项目是基于Craig Walls的《Spring实战（第4版)》一书。<br/>
 [spring Framework API](https://docs.spring.io/spring/docs/current/javadoc-api)<br/>

@@ -1,9 +1,14 @@
 package com.mutistic.annotation;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.Scope;
+
+import com.mutistic.utils.CommonConstant;
 
 /**
  * @program bean组件扫描 引导@Configuration类
@@ -25,61 +30,76 @@ public class AnnotationConfig {
 		value：作用域范围：默认为空，单例模式： ConfigurableBeanFactory.SCOPE_PROTOTYPE（非单例）， ConfigurableBeanFactory.SCOPE_SINGLETON（单例）， WebApplicationContext.SCOPE_REQUEST， WebApplicationContext.SCOPE_SESSION， value()
 		https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Scope.html
 	 */
-
+	
 	/**
-	 * @description 使用 @Bean 直接创建Bean对象
+	 * @description 通过@Bean直接创建 bean
 	 * @author mutisitic
 	 * @date 2018年6月5日
 	 * @return AnnotationTestBean Bean
 	 */
-	@Bean(name = "annotationTestBean")
-	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-	public AnnotationTestBean createrAnnotationTestBean() {
-		return new AnnotationTestBean();
+	@Bean(name = "annotationTestBean") // 指定 bean 的具体名称
+	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE) //  指定bean 的作用域范围：单例，非单例，request，session
+	public TestAnnotationBean createrAnnotationTestBean() {
+		return new TestAnnotationBean();
 	}
 	
 	/**
-	 * @description 创建 RunnableFactory 工厂bean 
+	 * @description 通过 FactoryBean<T>接口实现类 创建工厂 bean
 	 * @author mutisitic
 	 * @date 2018年6月5日
 	 * @return RunnableFactory Bean
 	 */
-	@Bean
+	@Bean({"createrRunnableFactory", "runnableFactory"}) // 指定bean 多个名称
 	public RunnableFactory createrRunnableFactory() {
 		return new RunnableFactory();
 	}
 	
 	/**
-	 * @description 创建 JeepBeanFactory 工厂bean 
+	 * @description 通过 FactoryBean<T>接口实现类 创建工厂 bean
 	 * @author mutisitic
 	 * @date 2018年6月5日
 	 * @return JeepBeanFactory Bean 
 	 */
-	@Bean
+	@Bean // 指定 bean 默认为方法名
 	public JeepBeanFactory jeeptBeanFactory() {
 		return new JeepBeanFactory();
 	}
 	
 	
 	/**
-	 * @description 创建 FocusBeanFactory 工厂bean 
+	 * @description 通过简单工厂类 创建工厂 bean 
 	 * @author mutisitic
 	 * @date 2018年6月5日
 	 * @return FocusBeanFactory Bean 
 	 */
-	@Bean
+	@Bean // 指定一个bean 其name默认为方法名
+	@Primary // 声明同类型bean为其主bean
 	public FocusBeanFactory focusBeanFactory() {
 		return new FocusBeanFactory();
 	}
 	
 	/**
-	 * @description 创建 FocusBeanFactory 工厂bean 
+	 * @description 通过简单工厂类 创建工厂 bean 
 	 * @author mutisitic
 	 * @date 2018年6月5日
 	 * @return FocusBeanFactory Bean 
 	 */
 	@Bean
-	public Focus focus(FocusBeanFactory focusBeanFactory) {
+	@Profile("dev") // 指定当一个或多个指定的配置文件处于活动状态时，组件可以注册
+	public FocusBeanFactory craeterFocusBeanFactory() {
+		return new FocusBeanFactory();
+	}
+	
+	/**
+	 * @description 通过简单工厂类 创建 实体bean 
+	 * @author mutisitic
+	 * @date 2018年6月11日
+	 * @param focusBeanFactory 自动注入(没有创建：则无法注入。创建多个同类型bean可以使用 @Qualifier 指定具体一个bean)
+	 * @return Focus Bean
+	 */
+	@Bean
+	public Focus focus(/*@Qualifier("focusBeanFactory")*/ FocusBeanFactory focusBeanFactory) {
+		System.out.println(CommonConstant.PRINTLN_PREF +"FocusBeanFactory = "+ focusBeanFactory);
 		return focusBeanFactory.createrFocus();
 	}
 }

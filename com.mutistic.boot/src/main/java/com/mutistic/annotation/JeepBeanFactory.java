@@ -3,7 +3,7 @@ package com.mutistic.annotation;
 import org.springframework.beans.factory.FactoryBean;
 
 /**
- * @program Jeep FactotyBean 简单工厂类
+ * @program 通过 FactoryBean<T>接口实现类 创建工厂 JeepBeanFactory bean
  * @description 使用工厂类实现 org.springframework.beans.factory.FactoryBean<T> 创建bean实例，重写 getObject(); getObjectType(); isSingleton();
  * @author mutisitic
  * @date 2018年6月5日

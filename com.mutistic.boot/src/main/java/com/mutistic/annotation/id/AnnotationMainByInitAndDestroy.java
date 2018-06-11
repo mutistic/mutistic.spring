@@ -1,0 +1,46 @@
+package com.mutistic.annotation.id;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import org.springframework.context.annotation.Bean;
+
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import com.mutistic.utils.CommonConstant;
+
+/**
+ * @program AnnotationConfigApplicationContext Main 演示 initial(初始化) 和 destroy(销毁)方法
+ * @description 1、实现接口方式。2、使用@Bean initMethod和destroyMethod 指定具体的方法。3、使用JSR-250@PostConstruct和@PreDestroy方式指定
+ * @author mutisitic
+ * @date 2018年6月11日
+ */
+public class AnnotationMainByInitAndDestroy {
+
+	public static void main(String[] args) {
+		CommonConstant.PRINTLN();
+		getBeanByClass();
+	}
+	
+	
+	private static void getBeanByClass() {
+		CommonConstant.PRINTLINE("使用AnnotationConfigApplicationContext演示 init 和 destroy方法：");
+		
+		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+		context.register(IDConfig.class);
+		context.refresh();
+		
+		System.out.println(CommonConstant.PRINT_PREF +"实现接口方式："+ context.getBean(IDByInterface.class));
+		CommonConstant.PRINTLN();
+		
+		System.out.println(CommonConstant.PRINT_PREF +"@Bean initMethod和destroyMethod 指定具体的方法："+ context.getBean(IDByBean.class));
+		CommonConstant.PRINTLN();
+		
+		System.out.println(CommonConstant.PRINT_PREF +"使用JSR-250@PostConstruct和@PreDestroy方式指定："+ context.getBean(IDByJSR250.class));
+		CommonConstant.PRINTLN();
+		
+		
+		
+		context.close(); // 资源关闭后调用 DisposableBean.destroty(); bean销毁方法
+	}
+	
+}

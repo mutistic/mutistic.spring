@@ -44,11 +44,22 @@ ClassPathXmlApplicationContext [org.springframework.context.support.ClassPathXml
 4、@configuration不可以是非静态内部类：否则会报错 org.springframework.beans.factory.UnsatisfiedDependencyException 异常。
 ```
 ```Java
-AnnotationConfigApplicationContext context_mode1 = new AnnotationConfigApplicationContext();
-context_mode1.register(MyConfig.class);
-context_mode1.refresh();
+package com.mutistic.annotation;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-AnnotationConfigApplicationContext context_mode2 = new AnnotationConfigApplicationContext(MyConfig.class);
+public class AnnotationMain {
+	public static void main(String[] args) {
+		// 通过无参构造器创建context
+		AnnotationConfigApplicationContext context_mode1 = new AnnotationConfigApplicationContext();
+		context_mode1.register(AnnotationConfig.class);
+		context_mode1.refresh();
+		context_mode1.close();
+		// 通过有参构造器创建context
+		AnnotationConfigApplicationContext context_mode2 = new AnnotationConfigApplicationContext(AnnotationConfig.class);
+		context_mode2.close();
+	}
+}
+
 ```
 
 2.3、通过 Spring <beans> XML 配置</br>
@@ -77,18 +88,130 @@ ConfigurationClassPostProcessor [org.springframework.context.annotation.Configur
 ```
 1、bean名称的默认策略是使用@Bean方法的名称。
 2、使用该 name属性（或其别名value）。name接受一个字符串数组，允许为一个bean提供多个名称（即主bean名称加上一个或多个别名）。
-3、@Bean注释不提供配置文件，范围，懒惰，依赖或主要的属性。相反，它应与结合使用 @Scope，@Lazy，@DependsOn和 @Primary注解来声明这些语义。
+3、@Bean注释不提供配置文件，范围，懒惰，依赖或主要的属性。相反，它应与结合使用 @Scope，@Lazy，@DependsOn， @Primary，@Qualifier注解来声明这些语义。
 4、@Configuration在这种模式下，bean的类和他们的工厂方法不能被标记为final或private。
 ```
+
+AnnotationConfig.java
 ```Java
-@Bean
-public MyBean craeterMyBean() { return new MyBean(); }
+package com.mutistic.annotation;
 
-@Bean({"myBean1", "myBean2"})
-public MyBean myBean() { return new MyBean(); }
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 
-@Bean(name = "myBean")
-@Profile("production")
-@Scope("prototype")
-public MyBean myBean() { return new MyBean(); }
+@Configuration
+public class AnnotationConfig {
+    /**
+	 * @description 通过@Bean直接创建 bean
+	 * @return RunnableFactory Bean
+	 */
+	@Bean(name = "annotationTestBean") // 指定 bean 的具体名称
+  	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE) // 指定bean 的作用域范围：单例，非单例，request，session
+	public AnnotationTestBean createrAnnotationTestBean() {
+		return new AnnotationTestBean();
+	}
+	
+    /**
+	 * @description 通过 FactoryBean<T>接口实现类 创建工厂 bean（name可以指定多个，默认为方法名）
+	 * @return RunnableFactory Bean
+	 */
+	@Bean({"createrRunnableFactory", "runnableFactory"}) // 指定bean 多个名称
+	public RunnableFactory createrRunnableFactory() {
+		return new RunnableFactory();
+	}
+	
+    /**
+	 * @description 通过简单工厂类 创建工厂 bean 
+	 * @return FocusBeanFactory Bean
+	 */
+	@Bean // 指定一个bean 其name默认为方法名
+    @Primary  // 声明同类型bean为其主bean
+	public FocusBeanFactory focusBeanFactory() {
+		return new FocusBeanFactory();
+	}
+	
+    /**
+	 * @description 通过简单工厂类 创建工厂 bean 
+	 * @return FocusBeanFactory Bean
+	 */
+	@Bean
+    @Profile("dev") // 指定当一个或多个指定的配置文件处于活动状态时，组件可以注册
+	public FocusBeanFactory craeterFocusBeanFactory() {
+		return new FocusBeanFactory();
+	}
+	
+	/**
+	 * @description 通过简单工厂类 创建 实体bean 
+	 * @param focusBeanFactory 检索后自动注入(spirng中无FocusBeanFactory：则无法自动注入。创建多个同类型bean可以使用 @Qualifier 指定具体一个bean)
+	 * @return Focus Bean
+	 */
+	@Bean
+	public Focus focus(/*@Qualifier("focusBeanFactory")*/ FocusBeanFactory focusBeanFactory) {
+		return focusBeanFactory.createrFocus();
+	}
+}
+```
+
+RunnableFactory.java
+```Java
+package com.mutistic.annotation;
+import org.springframework.beans.factory.FactoryBean;
+
+/**
+ * @program 通过 FactoryBean<T>接口实现类 创建工厂 RunnableFactory bean
+ * @description 使用工厂类实现 org.springframework.beans.factory.FactoryBean<T> 创建bean实例，重写 getObject(); getObjectType(); isSingleton();
+ */
+public class RunnableFactory implements FactoryBean<Runnable> {
+
+	/**
+	 * @description 获取 FactoryBean 创建的bean实例
+	 * @return Runnable 实例bean
+	 * @see org.springframework.beans.factory.FactoryBean#getObject()
+	 */
+	@Override
+	public Runnable getObject() throws Exception {
+		return () -> {}; // 简单创建一个接口实例
+	}
+
+	/**
+	 * @description 获取创建实例的类型
+	 * @return Runnable.class
+	 * @see org.springframework.beans.factory.FactoryBean#getObjectType()
+	 */
+	@Override
+	public Class<?> getObjectType() {
+		return Runnable.class;
+	}
+
+	/**
+	 * @description 是否是单例模式(true：单例)(false：非单例)
+	 * @return 是否是单例模式
+	 * @see org.springframework.beans.factory.FactoryBean#isSingleton()
+	 */
+	@Override
+	public boolean isSingleton() {
+		return true;
+	}
+
+}
+
+```
+
+FocusBeanFactory.java
+```Java
+package com.mutistic.annotation;
+/**
+ * @program Focus 简单工厂类
+ * @description 工厂类实现创建具体bean方法，config使用 @Bean 注解实现工厂类bean的创建方法，confgi使用 @Bean 注解实现具体bean的创建方法，入参为 工厂类（会自动搜索工厂类bean）。
+ */
+public class FocusBeanFactory {
+
+	public Focus createrFocus() {
+		return new Focus();
+	}
+	
+}
 ```
