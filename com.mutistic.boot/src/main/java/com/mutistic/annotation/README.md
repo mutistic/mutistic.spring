@@ -5,18 +5,15 @@
 [Spring Framework Documentation](https://docs.spring.io/spring/docs/current/spring-framework-reference)<br/>
 
 ### <span id ="Catalogue">目录</span>：
-1. [AnnotationConfigApplicationContext 独立的应用程序上下文](#AnnotationConfigApplicationContext)
-2. [@Configuration 配置注解](#Configuration)
-3. [@Bean bean注解](#Bean)
-4. [指定 bean的 initial（初始化） 和 destroy（销毁） 方法](#id)
-5. [使用@Component、@Repository、@Service、@Controller、@Aspect 等方式注册bean](#Component)
-6. [@ComponentScan 扫描注解](#ComponentScan)
+一、[AnnotationConfigApplicationContext 独立的应用程序上下文](#AnnotationConfigApplicationContext)<br/>
+二、[@Configuration 配置注解](#Configuration)<br/>
+三、[@Bean bean注解](#Bean)<br/>
+四、[指定 bean的 initial（初始化） 和 destroy（销毁） 方法](#id)<br/>
+五、[使用@Component、@Repository、@Service、@Controller、@Aspect 等方式注册bean](#Component)<br/>
+六、[@ComponentScan 扫描注解](#ComponentScan)<br/>
 ---
 
-
-
-
-### <span id="AnnotationConfigApplicationContext">一、AnnotationConfigApplicationContext 独立的应用程序上下文：</span>
+# <span id="AnnotationConfigApplicationContext">一、AnnotationConfigApplicationContext 独立的应用程序上下文：</span>
 
 [org.springframework.context.annotation.AnnotationConfigApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/AnnotationConfigApplicationContext.html)
 
@@ -600,5 +597,5 @@ public class TestAspect { }
 
 
 ---
-[Top](#Top)、[Catalogue](#Catalogue)
-
+[Top](#Top)<br/>
+[Catalogue](#Catalogue)
