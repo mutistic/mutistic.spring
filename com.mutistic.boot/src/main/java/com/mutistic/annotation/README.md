@@ -5,14 +5,14 @@
 [Spring Framework Documentation](https://docs.spring.io/spring/docs/current/spring-framework-reference)<br/>
 
 ### <a id="a_catalogue">目录</a>：
-1. [AnnotationConfigApplicationContext 独立的应用程序上下文](#a_annotationConfigApplicationContext)<br/>
-二、[@Configuration 配置注解](#a_configuration)<br/>
-三、[@Bean bean注解](#a_bean)<br/>
-四、[指定 bean的 initial（初始化） 和 destroy（销毁） 方法](#a_initial)<br/>
-五、[使用@Component、@Repository、@Service、@Controller、@Aspect 等方式注册bean](#a_component)<br/>
-六、[@ComponentScan 扫描注解](#a_componentScan)<br/>
----
+1. [AnnotationConfigApplicationContext 独立的应用程序上下文](a_annotationConfigApplicationContext)
+2. [@Configuration 配置注解](#a_configuration)
+3. [@Bean bean注解](#a_bean)
+4. [指定 bean的 initial（初始化） 和 destroy（销毁） 方法](#a_initial)
+5. [使用@Component、@Repository、@Service、@Controller、@Aspect 等方式注册bean](#a_component)
+6. [@ComponentScan 扫描注解](#a_componentScan)
 
+---
 ### <a id="a_annotationConfigApplicationContext">一、AnnotationConfigApplicationContext 独立的应用程序上下文：</a>
 [org.springframework.context.annotation.AnnotationConfigApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/AnnotationConfigApplicationContext.html)
 
