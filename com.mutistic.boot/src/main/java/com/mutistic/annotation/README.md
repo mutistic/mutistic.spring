@@ -11,6 +11,7 @@
 4. <a href="#a_initial">指定 bean的 initial（初始化） 和 destroy（销毁） 方法<a/>
 5. <a href="#a_component">使用@Component、@Repository、@Service、@Controller、@Aspect 等方式注册bean<a/>
 6. <a href="#a_componentScan">@ComponentScan 扫描注解<a/>
+7. <a href="#a_down">down</a>
 
 ---
 ### <a id="a_annotationConfigApplicationContext">一、AnnotationConfigApplicationContext 独立的应用程序上下文：</a>
@@ -596,5 +597,6 @@ public class TestAspect { }
 
 
 ---
-[Top](.a_top)<br/>
-[Catalogue](.a_catalogue)
+<a href="#a_top">Top</a> 
+<a href="#a_catalogue">Catalogue</a> 
+<a id="a_down">Down</a> 
