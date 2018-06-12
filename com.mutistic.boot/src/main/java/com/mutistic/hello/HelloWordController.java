@@ -1,4 +1,4 @@
-package com.mutistic.controller;
+package com.mutistic.hello;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/hello")
-public class HelloController {
+public class HelloWordController {
 
 	/**
 	 * @description say hello 方法 

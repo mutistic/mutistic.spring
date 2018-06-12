@@ -12,8 +12,8 @@ public class BookService {
 	@Resource
 	private BookRepository bookRepository;
 	
-	public List<BookEntity> findAll(){
-		return bookRepository.findAll();
-	}
+//	public List<BookEntity> findAll(){
+//		return bookRepository.findAll();
+//	}
 	
 }

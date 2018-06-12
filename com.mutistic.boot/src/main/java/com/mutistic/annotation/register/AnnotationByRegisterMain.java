@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.stereotype.Controller;
 
+import com.mutistic.annotation.processor.TestApplicationContextAware;
 import com.mutistic.utils.CommonConstant;
 
 /**
@@ -18,9 +19,9 @@ public class AnnotationByRegisterMain {
 
 	public static void main(String[] args) {
 		CommonConstant.println();
-		getBeanByClass();
-		getBeanByPackages();
-		getBeanByScanClass();
+//		getBeanByClass();
+//		getBeanByPackages();
+//		getBeanByScanClass();
 	}
 	
 	/**

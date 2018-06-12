@@ -8,21 +8,27 @@
 1. <a href="#a_annotationConfigApplicationContext">AnnotationConfigApplicationContext 独立的应用程序上下文</a>
 2. <a href="#a_configuration">@Configuration 配置注解</a>
 3. <a href="#a_bean">@Bean bean注解</a>
-4. <a href="#a_initial">指定 bean的 initial（初始化） 和 destroy（销毁） 方法</a>
-5. <a href="#a_component">使用@Component、@Repository、@Service、@Controller、@Aspect 等方式注册bean</a>
-6. <a href="#a_componentScan">@ComponentScan 扫描注解<a/>
-7. <a href="#a_down">down</a>
+4. <a href="#a_getBean">spring 获取bean的方式</a>
+5. <a href="#a_initial">指定 bean的 initial（初始化） 和 destroy（销毁） 方法</a>
+6. <a href="#a_component">使用@Component、@Repository、@Service、@Controller、@Aspect 等方式注册bean</a>
+7. <a href="#a_componentScan">@ComponentScan 扫描注解<a/>
+8. <a href="#a_down">down</a>
 
 ---
 ### <a id="a_annotationConfigApplicationContext">一、AnnotationConfigApplicationContext 独立的应用程序上下文：</a>
-[org.springframework.context.annotation.AnnotationConfigApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/AnnotationConfigApplicationContext.html)<br/>
+AnnotationConfigApplicationContext [org.springframework.context.annotation.AnnotationConfigApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/AnnotationConfigApplicationContext.html)<br/>
+
+GenericApplicationContext [org.springframework.context.support.GenericApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/support/GenericApplicationContext.html)<br/>
+
+AbstractApplicationContext [org.springframework.context.support.AbstractApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/support/AbstractApplicationContext.html)<br/>
 
 ```
-1、独立的应用程序上下文，接受注释类作为输入 - 特别是注释类 @Configuration，但也包括普通 @Component类型和使用javax.inject注释的符合JSR-250和JSR-330的类。
-2、允许使用逐个注册类register(Class...)以及使用类路径扫描 scan(String...)。
-3、在多个@Configuration类的情况下，Bean后面的类中定义的@ 方法将覆盖在之前的类中定义的那些方法。
-这可以用来通过一个额外的@Configuration 类故意重写某些bean定义
+1、加载机制：AnnotationConfigApplicationContext > GenericApplicationContext > AbstractApplicationContext.refresh()
+2、独立的应用程序上下文，接受注释类作为输入 - 特别是注释类 @Configuration，但也包括普通 @Component类型和使用javax.inject注释的符合JSR-250和JSR-330的类。
+3、允许使用逐个注册类register(Class...)以及使用类路径扫描 scan(String...)。
+4、在多个@Configuration类的情况下，Bean后面的类中定义的@ 方法将覆盖在之前的类中定义的那些方法。这可以用来通过一个额外的@Configuration 类故意重写某些bean定义
 ```
+
 
 1.1、通过加载 @Configuration 注解类（配置类）实现bean的注册</br>
 
@@ -138,7 +144,9 @@ public class AnnotationScan { }
 ---
 ### <a name="a_configuration">二、@Configuration 配置注解</a>
 @Configuration [org.springframework.context.annotation.Configuration](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Configuration.html)</br>
+
 AnnotationConfigWebApplicationContext [org.springframework.web.context.support.AnnotationConfigWebApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/web/context/support/AnnotationConfigWebApplicationContext.html)</br>
+
 ClassPathXmlApplicationContext [org.springframework.context.support.ClassPathXmlApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/support/ClassPathXmlApplicationContext.html)</br>
 
 2.1、引导@Configuration类：</br>
@@ -192,9 +200,13 @@ ConfigurationClassPostProcessor [org.springframework.context.annotation.Configur
 ---
 ### <a id="a_bean">三、@Bean bean注解</a>
 @Bean [org.springframework.context.annotation.Bean](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Bean.html)</br>
+
 @Profile [org.springframework.context.annotation.Profile](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Profile.html)</br>
+
 @Scope [org.springframework.context.annotation.Scope](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Scope.html)</br>
+
 @Primary [org.springframework.context.annotation.Primary](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Primary.html)</br>
+
 @Qualifier [org.springframework.beans.factory.annotation.Qualifier](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/annotation/Qualifier.html)</br>
 
 3.1、指示一个方法产生一个由Spring容器管理的bean：</br>
@@ -330,13 +342,62 @@ public class FocusBeanFactory {
 ```
 
 ---
-### <a id="a_initial">四、指定 bean的 initial（初始化） 和 destroy（销毁） 方法</a>
+### <a id="a_getBean">四、spring 获取bean的方式</a>
+4.1、通过@Bean注解的方法名获取bean
+
+```Java
+AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AnnotationConfig.class);
+TestAnnotationBean testBean_1 = (TestAnnotationBean)context.getBean("createrTestAnnotationBean");
+TestAnnotationBean testBean_2 = context.getBean("createrTestAnnotationBean", TestAnnotationBean.class);
+```
+
+4.2、通过name属性名称获取bean（支持class）
+
+```Java
+AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AnnotationConfig.class);
+TestAnnotationBean testBean_1 = (TestAnnotationBean)context.getBean("testAnnotationBean");
+TestAnnotationBean testBean_2 = context.getBean("testAnnotationBean", TestAnnotationBean.class);
+```
+
+4.4、通过 &+方法名获取bean工厂
+
+```Java
+TestAnnotationBean testBean = new AnnotationConfigApplicationContext(AnnotationConfig.class).getBean(TestAnnotationBean.class);
+```
+
+4.3、通过 &+方法名获取bean工厂
+
+```Java
+AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AnnotationConfig.class);
+RunnableFactory factory_1 = context.getBean(RunnableFactory.class);
+RunnableFactory factory_2 = context.getBean("&createrRunnableFactory"); // &：org.springframework.beans.factory.BeanFactory.FACTORY_BEAN_PREFIX
+```
+
+4.5、通过方法名获取工厂模式创建的具体bean
+
+```Java
+AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AnnotationConfig.class);
+Runnable runnable = (Runnable)context.getBean("createrRunnableFactory");
+```
+
+4.6、获取同class所有bean
+
+```Java
+AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AnnotationConfig.class);
+Map<String, TestAnnotationBean> testBeanMap = context.getBeansOfType(TestAnnotationBean.class);
+```
+
+---
+### <a id="a_initial">五、指定 bean的 initial（初始化） 和 destroy（销毁） 方法</a>
 InitializingBean [org.springframework.beans.factory.InitializingBean](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/InitializingBean.html)</br>
+
 DisposableBean [org.springframework.beans.factory.DisposableBean](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/DisposableBean.html)</br>
+
 @PostConstruct [javax.annotation.PostConstruct](https://docs.oracle.com/javase/10/docs/api/javax/annotation/PostConstruct.html)</br>
+
 @PreDestroy [javax.annotation.PreDestroy](https://docs.oracle.com/javase/10/docs/api/javax/annotation/PreDestroy.html)</br>
 
-4.1、通过InitializingBean和DisposableBean接口方式实现：</br>
+5.1、通过InitializingBean和DisposableBean接口方式实现：</br>
 
 ```Java
 package com.mutistic.annotation.id;
@@ -368,7 +429,7 @@ public class IDByInterface implements InitializingBean, DisposableBean {
 }
 ```
 
-4.2、使用@Bean initMethod和destroyMethod 指定具体的方法：</br>
+5.2、使用@Bean initMethod和destroyMethod 指定具体的方法：</br>
 
 IDConfig.java
 
@@ -417,7 +478,7 @@ public class IDByBean {
 }
 ```
 
-4.3、使用JSR-250 @PostConstruct和 @PreDestroy方式指定
+5.3、使用JSR-250 @PostConstruct和 @PreDestroy方式指定
 
 ```Java
 package com.mutistic.annotation.id;
@@ -448,8 +509,8 @@ public class IDByJSR250 {
 ```
 
 ---
-### <a id="a_component">五、使用@Component、@Repository、@Service、@Controller、@Aspect 等方式注册bean</a>
-5.1、@Component [org.springframework.stereotype.Component](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/stereotype/Component.html)<br/>
+### <a id="a_component">六、使用@Component、@Repository、@Service、@Controller、@Aspect 等方式注册bean</a>
+6.1、@Component [org.springframework.stereotype.Component](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/stereotype/Component.html)<br/>
 一般用在没有明确的角色的bean可以用。@Component注解上不支持指定initial和destroy方法<br/>
 
 ```Java
@@ -477,7 +538,7 @@ public class TestComponentBean {
 }
 ```
 
-5.2、@Repository [org.springframework.stereotype.Repository](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/stereotype/Repository.html)<br/>
+6.2、@Repository [org.springframework.stereotype.Repository](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/stereotype/Repository.html)<br/>
 一般用在数据访问层，也可以将这个注解应用到DAO类中。@Repository注解上不支持指定initial和destroy方法<br/>
 
 ```Java
@@ -494,7 +555,7 @@ import org.springframework.stereotype.Repository;
 public class TestRepositoryDao { }
 ```
 
-5.3、@Service [org.springframework.stereotype.Service](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/stereotype/Service.html)<br/>
+6.3、@Service [org.springframework.stereotype.Service](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/stereotype/Service.html)<br/>
 一般用在业务逻辑层。@Service注解上不支持指定initial和destroy方法<br/>
 
 ```Java
@@ -524,7 +585,7 @@ public class TestService {
 }
 ```
 
-5.4、@Controller [org.springframework.stereotype.Controller](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/stereotype/Controller.html)<br/>
+6.4、@Controller [org.springframework.stereotype.Controller](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/stereotype/Controller.html)<br/>
 一般用在数据展示层。@Controller注解上不支持指定initial和destroy方法<br/>
 
 ```Java
@@ -569,7 +630,7 @@ JSR-330（javax.inject） pom依赖：
 </dependency>
 ```
 
-5.5、@Aspect [org.aspectj.lang.annotation.Aspect](https://www.eclipse.org/aspectj/doc/released/aspectj5rt-api/org/aspectj/lang/annotation/Aspect.html)<br/>
+6.5、@Aspect [org.aspectj.lang.annotation.Aspect](https://www.eclipse.org/aspectj/doc/released/aspectj5rt-api/org/aspectj/lang/annotation/Aspect.html)<br/>
 把当前类标识为一个切面供容器读取。@Aspect注解上不支持指定initial和destroy方法<br/>
 
 ```Java
@@ -586,12 +647,17 @@ import org.aspectj.lang.annotation.Aspect;
 public class TestAspect { }
 ```
 
-### <a id="a_componentScan">六、@ComponentScan 扫描注解</a>
+### <a id="a_componentScan">七、@ComponentScan 扫描注解</a>
 @ComponentScan [org.springframework.context.annotation.ComponentScan](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/ComponentScan.html)<br/>
+
 @Filter [org.springframework.context.annotation.ComponentScan$Filter](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/ComponentScan.Filter.html)<br/>
+
 FilterType [org.springframework.context.annotation.FilterType](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/FilterType.html)<br/>
+
 TypeFilter [org.springframework.core.type.filter.TypeFilter](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/core/type/filter/TypeFilter.html)<br/>
+
 AnnotationTypeFilter [org.springframework.core.type.filter.AnnotationTypeFilter](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/core/type/filter/AnnotationTypeFilter.html)<br/>
+
 ```
 1、配置用于@ Configuration类的组件扫描指令。提供与Spring XML <context:component-scan>元素并行的支持。
 2、可以指定basePackageClasses()或basePackages()（或其别名 value()）来定义要扫描的特定软件包。如果未定义特定的包，则将从声明此批注的类的包中进行扫描。
@@ -602,20 +668,20 @@ AnnotationTypeFilter [org.springframework.core.type.filter.AnnotationTypeFilter]
 @ComponentScan 常用属性说明：
 
 ```
-1、basePackages()：用于指定要扫描注释组件的软件包的类型安全替代方法。如果不需要其他属性，则允许更简洁的注释声明即省略basePackages。value() 是该属性的别名（并且与之互斥）<br/>
-2、includeFilters()：公共抽象  ComponentScan.Filter[]、指定哪些类型有资格进行组件扫描。<br/>
-3、excludeFilters()：公共抽象  ComponentScan.Filter[]、指定哪些类型不符合组件扫描条件。<br/>
-4、lazyInit：指定扫描的bean是否应注册以进行延迟初始化。默认是false; 根据true需要切换此项。<br/>
+1、basePackages()：用于指定要扫描注释组件的软件包的类型安全替代方法。如果不需要其他属性，则允许更简洁的注释声明即省略basePackages。value() 是该属性的别名（并且与之互斥）
+2、includeFilters()：公共抽象  ComponentScan.Filter[]、指定哪些类型有资格进行组件扫描。
+3、excludeFilters()：公共抽象  ComponentScan.Filter[]、指定哪些类型不符合组件扫描条件。
+4、lazyInit：指定扫描的bean是否应注册以进行延迟初始化。默认是false; 根据true需要切换此项。
 ```
 
 FilterType 枚举值说明：
 
 ```
-1、ANNOTATION：筛选标记有给定注释的候选项。<br/>
-2、ASSIGNABLE_TYPE：筛选可分配给定类型的候选项（常用）。<br/>
-3、ASPECTJ：筛选与指定的AspectJ类型模式表达式匹配的候选项。<br/>
+1、ANNOTATION：筛选标记有给定注释的候选项。
+2、ASSIGNABLE_TYPE：筛选可分配给定类型的候选项（常用）。
+3、ASPECTJ：筛选与指定的AspectJ类型模式表达式匹配的候选项。
 4、REGEX：过滤与给定的正则表达式模式匹配的候选项。<br/>
-5、CUSTOM：使用给定的自定义TypeFilter实现过滤候选项 。<br/>
+5、CUSTOM：使用给定的自定义TypeFilter实现过滤候选项 。
 ```
 
 ```Java
@@ -648,6 +714,6 @@ public class AnnotationScan { }
 
 
 ---
+<a id="a_down"></a>  
 <a href="#a_top">Top</a> 
-<a href="#a_catalogue">Catalogue</a>
-<a id="a_down">Down</a>
+<a href="#a_catalogue">Catalogue</a>  

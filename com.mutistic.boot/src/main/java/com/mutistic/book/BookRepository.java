@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @date 2018年6月4日
  */
 //@Repository(path = "people")
-public interface BookRepository extends JpaRepository<BookEntity, Long> {
+public interface BookRepository { //extends JpaRepository<BookEntity, Long> {
 	
 	
 }
