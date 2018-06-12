@@ -1,25 +1,23 @@
-# [Spring](https://docs.spring.io/spring/docs/current/javadoc-api)
+# <span id="Top">[Spring](https://docs.spring.io/spring/docs/current/javadoc-api)</span>
 [Spring Boot](https://github.com/mutistic/mutistic.spring/blob/master/com.mutistic.boot/README.md)是伴随着Spring4.0诞生的<br/>
 [spring Framework API](https://docs.spring.io/spring/docs/current/javadoc-api)<br/>
 [spring Framework API-无框架](https://docs.spring.io/spring/docs/current/javadoc-api/overview-summary.html)<br/>
 [Spring Framework Documentation](https://docs.spring.io/spring/docs/current/spring-framework-reference)<br/>
 
-目录：
-1. [AnnotationConfigApplicationContext 独立的应用程序上下文][一]
-2. @Configuration 配置注解
-3. @Bean bean注解
-4. 指定 bean的 initial（初始化） 和 destroy（销毁） 方法
-5. 使用@Component、@Repository、@Service、@Controller、@Aspect 等方式注册bean
-6. @ComponentScan 扫描注解
-7. 
-
+### <span id ="Catalogue">目录</span>：
+1. [AnnotationConfigApplicationContext 独立的应用程序上下文](#AnnotationConfigApplicationContext)
+2. [@Configuration 配置注解](#Configuration)
+3. [@Bean bean注解](#Bean)
+4. [指定 bean的 initial（初始化） 和 destroy（销毁） 方法](#id)
+5. [使用@Component、@Repository、@Service、@Controller、@Aspect 等方式注册bean](#Component)
+6. [@ComponentScan 扫描注解](#ComponentScan)
 ---
 
 
 
 
-### 一、AnnotationConfigApplicationContext 独立的应用程序上下文：</br>
-[一]: "AnnotationConfigApplicationContext"</br>
+### <span id="AnnotationConfigApplicationContext">一、AnnotationConfigApplicationContext 独立的应用程序上下文：</span>
+
 [org.springframework.context.annotation.AnnotationConfigApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/AnnotationConfigApplicationContext.html)
 
 ```
@@ -141,7 +139,7 @@ public class AnnotationScan { }
 ```
 
 ---
-### 二、@Configuration 配置注解<br/>
+### <span id="Configuration">二、@Configuration 配置注解</span>
 @Configuration [org.springframework.context.annotation.Configuration](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Configuration.html)</br>
 AnnotationConfigWebApplicationContext [org.springframework.web.context.support.AnnotationConfigWebApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/web/context/support/AnnotationConfigWebApplicationContext.html)</br>
 ClassPathXmlApplicationContext [org.springframework.context.support.ClassPathXmlApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/support/ClassPathXmlApplicationContext.html)</br>
@@ -195,7 +193,7 @@ ConfigurationClassPostProcessor [org.springframework.context.annotation.Configur
 ```
 
 ---
-### 三、@Bean bean注解<br/>
+### <span id="bean">三、@Bean bean注解</span>
 @Bean [org.springframework.context.annotation.Bean](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Bean.html)</br>
 @Profile [org.springframework.context.annotation.Profile](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Profile.html)</br>
 @Scope [org.springframework.context.annotation.Scope](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Scope.html)</br>
@@ -335,7 +333,7 @@ public class FocusBeanFactory {
 ```
 
 ---
-### 四、指定 bean的 initial（初始化） 和 destroy（销毁） 方法<br/>
+### <span id="id">四、指定 bean的 initial（初始化） 和 destroy（销毁） 方法</span>
 InitializingBean [org.springframework.beans.factory.InitializingBean](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/InitializingBean.html)</br>
 DisposableBean [org.springframework.beans.factory.DisposableBean](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/DisposableBean.html)</br>
 @PostConstruct [javax.annotation.PostConstruct](https://docs.oracle.com/javase/10/docs/api/javax/annotation/PostConstruct.html)</br>
@@ -453,7 +451,7 @@ public class IDByJSR250 {
 ```
 
 ---
-### 五、使用@Component、@Repository、@Service、@Controller、@Aspect 等方式注册bean<br/>
+### <span id="Component">五、使用@Component、@Repository、@Service、@Controller、@Aspect 等方式注册bean</span>
 5.1、@Component [org.springframework.stereotype.Component](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/stereotype/Component.html)<br/>
 一般用在没有明确的角色的bean可以用。@Component注解上不支持指定initial和destroy方法<br/>
 
@@ -591,6 +589,16 @@ import org.aspectj.lang.annotation.Aspect;
 public class TestAspect { }
 ```
 
-### 六、@ComponentScan 扫描注解<br/>
+### <span id="ComponentScan">六、@ComponentScan 扫描注解</span>
 
+
+
+
+
+
+
+
+
+---
+[Top](#Top)、[Catalogue](#Catalogue)
 
