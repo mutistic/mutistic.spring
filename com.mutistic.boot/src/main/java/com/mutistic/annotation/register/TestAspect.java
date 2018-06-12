@@ -10,8 +10,8 @@ import org.aspectj.lang.annotation.Aspect;
  * @date 2018年6月11日
  */
 @Aspect
-//@Component("testComponentBean") //声明一个bean。bean名称默认为类名（首字母小写），value属性值指定其bean名称（不支持多个），其中value可以省略。
-//@Component(value = "myTestComponentBean") 
+//@Aspect("testComponentBean") //声明一个bean。bean名称默认为类名（首字母小写），value属性值指定其bean名称（不支持多个），其中value可以省略。
+//@Aspect(value = "myTestComponentBean") 
 public class TestAspect {
 
 }

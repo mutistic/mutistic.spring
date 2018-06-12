@@ -14,7 +14,7 @@ import com.mutistic.utils.CommonConstant;
  * @author mutisitic
  * @date 2018年6月11日
  */
-public class AnnotationMainByInitAndDestroy {
+public class AnnotationByInitAndDestroyMain {
 
 	public static void main(String[] args) {
 		CommonConstant.println();
@@ -27,7 +27,7 @@ public class AnnotationMainByInitAndDestroy {
 		context.register(IDConfig.class);
 		context.refresh();
 		
-		CommonConstant.printline("使用AnnotationConfigApplicationContext演示 init 和 destroy方法：");
+		CommonConstant.printLine("使用AnnotationConfigApplicationContext演示 init 和 destroy方法：");
 		System.out.println(CommonConstant.PRINTLN_PREF +"通过InitializingBean和DisposableBean接口方式实现："+ context.getBean(IDByInterface.class));
 		System.out.println(CommonConstant.PRINTLN_PREF +"@Bean initMethod和destroyMethod 指定具体的方法："+ context.getBean(IDByBean.class));
 		System.out.println(CommonConstant.PRINTLN_PREF +"使用JSR-250@PostConstruct和@PreDestroy方式指定："+ context.getBean(IDByJSR250.class));

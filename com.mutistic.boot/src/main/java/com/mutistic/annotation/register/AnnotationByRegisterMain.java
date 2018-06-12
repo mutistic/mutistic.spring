@@ -14,7 +14,7 @@ import com.mutistic.utils.CommonConstant;
  * @author mutisitic
  * @date 2018年6月11日
  */
-public class AnnotationMainByRegister {
+public class AnnotationByRegisterMain {
 
 	public static void main(String[] args) {
 		CommonConstant.println();
@@ -35,21 +35,21 @@ public class AnnotationMainByRegister {
 //		CommonConstant.printline("@Indexed注解");
 //		System.out.println(CommonConstant.PRINT_PREF +"使用 @Indexed注解的bean：class获取"+ context.getBean(TestIndexed.class));
 		
-		CommonConstant.printline("@Component注解");
+		CommonConstant.printLine("@Component注解");
 		System.out.println(CommonConstant.PRINT_PREF +"使用 @Component注解的bean：class获取"+ context.getBean(TestComponentBean.class));
 		System.out.println(CommonConstant.PRINT_PREF +"使用 @Component注解的bean：name获取"+ context.getBean("testComponentBean", TestComponentBean.class));
 		context.getBean(TestComponentBean.class).show();
 		
-		CommonConstant.printline("@Repository注解");
+		CommonConstant.printLine("@Repository注解");
 		System.out.println(CommonConstant.PRINT_PREF +"使用 @Repository注解的(dao)bean：class获取"+ context.getBeansOfType(TestRepositoryDao.class));
 		
-		CommonConstant.printline("@Service注解");
+		CommonConstant.printLine("@Service注解");
 		System.out.println(CommonConstant.PRINT_PREF +"使用 @Service注解的(service)bean：class获取"+ context.getBean(TestService.class));
 		
-		CommonConstant.printline("@Controller注解");
+		CommonConstant.printLine("@Controller注解");
 		System.out.println(CommonConstant.PRINT_PREF +"使用 @Controller注解的(controller)bean：class获取"+ context.getBean(TestController.class));
 		
-		CommonConstant.printline("@Aspect注解"); 
+		CommonConstant.printLine("@Aspect注解"); 
 		System.out.println(CommonConstant.PRINT_PREF +"使用 @Aspect注解的bean：class获取"+ context.getBean(TestAspect.class));
 		
 		CommonConstant.println();
@@ -64,13 +64,13 @@ public class AnnotationMainByRegister {
 	private static void getBeanByPackages() {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("com.mutistic.annotation.register");
 		
-		CommonConstant.printline("@Repository注解");
+		CommonConstant.printLine("@Repository注解");
 		System.out.println(CommonConstant.PRINT_PREF +"使用 @Repository注解的(dao)bean：class获取"+ context.getBeansOfType(TestRepositoryDao.class));
 		
-		CommonConstant.printline("@Service注解");
+		CommonConstant.printLine("@Service注解");
 		System.out.println(CommonConstant.PRINT_PREF +"使用 @Service注解的(service)bean：class获取"+ context.getBean(TestService.class));
 		
-		CommonConstant.printline("@Controller注解");
+		CommonConstant.printLine("@Controller注解");
 		System.out.println(CommonConstant.PRINT_PREF +"使用 @Controller注解的(controller)bean：class获取"+ context.getBean(TestController.class));
 		
 		CommonConstant.println();
@@ -85,13 +85,13 @@ public class AnnotationMainByRegister {
 	private static void getBeanByScanClass() {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(RegisterScan.class);
 		
-		CommonConstant.printline("@Repository注解");
+		CommonConstant.printLine("@Repository注解");
 		System.out.println(CommonConstant.PRINT_PREF +"使用 @Repository注解的(dao)bean：class获取"+ context.getBeansOfType(TestRepositoryDao.class));
 		
-		CommonConstant.printline("@Service注解");
+		CommonConstant.printLine("@Service注解");
 		System.out.println(CommonConstant.PRINT_PREF +"使用 @Service注解的(service)bean：class获取"+ context.getBean(TestService.class));
 		
-		CommonConstant.printline("@Controller注解");
+		CommonConstant.printLine("@Controller注解");
 		System.out.println(CommonConstant.PRINT_PREF +"使用 @Controller注解的(controller)bean：class获取"+ context.getBean(TestController.class));
 		
 		CommonConstant.println();

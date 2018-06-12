@@ -1,11 +1,25 @@
 # [Spring](https://docs.spring.io/spring/docs/current/javadoc-api)
 [Spring Boot](https://github.com/mutistic/mutistic.spring/blob/master/com.mutistic.boot/README.md)是伴随着Spring4.0诞生的<br/>
-
 [spring Framework API](https://docs.spring.io/spring/docs/current/javadoc-api)<br/>
 [spring Framework API-无框架](https://docs.spring.io/spring/docs/current/javadoc-api/overview-summary.html)<br/>
 [Spring Framework Documentation](https://docs.spring.io/spring/docs/current/spring-framework-reference)<br/>
 
+目录：
+1. [AnnotationConfigApplicationContext 独立的应用程序上下文][一]
+2. @Configuration 配置注解
+3. @Bean bean注解
+4. 指定 bean的 initial（初始化） 和 destroy（销毁） 方法
+5. 使用@Component、@Repository、@Service、@Controller、@Aspect 等方式注册bean
+6. @ComponentScan 扫描注解
+7. 
+
+---
+
+
+
+
 ### 一、AnnotationConfigApplicationContext 独立的应用程序上下文：</br>
+[一]: "AnnotationConfigApplicationContext"</br>
 [org.springframework.context.annotation.AnnotationConfigApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/AnnotationConfigApplicationContext.html)
 
 ```
@@ -13,17 +27,121 @@
 2、允许使用逐个注册类register(Class...)以及使用类路径扫描 scan(String...)。
 3、在多个@Configuration类的情况下，Bean后面的类中定义的@ 方法将覆盖在之前的类中定义的那些方法。
 这可以用来通过一个额外的@Configuration 类故意重写某些bean定义
-
-```
-```
-AnnotationConfigApplicationContext context_mode1 = new AnnotationConfigApplicationContext();
-context_mode1.register(MyConfig.class);
-context_mode1.refresh();
-
-AnnotationConfigApplicationContext context_mode2 = new AnnotationConfigApplicationContext(MyConfig.class);
 ```
 
-### 二、@Configuration 注解类<br/>
+1.1、通过加载 @Configuration 注解类（配置类）实现bean的注册</br>
+
+```Java
+package com.mutistic.annotation;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+/**
+ * 过加载 @Configuration 配置类实现bean的注册
+ */
+public class AnnotationMain {
+	public static void main(String[] args) {
+		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(AnnotationConfig.class);
+		CommonConstant.printPref("@Configuration 配置类 注册的bean", ctx.getBean(Runnable.class));
+		ctx.close();
+	}
+}
+```
+
+1.2、通过加载 Class 实现bean的注册</br>
+
+```Java
+package com.mutistic.annotation;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
+import com.mutistic.annotation.beans.TestAnnotationBean;
+import com.mutistic.annotation.id.IDConfig;
+import com.mutistic.annotation.register.TestAspect;
+import com.mutistic.annotation.register.TestController;
+import com.mutistic.annotation.register.TestRepositoryDao;
+import com.mutistic.annotation.register.TestService;
+
+/**
+ * 通过加载 Class 实现bean的注册
+ */
+public class AnnotationMain {
+	public static void main(String[] args) {
+		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(AnnotationConfig.class,
+				TestController.class, TestService.class, TestRepositoryDao.class, TestAspect.class, TestAnnotationBean.class);
+		CommonConstant.printPref("@Configuration bean",ctx.getBean(AnnotationConfig.class));
+		CommonConstant.printPref("@Controller bean", ctx.getBean(TestController.class));
+		CommonConstant.printPref("@Service bean", ctx.getBean(TestService.class));
+		CommonConstant.printPref("@Repository bean",ctx.getBean(TestRepositoryDao.class));
+		CommonConstant.printPref("@TestAspect bean",ctx.getBean(TestAspect.class));
+		CommonConstant.printPref("无任何注解 bean", ctx.getBean(TestAnnotationBean.class));
+		ctx.close();
+	}
+}
+```
+
+1.3、通过加载 @ComponentScan 注解 Class（扫描类） 实现bean的注册 </br>
+AnnotationMain.java
+
+```Java
+package com.mutistic.annotation;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import com.mutistic.annotation.beans.TestAnnotationBean;
+import com.mutistic.annotation.id.IDConfig;
+import com.mutistic.annotation.register.TestAspect;
+import com.mutistic.annotation.register.TestRepositoryDao;
+
+/**
+ * 通过加载 @ComponentScan Class 实现bean的注册 
+ */
+public class AnnotationMain {
+	public static void main(String[] args) {
+		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(AnnotationScan.class);
+		CommonConstant.printPref("无任何注解 bean", ctx.getBean(TestAnnotationBean.class));
+		CommonConstant.printPref("@Configuration 注解 bean", ctx.getBean(IDConfig.class));
+		CommonConstant.printPref("@Repository bean", ctx.getBean(TestRepositoryDao.class));
+		CommonConstant.printPref("@Aspect 注解 bean", ctx.getBean(TestAspect.class));
+	}
+}
+```
+
+AnnotationScan.java
+
+```Java
+package com.mutistic.annotation;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ComponentScan.Filter;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
+
+import com.mutistic.annotation.beans.AnnotationBeansConfig;
+import com.mutistic.annotation.id.IDConfig;
+import com.mutistic.annotation.register.TestAspect;
+import com.mutistic.annotation.register.TestController;
+import com.mutistic.annotation.register.TestRepositoryDao;
+
+/**
+ * @program bean组件扫描 引导@Configuration类
+ * @description 开启组件扫描
+ * @author mutisitic
+ * @date 2018年6月5日
+ */
+@Configuration
+// @ComponentScan("com.mutistic.annotation") // @ComponentScan 配置用于@Configuration类的组件扫描指令 可以指定用于定义要扫描的特定包
+// @ComponentScan(value = {"com.mutistic.annotation.beans", "com.mutistic.annotation.id"}) // @ComponentScan 通过 value属性或者basePackages属性  可以指定多个需要扫描的包
+// @ComponentScan(basePackages="om.mutistic.annotation", ) // 通过 value属性可以指定多个包
+@ComponentScan(basePackages="com.mutistic.annotation"
+	,includeFilters = @Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {TestAspect.class}) // @ComponentScan 通过 includeFilters 属性 可以指定导入bean(类型具体参考 FilterType)
+	,excludeFilters = @Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {AnnotationBeansConfig.class, IDConfig.class}) // @ComponentScan 通过 excludeFilters 属性 可以指定忽略bean(类型具体参考 FilterType)
+) 
+public class AnnotationScan { }
+```
+
+---
+### 二、@Configuration 配置注解<br/>
 @Configuration [org.springframework.context.annotation.Configuration](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Configuration.html)</br>
 AnnotationConfigWebApplicationContext [org.springframework.web.context.support.AnnotationConfigWebApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/web/context/support/AnnotationConfigWebApplicationContext.html)</br>
 ClassPathXmlApplicationContext [org.springframework.context.support.ClassPathXmlApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/support/ClassPathXmlApplicationContext.html)</br>
@@ -76,7 +194,8 @@ ConfigurationClassPostProcessor [org.springframework.context.annotation.Configur
 </beans>
 ```
 
-### 三、@Bean 注解<br/>
+---
+### 三、@Bean bean注解<br/>
 @Bean [org.springframework.context.annotation.Bean](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Bean.html)</br>
 @Profile [org.springframework.context.annotation.Profile](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Profile.html)</br>
 @Scope [org.springframework.context.annotation.Scope](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Scope.html)</br>
@@ -215,6 +334,7 @@ public class FocusBeanFactory {
 }
 ```
 
+---
 ### 四、指定 bean的 initial（初始化） 和 destroy（销毁） 方法<br/>
 InitializingBean [org.springframework.beans.factory.InitializingBean](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/InitializingBean.html)</br>
 DisposableBean [org.springframework.beans.factory.DisposableBean](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/DisposableBean.html)</br>
@@ -332,6 +452,7 @@ public class IDByJSR250 {
 }
 ```
 
+---
 ### 五、使用@Component、@Repository、@Service、@Controller、@Aspect 等方式注册bean<br/>
 5.1、@Component [org.springframework.stereotype.Component](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/stereotype/Component.html)<br/>
 一般用在没有明确的角色的bean可以用。@Component注解上不支持指定initial和destroy方法<br/>
@@ -453,7 +574,7 @@ JSR-330（javax.inject） pom依赖：
 </dependency>
 ```
 
-5.5、@Aspect [org.aspectj.lang.annotation.Aspect]<br/>(https://www.eclipse.org/aspectj/doc/released/aspectj5rt-api/org/aspectj/lang/annotation/Aspect.html)<br/>
+5.5、@Aspect [org.aspectj.lang.annotation.Aspect](https://www.eclipse.org/aspectj/doc/released/aspectj5rt-api/org/aspectj/lang/annotation/Aspect.html)<br/>
 把当前类标识为一个切面供容器读取。@Aspect注解上不支持指定initial和destroy方法<br/>
 
 ```Java
@@ -465,8 +586,11 @@ import org.aspectj.lang.annotation.Aspect;
  * 把当前类标识为一个切面供容器读取。@Aspect注解上不支持指定initial和destroy方法
  */
 @Aspect
-//@Component("testComponentBean") //声明一个bean。bean名称默认为类名（首字母小写），value属性值指定其bean名称（不支持多个），其中value可以省略。
-//@Component(value = "myTestComponentBean") 
+//@Aspect("testComponentBean") //声明一个bean。bean名称默认为类名（首字母小写），value属性值指定其bean名称（不支持多个），其中value可以省略。
+//@Aspect(value = "myTestComponentBean") 
 public class TestAspect { }
 ```
+
+### 六、@ComponentScan 扫描注解<br/>
+
 

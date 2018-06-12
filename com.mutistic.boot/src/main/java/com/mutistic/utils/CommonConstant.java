@@ -8,6 +8,8 @@ package com.mutistic.utils;
  */
 public class CommonConstant {
 
+	public final static String T_LEFT = "【";
+	public final static String T_RIGTH = "】";
 	public final static String PRINT_PREF = "==========";
 	public final static String PRINTLN_PREF = "\n==========";
 	public final static String PRINT_LINE = "========================================";
@@ -17,11 +19,11 @@ public class CommonConstant {
 		System.out.println();
 	}
 
-	public static void printline() {
-		System.out.println(PRINTLN_LINE);
-	}
-
-	public static void printline(String str) {
+	public static void printLine(String str) {
 		System.out.println(PRINTLN_LINE + str);
+	}
+	
+	public static void printPref(String str, Object obj) {
+		System.out.println(PRINTLN_PREF + str + T_LEFT + obj + T_RIGTH);
 	}
 }
