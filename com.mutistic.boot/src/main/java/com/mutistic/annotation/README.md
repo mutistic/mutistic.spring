@@ -5,17 +5,17 @@
 [Spring Framework Documentation](https://docs.spring.io/spring/docs/current/spring-framework-reference)<br/>
 
 ### <a id="a_catalogue">目录</a>：
-1. <a href="#a_annotationConfigApplicationContext">AnnotationConfigApplicationContext 独立的应用程序上下文<a/>
-2. <a href="#a_configuration">@Configuration 配置注解<a/>
-3. <a href="#a_bean">@Bean bean注解<a/>
-4. <a href="#a_initial">指定 bean的 initial（初始化） 和 destroy（销毁） 方法<a/>
-5. <a href="#a_component">使用@Component、@Repository、@Service、@Controller、@Aspect 等方式注册bean<a/>
+1. <a href="#a_annotationConfigApplicationContext">AnnotationConfigApplicationContext 独立的应用程序上下文</a>
+2. <a href="#a_configuration">@Configuration 配置注解</a>
+3. <a href="#a_bean">@Bean bean注解</a>
+4. <a href="#a_initial">指定 bean的 initial（初始化） 和 destroy（销毁） 方法</a>
+5. <a href="#a_component">使用@Component、@Repository、@Service、@Controller、@Aspect 等方式注册bean</a>
 6. <a href="#a_componentScan">@ComponentScan 扫描注解<a/>
-7. <a href="#a_down">down<a/>
+7. <a href="#a_down">down</a>
 
 ---
 ### <a id="a_annotationConfigApplicationContext">一、AnnotationConfigApplicationContext 独立的应用程序上下文：</a>
-[org.springframework.context.annotation.AnnotationConfigApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/AnnotationConfigApplicationContext.html)
+[org.springframework.context.annotation.AnnotationConfigApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/AnnotationConfigApplicationContext.html)<br/>
 
 ```
 1、独立的应用程序上下文，接受注释类作为输入 - 特别是注释类 @Configuration，但也包括普通 @Component类型和使用javax.inject注释的符合JSR-250和JSR-330的类。
@@ -587,8 +587,7 @@ public class TestAspect { }
 ```
 
 ### <a id="a_componentScan">六、@ComponentScan 扫描注解</a>
-
-
+@ComponentScan [org.springframework.context.annotation.ComponentScan](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/ComponentScan.html)<br/>
 
 
 
@@ -597,6 +596,6 @@ public class TestAspect { }
 
 
 ---
-<a href="#a_top">Top<a/>  
-<a href="#a_catalogue">Catalogue<a/>  
-<a id="a_down">Down<a/>   
+<a href="#a_top">Top</a> 
+<a href="#a_catalogue">Catalogue</a>
+<a id="a_down">Down</a>
