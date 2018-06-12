@@ -5,15 +5,15 @@
 [Spring Framework Documentation](https://docs.spring.io/spring/docs/current/spring-framework-reference)<br/>
 
 ### <a id="a_catalogue">目录</a>：
-1. <a href="#annotationConfigApplicationContext">AnnotationConfigApplicationContext 独立的应用程序上下文<a/>
-2. [@Configuration 配置注解](#a_configuration)
-3. [@Bean bean注解]($a_bean)
-4. [指定 bean的 initial（初始化） 和 destroy（销毁） 方法]($a_initial)
+1. [AnnotationConfigApplicationContext 独立的应用程序上下文](.a_annotationConfigApplicationContext)
+2. [@Configuration 配置注解](.a_configuration)
+3. [@Bean bean注解](.a_bean)
+4. [指定 bean的 initial（初始化） 和 destroy（销毁） 方法](.a_initial)
 5. [使用@Component、@Repository、@Service、@Controller、@Aspect 等方式注册bean](.a_component)
-6. [@ComponentScan 扫描注解](#a_componentScan)
+6. [@ComponentScan 扫描注解](.a_componentScan)
 
 ---
-### <a id="annotationConfigApplicationContext">一、AnnotationConfigApplicationContext 独立的应用程序上下文：</a>
+### <a id="a_annotationConfigApplicationContext">一、AnnotationConfigApplicationContext 独立的应用程序上下文：</a>
 [org.springframework.context.annotation.AnnotationConfigApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/AnnotationConfigApplicationContext.html)
 
 ```
@@ -329,7 +329,7 @@ public class FocusBeanFactory {
 ```
 
 ---
-### <a name="a_initial">四、指定 bean的 initial（初始化） 和 destroy（销毁） 方法</a>
+### <a id="a_initial">四、指定 bean的 initial（初始化） 和 destroy（销毁） 方法</a>
 InitializingBean [org.springframework.beans.factory.InitializingBean](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/InitializingBean.html)</br>
 DisposableBean [org.springframework.beans.factory.DisposableBean](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/DisposableBean.html)</br>
 @PostConstruct [javax.annotation.PostConstruct](https://docs.oracle.com/javase/10/docs/api/javax/annotation/PostConstruct.html)</br>
@@ -596,5 +596,5 @@ public class TestAspect { }
 
 
 ---
-[Top](#a_top)<br/>
-[Catalogue](#a_catalogue)
+[Top](.a_top)<br/>
+[Catalogue](.a_catalogue)
