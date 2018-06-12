@@ -16,11 +16,11 @@
 
 ---
 ### <a id="a_annotationConfigApplicationContext">一、AnnotationConfigApplicationContext 独立的应用程序上下文：</a>
-AnnotationConfigApplicationContext [org.springframework.context.annotation.AnnotationConfigApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/AnnotationConfigApplicationContext.html)<br/>
+AnnotationConfigApplicationContext [org.springframework.context.annotation.AnnotationConfigApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/AnnotationConfigApplicationContext.html)
 
-GenericApplicationContext [org.springframework.context.support.GenericApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/support/GenericApplicationContext.html)<br/>
+GenericApplicationContext [org.springframework.context.support.GenericApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/support/GenericApplicationContext.html)
 
-AbstractApplicationContext [org.springframework.context.support.AbstractApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/support/AbstractApplicationContext.html)<br/>
+AbstractApplicationContext [org.springframework.context.support.AbstractApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/support/AbstractApplicationContext.html)
 
 ```
 1、加载机制：AnnotationConfigApplicationContext > GenericApplicationContext > AbstractApplicationContext.refresh()
