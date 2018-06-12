@@ -1,4 +1,4 @@
-package com.mutisitic.chap01;
+package com.mutistic.chap01;
 
 /**
  * @program 程序清单1.1 - P28

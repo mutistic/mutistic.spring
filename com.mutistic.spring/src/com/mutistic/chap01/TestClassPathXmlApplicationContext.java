@@ -1,4 +1,4 @@
-package com.mutisitic.chap01;
+package com.mutistic.chap01;
 
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;

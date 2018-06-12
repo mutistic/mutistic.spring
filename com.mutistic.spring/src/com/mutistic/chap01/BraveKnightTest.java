@@ -1,10 +1,12 @@
-package com.mutisitic.chap01;
+package com.mutistic.chap01;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import org.junit.Test;
 
-import com.mutisitic.chap01.assist.Quest;
-
-import static org.mockito.Mockito.*;
+import com.mutistic.chap01.assist.Quest;
 
 /**
  * @program 程序清单1.4 - P31
