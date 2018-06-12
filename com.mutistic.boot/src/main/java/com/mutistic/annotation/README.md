@@ -1,10 +1,10 @@
-#a_ <a id="a_top">[Spring](https://docs.spring.io/spring/docs/current/javadoc-api)</a>
+# <a id="a_top">[Spring](https://docs.spring.io/spring/docs/current/javadoc-api)</a>
 [Spring Boot](https://github.com/mutistic/mutistic.spring/blob/master/com.mutistic.boot/README.md)是伴随着Spring4.0诞生的<br/>
 [spring Framework API](https://docs.spring.io/spring/docs/current/javadoc-api)<br/>
 [spring Framework API-无框架](https://docs.spring.io/spring/docs/current/javadoc-api/overview-summary.html)<br/>
 [Spring Framework Documentation](https://docs.spring.io/spring/docs/current/spring-framework-reference)<br/>
 
-#a_#a_#a_ <a id="a_catalogue">目录</a>：
+### <a id="a_catalogue">目录</a>：
 1. [AnnotationConfigApplicationContext 独立的应用程序上下文](#a_annotationConfigApplicationContext)<br/>
 二、[@Configuration 配置注解](#a_configuration)<br/>
 三、[@Bean bean注解](#a_bean)<br/>
@@ -13,8 +13,7 @@
 六、[@ComponentScan 扫描注解](#a_componentScan)<br/>
 ---
 
-#a_ <a id="a_annotationConfigApplicationContext">一、AnnotationConfigApplicationContext 独立的应用程序上下文：</a>
-
+### <a id="a_annotationConfigApplicationContext">一、AnnotationConfigApplicationContext 独立的应用程序上下文：</a>
 [org.springframework.context.annotation.AnnotationConfigApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/AnnotationConfigApplicationContext.html)
 
 ```
@@ -136,7 +135,7 @@ public class AnnotationScan { }
 ```
 
 ---
-#a_#a_#a_ <a id="a_configuration">二、@Configuration 配置注解</a>
+### <a id="a_configuration">二、@Configuration 配置注解</a>
 @Configuration [org.springframework.context.annotation.Configuration](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Configuration.html)</br>
 AnnotationConfigWebApplicationContext [org.springframework.web.context.support.AnnotationConfigWebApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/web/context/support/AnnotationConfigWebApplicationContext.html)</br>
 ClassPathXmlApplicationContext [org.springframework.context.support.ClassPathXmlApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/support/ClassPathXmlApplicationContext.html)</br>
@@ -190,7 +189,7 @@ ConfigurationClassPostProcessor [org.springframework.context.annotation.Configur
 ```
 
 ---
-#a_#a_#a_ <a id="a_bean">三、@Bean bean注解</a>
+### <a id="a_bean">三、@Bean bean注解</a>
 @Bean [org.springframework.context.annotation.Bean](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Bean.html)</br>
 @Profile [org.springframework.context.annotation.Profile](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Profile.html)</br>
 @Scope [org.springframework.context.annotation.Scope](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Scope.html)</br>
@@ -285,7 +284,7 @@ public class RunnableFactory implements FactoryBean<Runnable> {
 	/**
 	 * 获取 FactoryBean 创建的bean实例
 	 * @return Runnable 实例bean
-	 * @see org.springframework.beans.factory.FactoryBean#a_getObject()
+	 * @see org.springframework.beans.factory.FactoryBean#getObject()
 	 */
 	@Override
 	public Runnable getObject() throws Exception {
@@ -295,7 +294,7 @@ public class RunnableFactory implements FactoryBean<Runnable> {
 	/**
 	 * 获取创建实例的类型
 	 * @return Runnable.class
-	 * @see org.springframework.beans.factory.FactoryBean#a_getObjectType()
+	 * @see org.springframework.beans.factory.FactoryBean#getObjectType()
 	 */
 	@Override
 	public Class<?> getObjectType() {
@@ -305,7 +304,7 @@ public class RunnableFactory implements FactoryBean<Runnable> {
 	/**
 	 * 是否是单例模式(true：单例)(false：非单例)
 	 * @return 是否是单例模式
-	 * @see org.springframework.beans.factory.FactoryBean#a_isSingleton()
+	 * @see org.springframework.beans.factory.FactoryBean#isSingleton()
 	 */
 	@Override
 	public boolean isSingleton() {
@@ -330,7 +329,7 @@ public class FocusBeanFactory {
 ```
 
 ---
-#a_#a_#a_ <a id="a_initial">四、指定 bean的 initial（初始化） 和 destroy（销毁） 方法</a>
+### <a id="a_initial">四、指定 bean的 initial（初始化） 和 destroy（销毁） 方法</a>
 InitializingBean [org.springframework.beans.factory.InitializingBean](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/InitializingBean.html)</br>
 DisposableBean [org.springframework.beans.factory.DisposableBean](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/DisposableBean.html)</br>
 @PostConstruct [javax.annotation.PostConstruct](https://docs.oracle.com/javase/10/docs/api/javax/annotation/PostConstruct.html)</br>
@@ -350,7 +349,7 @@ import org.springframework.beans.factory.InitializingBean;
 public class IDByInterface implements InitializingBean, DisposableBean {
 	/**
 	 * 在它设置了所有bean属性之后，由BeanFactory调用（并满足了BeanFactoryAware和applicationcontext）。这个方法允许bean实例只执行初始化
-	 * @see org.springframework.beans.factory.InitializingBean#a_afterPropertiesSet()
+	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
 	 */
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -359,7 +358,7 @@ public class IDByInterface implements InitializingBean, DisposableBean {
 
 	/**
 	 * 由一个BeanFactory调用的销毁单例对象（context.close();资源释放后调用bean消费方法）
-	 * @see org.springframework.beans.factory.DisposableBean#a_destroy()
+	 * @see org.springframework.beans.factory.DisposableBean#destroy()
 	 */
 	@Override
 	public void destroy() throws Exception {
@@ -398,7 +397,7 @@ import com.mutistic.utils.CommonConstant;
 
 /**
  * 使用@Bean initMethod和destroyMethod 指定具体的方法
- * @Bean#a_initMethod 指定初始化方法。 @Bean#a_destroyMethod 指定销毁方法
+ * @Bean#initMethod 指定初始化方法。 @Bean#destroyMethod 指定销毁方法
  */
 public class IDByBean {
 	/**
@@ -448,7 +447,7 @@ public class IDByJSR250 {
 ```
 
 ---
-#a_#a_#a_ <a id="a_component">五、使用@Component、@Repository、@Service、@Controller、@Aspect 等方式注册bean</a>
+### <a id="a_component">五、使用@Component、@Repository、@Service、@Controller、@Aspect 等方式注册bean</a>
 5.1、@Component [org.springframework.stereotype.Component](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/stereotype/Component.html)<br/>
 一般用在没有明确的角色的bean可以用。@Component注解上不支持指定initial和destroy方法<br/>
 
@@ -586,7 +585,7 @@ import org.aspectj.lang.annotation.Aspect;
 public class TestAspect { }
 ```
 
-#a_#a_#a_ <a id="a_componentScan">六、@ComponentScan 扫描注解</a>
+### <a id="a_componentScan">六、@ComponentScan 扫描注解</a>
 
 
 
