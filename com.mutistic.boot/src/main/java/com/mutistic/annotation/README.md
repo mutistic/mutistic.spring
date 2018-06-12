@@ -1,19 +1,19 @@
-# <span id="Top">[Spring](https://docs.spring.io/spring/docs/current/javadoc-api)</span>
+# <span id="top">[Spring](https://docs.spring.io/spring/docs/current/javadoc-api)</span>
 [Spring Boot](https://github.com/mutistic/mutistic.spring/blob/master/com.mutistic.boot/README.md)是伴随着Spring4.0诞生的<br/>
 [spring Framework API](https://docs.spring.io/spring/docs/current/javadoc-api)<br/>
 [spring Framework API-无框架](https://docs.spring.io/spring/docs/current/javadoc-api/overview-summary.html)<br/>
 [Spring Framework Documentation](https://docs.spring.io/spring/docs/current/spring-framework-reference)<br/>
 
-### <span id ="Catalogue">目录</span>：
-一、[AnnotationConfigApplicationContext 独立的应用程序上下文](#AnnotationConfigApplicationContext)<br/>
-二、[@Configuration 配置注解](#Configuration)<br/>
-三、[@Bean bean注解](#Bean)<br/>
-四、[指定 bean的 initial（初始化） 和 destroy（销毁） 方法](#id)<br/>
-五、[使用@Component、@Repository、@Service、@Controller、@Aspect 等方式注册bean](#Component)<br/>
-六、[@ComponentScan 扫描注解](#ComponentScan)<br/>
+### <span id ="catalogue">目录</span>：
+1. [AnnotationConfigApplicationContext 独立的应用程序上下文](#annotationConfigApplicationContext)<br/>
+二、[@Configuration 配置注解](#configuration)<br/>
+三、[@Bean bean注解](#bean)<br/>
+四、[指定 bean的 initial（初始化） 和 destroy（销毁） 方法](#initial)<br/>
+五、[使用@Component、@Repository、@Service、@Controller、@Aspect 等方式注册bean](#component)<br/>
+六、[@ComponentScan 扫描注解](#componentScan)<br/>
 ---
 
-# <span id="AnnotationConfigApplicationContext">一、AnnotationConfigApplicationContext 独立的应用程序上下文：</span>
+# <span id="annotationConfigApplicationContext">一、AnnotationConfigApplicationContext 独立的应用程序上下文：</span>
 
 [org.springframework.context.annotation.AnnotationConfigApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/AnnotationConfigApplicationContext.html)
 
@@ -136,7 +136,7 @@ public class AnnotationScan { }
 ```
 
 ---
-### <span id="Configuration">二、@Configuration 配置注解</span>
+### <span id="configuration">二、@Configuration 配置注解</span>
 @Configuration [org.springframework.context.annotation.Configuration](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Configuration.html)</br>
 AnnotationConfigWebApplicationContext [org.springframework.web.context.support.AnnotationConfigWebApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/web/context/support/AnnotationConfigWebApplicationContext.html)</br>
 ClassPathXmlApplicationContext [org.springframework.context.support.ClassPathXmlApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/support/ClassPathXmlApplicationContext.html)</br>
@@ -330,7 +330,7 @@ public class FocusBeanFactory {
 ```
 
 ---
-### <span id="id">四、指定 bean的 initial（初始化） 和 destroy（销毁） 方法</span>
+### <span id="initial">四、指定 bean的 initial（初始化） 和 destroy（销毁） 方法</span>
 InitializingBean [org.springframework.beans.factory.InitializingBean](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/InitializingBean.html)</br>
 DisposableBean [org.springframework.beans.factory.DisposableBean](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/DisposableBean.html)</br>
 @PostConstruct [javax.annotation.PostConstruct](https://docs.oracle.com/javase/10/docs/api/javax/annotation/PostConstruct.html)</br>
@@ -448,7 +448,7 @@ public class IDByJSR250 {
 ```
 
 ---
-### <span id="Component">五、使用@Component、@Repository、@Service、@Controller、@Aspect 等方式注册bean</span>
+### <span id="component">五、使用@Component、@Repository、@Service、@Controller、@Aspect 等方式注册bean</span>
 5.1、@Component [org.springframework.stereotype.Component](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/stereotype/Component.html)<br/>
 一般用在没有明确的角色的bean可以用。@Component注解上不支持指定initial和destroy方法<br/>
 
@@ -586,7 +586,7 @@ import org.aspectj.lang.annotation.Aspect;
 public class TestAspect { }
 ```
 
-### <span id="ComponentScan">六、@ComponentScan 扫描注解</span>
+### <span id="componentScan">六、@ComponentScan 扫描注解</span>
 
 
 
@@ -597,5 +597,5 @@ public class TestAspect { }
 
 
 ---
-[Top](#Top)<br/>
-[Catalogue](#Catalogue)
+[Top](#top)<br/>
+[Catalogue](#catalogue)
