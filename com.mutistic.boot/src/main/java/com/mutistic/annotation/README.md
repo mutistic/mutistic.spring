@@ -9,7 +9,7 @@
 2. [@Configuration 配置注解](#a_configuration)
 3. [@Bean bean注解]($a_bean)
 4. [指定 bean的 initial（初始化） 和 destroy（销毁） 方法]($a_initial)
-5. [使用@Component、@Repository、@Service、@Controller、@Aspect 等方式注册bean](#a_component)
+5. [使用@Component、@Repository、@Service、@Controller、@Aspect 等方式注册bean](.a_component)
 6. [@ComponentScan 扫描注解](#a_componentScan)
 
 ---
