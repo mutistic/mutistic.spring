@@ -5,9 +5,9 @@
 [Spring Framework Documentation](https://docs.spring.io/spring/docs/current/spring-framework-reference)<br/>
 
 ### <a id="a_catalogue">目录</a>：
-1. [AnnotationConfigApplicationContext 独立的应用程序上下文](.a_annotationConfigApplicationContext)
+1. [AnnotationConfigApplicationContext 独立的应用程序上下文](#a_annotationConfigApplicationContext)
 2. [@Configuration 配置注解](.a_configuration)
-3. [@Bean bean注解](.a_bean)
+3. [@Bean bean注解](.bean)
 4. [指定 bean的 initial（初始化） 和 destroy（销毁） 方法](.a_initial)
 5. [使用@Component、@Repository、@Service、@Controller、@Aspect 等方式注册bean](.a_component)
 6. [@ComponentScan 扫描注解](.a_componentScan)
@@ -135,7 +135,7 @@ public class AnnotationScan { }
 ```
 
 ---
-### <a id="a_configuration">二、@Configuration 配置注解</a>
+### <a name="a_configuration">二、@Configuration 配置注解</a>
 @Configuration [org.springframework.context.annotation.Configuration](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Configuration.html)</br>
 AnnotationConfigWebApplicationContext [org.springframework.web.context.support.AnnotationConfigWebApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/web/context/support/AnnotationConfigWebApplicationContext.html)</br>
 ClassPathXmlApplicationContext [org.springframework.context.support.ClassPathXmlApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/support/ClassPathXmlApplicationContext.html)</br>
@@ -189,7 +189,7 @@ ConfigurationClassPostProcessor [org.springframework.context.annotation.Configur
 ```
 
 ---
-### <a id="a_bean">三、@Bean bean注解</a>
+### <a id="bean">三、@Bean bean注解</a>
 @Bean [org.springframework.context.annotation.Bean](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Bean.html)</br>
 @Profile [org.springframework.context.annotation.Profile](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Profile.html)</br>
 @Scope [org.springframework.context.annotation.Scope](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Scope.html)</br>
