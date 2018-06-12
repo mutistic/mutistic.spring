@@ -119,8 +119,8 @@ import com.mutistic.annotation.register.TestController;
 import com.mutistic.annotation.register.TestRepositoryDao;
 
 /**
- * @program bean组件扫描 引导@Configuration类
- * @description 开启组件扫描
+ * bean组件扫描 引导@Configuration类
+ * 开启组件扫描
  * @author mutisitic
  * @date 2018年6月5日
  */
@@ -505,8 +505,8 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 /**
- * @program 使用  @Service 注解声明一个(service)bean
- * @description 一般用在业务逻辑层。@Service注解上不支持指定initial和destroy方法
+ * 使用  @Service 注解声明一个(service)bean
+ * 一般用在业务逻辑层。@Service注解上不支持指定initial和destroy方法
  */
 @Service // 声明一个bean。bean名称默认为类名（首字母小写），value属性值指定其bean名称（不支持多个），其中value可以省略。
 //@Service("testService")
@@ -535,8 +535,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 
 /**
- * @program 使用  @Controller 注解声明一个(controller)bean
- * @description 一般用在数据展示层。@Controller注解上不支持指定initial和destroy方法
+ * 使用  @Controller 注解声明一个(controller)bean
+ * 一般用在数据展示层。@Controller注解上不支持指定initial和destroy方法
  */
 @Controller // 声明一个bean。bean名称默认为类名（首字母小写），value属性值指定其bean名称（不支持多个），其中value可以省略。
 //@Controller("testController")
@@ -588,11 +588,63 @@ public class TestAspect { }
 
 ### <a id="a_componentScan">六、@ComponentScan 扫描注解</a>
 @ComponentScan [org.springframework.context.annotation.ComponentScan](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/ComponentScan.html)<br/>
+@Filter [org.springframework.context.annotation.ComponentScan$Filter](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/ComponentScan.Filter.html)<br/>
+FilterType [org.springframework.context.annotation.FilterType](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/FilterType.html)<br/>
+TypeFilter [org.springframework.core.type.filter.TypeFilter](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/core/type/filter/TypeFilter.html)<br/>
+AnnotationTypeFilter [org.springframework.core.type.filter.AnnotationTypeFilter](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/core/type/filter/AnnotationTypeFilter.html)<br/>
+```
+1、配置用于@ Configuration类的组件扫描指令。提供与Spring XML <context:component-scan>元素并行的支持。
+2、可以指定basePackageClasses()或basePackages()（或其别名 value()）来定义要扫描的特定软件包。如果未定义特定的包，则将从声明此批注的类的包中进行扫描。
+4、请注意，该<context:component-scan>元素有一个 annotation-config属性; 然而，这个注解不是。这是因为在几乎所有使用的情况下@ComponentScan，@Autowired都会假设默认注释配置处理。
+而且，在使用时AnnotationConfigApplicationContext，注释配置处理器总是被注册，这意味着任何试图在该@ComponentScan级别禁用它们的尝试都 将被忽略
+```
 
+@ComponentScan 常用属性说明：
 
+```
+1、basePackages()：用于指定要扫描注释组件的软件包的类型安全替代方法。如果不需要其他属性，则允许更简洁的注释声明即省略basePackages。value() 是该属性的别名（并且与之互斥）<br/>
+2、includeFilters()：公共抽象  ComponentScan.Filter[]、指定哪些类型有资格进行组件扫描。<br/>
+3、excludeFilters()：公共抽象  ComponentScan.Filter[]、指定哪些类型不符合组件扫描条件。<br/>
+4、lazyInit：指定扫描的bean是否应注册以进行延迟初始化。默认是false; 根据true需要切换此项。<br/>
+```
 
+FilterType 枚举值说明：
 
+```
+1、ANNOTATION：筛选标记有给定注释的候选项。<br/>
+2、ASSIGNABLE_TYPE：筛选可分配给定类型的候选项（常用）。<br/>
+3、ASPECTJ：筛选与指定的AspectJ类型模式表达式匹配的候选项。<br/>
+4、REGEX：过滤与给定的正则表达式模式匹配的候选项。<br/>
+5、CUSTOM：使用给定的自定义TypeFilter实现过滤候选项 。<br/>
+```
 
+```Java
+package com.mutistic.annotation;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ComponentScan.Filter;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
+
+import com.mutistic.annotation.beans.AnnotationBeansConfig;
+import com.mutistic.annotation.id.IDConfig;
+import com.mutistic.annotation.register.TestAspect;
+import com.mutistic.annotation.register.TestController;
+import com.mutistic.annotation.register.TestRepositoryDao;
+
+/**
+ * bean组件扫描 引导@Configuration类
+ * 开启组件扫描
+ */
+@Configuration
+// @ComponentScan("com.mutistic.annotation") // @ComponentScan 配置用于 @Configuration类的组件扫描指令 可以指定用于定义要扫描的特定包
+// @ComponentScan(value = {"com.mutistic.annotation.beans", "com.mutistic.annotation.id"}) // @ComponentScan 通过 value属性或者basePackages属性  可以指定多个需要扫描的包
+@ComponentScan(basePackages="com.mutistic.annotation"
+	,includeFilters = @Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {TestAspect.class}) // @ComponentScan 通过 includeFilters 属性 可以指定导入bean(类型具体参考 FilterType)
+	,excludeFilters = @Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {AnnotationBeansConfig.class, IDConfig.class}) // @ComponentScan 通过 excludeFilters 属性 可以指定忽略bean(类型具体参考 FilterType)
+) 
+public class AnnotationScan { }
+```
 
 
 ---
