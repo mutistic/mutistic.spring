@@ -17,13 +17,13 @@ public class TestBeanPostProcessor implements BeanPostProcessor {
 
 	@Override
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-		CommonConstant.printTwo("自定义实现类重写  BeanPostProcessor.postProcessBeforeInitialization", bean);
+		CommonConstant.printTwo("TestBeanPostProcessor 重写  BeanPostProcessor.postProcessBeforeInitialization", bean);
 		return bean;
 	}
 
 	@Override
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-		CommonConstant.printTwo("自定义实现类重写  BeanPostProcessor.postProcessAfterInitialization", bean);
+		CommonConstant.printTwo("TestBeanPostProcessor 重写  BeanPostProcessor.postProcessAfterInitialization", bean);
 		return bean;
 	}
 

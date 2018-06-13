@@ -20,7 +20,7 @@ public class TestRegistryBean {
 
 	@Override
 	public String toString() {
-		return "TestRegistryBean [property=" + property + "]";
+		return "TestRegistryBean 重写 toString() [property=" + property + "]";
 	}
 	
 }

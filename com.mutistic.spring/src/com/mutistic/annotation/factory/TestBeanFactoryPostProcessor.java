@@ -36,11 +36,11 @@ public class TestBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 	 */
 	@Override
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-		CommonConstant.printTwo("自定义实现类重写 BeanFactoryPostProcessor.postProcessBeanFactory", beanFactory);
+		CommonConstant.printTwo("TestBeanFactoryPostProcessor 重写 BeanFactoryPostProcessor.postProcessBeanFactory", beanFactory);
 		
-		CommonConstant.printThree("自定义实现类 从 ConfigurableListableBeanFactory 中获取Spring bean的数量", beanFactory.getBeanDefinitionCount());
+		CommonConstant.printThree("TestBeanFactoryPostProcessor 从 ConfigurableListableBeanFactory 中获取Spring bean的数量", beanFactory.getBeanDefinitionCount());
 		for(String name : beanFactory.getBeanDefinitionNames()) {
-			CommonConstant.printThree("自定义实现类 从 ConfigurableListableBeanFactory 中获取Spring bean的name", name);
+			CommonConstant.printThree("TestBeanFactoryPostProcessor 从 ConfigurableListableBeanFactory 中获取Spring bean的name", name);
 		}
 	}
 

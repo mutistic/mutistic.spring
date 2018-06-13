@@ -78,8 +78,8 @@ public class MainByFactoryProcessor {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(TestRegistryBean.class);
 		for (int i = 0; i < 10; i++) {
 			// 通过 BeanDefinitionBuilder 获取Bean的引用(class) (可不注入属性)
-			context.registerBeanDefinition("beanName"+i, BeanDefinitionBuilder.rootBeanDefinition(TestRegistryBean.class).getBeanDefinition());
-			CommonConstant.printThree("通过 AnnotationConfigApplicationContext.registerBeanDefinition() 和BeanDefinitionBuilder实现动态注册bean：", i);
+			context.registerBeanDefinition("registeryName"+i, BeanDefinitionBuilder.rootBeanDefinition(TestRegistryBean.class).getBeanDefinition());
+			CommonConstant.printThree("MainByFactoryProcessor 通过 AnnotationConfigApplicationContext.registerBeanDefinition() 和BeanDefinitionBuilder实现动态注册bean：", "registeryName"+i);
 		}
 		CommonConstant.println();
 		context.getBeansOfType(TestRegistryBean.class).values().forEach(System.out::println); // java8流模式打印输入
