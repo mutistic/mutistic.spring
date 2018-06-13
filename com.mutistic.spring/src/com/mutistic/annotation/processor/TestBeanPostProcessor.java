@@ -8,7 +8,7 @@ import com.mutistic.utils.CommonConstant;
 
 /**
  * @program BeanPostProcessor在每个bean初始化的时候调用一次
- * @description 
+ * @description Bean的后置处理器
  * @author mutisitic
  * @date 2018年6月12日
  */

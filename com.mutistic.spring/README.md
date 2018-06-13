@@ -12,7 +12,8 @@
 5. <a href="#a_initial">指定 bean的 initial（初始化） 和 destroy（销毁） 方法</a>
 6. <a href="#a_component">使用@Component、@Repository、@Service、@Controller、@Aspect 等方式注册bean</a>
 7. <a href="#a_componentScan">@ComponentScan 扫描注解<a/>
-8. <a href="#a_down">down</a>
+8. <a id="a_beanPostProcessor">BeanPostProcessor bean后置处理器</a>
+9. <a href="#a_down">down</a>
 
 ---
 ### <a id="a_annotationConfigApplicationContext">一、AnnotationConfigApplicationContext 独立的应用程序上下文：</a>
@@ -127,8 +128,6 @@ import com.mutistic.annotation.register.TestRepositoryDao;
 /**
  * bean组件扫描 引导@Configuration类
  * 开启组件扫描
- * @author mutisitic
- * @date 2018年6月5日
  */
 @Configuration
 // @ComponentScan("com.mutistic.annotation") // @ComponentScan 配置用于@Configuration类的组件扫描指令 可以指定用于定义要扫描的特定包
@@ -665,7 +664,7 @@ AnnotationTypeFilter [org.springframework.core.type.filter.AnnotationTypeFilter]
 而且，在使用时AnnotationConfigApplicationContext，注释配置处理器总是被注册，这意味着任何试图在该@ComponentScan级别禁用它们的尝试都 将被忽略
 ```
 
-@ComponentScan 常用属性说明：
+7.1、@ComponentScan 常用属性说明：
 
 ```
 1、basePackages()：用于指定要扫描注释组件的软件包的类型安全替代方法。如果不需要其他属性，则允许更简洁的注释声明即省略basePackages。value() 是该属性的别名（并且与之互斥）
@@ -674,7 +673,7 @@ AnnotationTypeFilter [org.springframework.core.type.filter.AnnotationTypeFilter]
 4、lazyInit：指定扫描的bean是否应注册以进行延迟初始化。默认是false; 根据true需要切换此项。
 ```
 
-FilterType 枚举值说明：
+7.2、FilterType 枚举值说明：
 
 ```
 1、ANNOTATION：筛选标记有给定注释的候选项。
@@ -683,6 +682,8 @@ FilterType 枚举值说明：
 4、REGEX：过滤与给定的正则表达式模式匹配的候选项。<br/>
 5、CUSTOM：使用给定的自定义TypeFilter实现过滤候选项 。
 ```
+
+7.3、@ComponentScan 使用示例：
 
 ```Java
 package com.mutistic.annotation;
@@ -710,6 +711,138 @@ import com.mutistic.annotation.register.TestRepositoryDao;
 	,excludeFilters = @Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {AnnotationBeansConfig.class, IDConfig.class}) // @ComponentScan 通过 excludeFilters 属性 可以指定忽略bean(类型具体参考 FilterType)
 ) 
 public class AnnotationScan { }
+```
+
+### <a id="a_beanPostProcessor">八、BeanPostProcessor bean后置处理器</a>
+BeanPostProcessor：[org.springframework.beans.factory.config.BeanPostProcessor](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/config/BeanPostProcessor.html)
+
+```
+1、允许自定义修改新bean实例的工厂挂钩，例如检查标记接口或用代理包装它们。
+2、ApplicationContexts可以在其bean定义中自动检测BeanPostProcessor bean，并将它们应用于随后创建的任何bean。工厂允许对后处理程序进行程序注册，适用于通过该工厂创建的所有bean。
+3、通常，通过标记接口等来填充bean的后置处理器将实现postProcessBeforeInitialization(java.lang.Object, java.lang.String)，
+4、而用代理来包装bean的后置处理器通常将实现postProcessAfterInitialization(java.lang.Object, java.lang.String)
+```
+
+8.1、方法说明：<br/>
+8.1.1、postProcessAfterInitialization(java.lang.Object bean, java.lang.String beanName)
+
+```
+调用顺序：bean 属性设置（依赖配置） > postProcessAfterInitialization > bean init （即判定：init也是在bean 属性设置之后执行）
+1、在任何bean初始化回调（如InitializingBean's afterPropertiesSet 或自定义init方法）之前，  将此BeanPostProcessor应用于给定的新bean实例。
+2、这个bean已经被填充了属性值。返回的bean实例可能是原始包装，或代理对象。	
+3、默认实现返回给定的bean本身。不可返回null（如返回null导致后续处理时丢失传入的bean，且不会调用后续的BeanPostProcessors）。
+```
+
+8.1.2、postProcessBeforeInitialization(java.lang.Object bean, java.lang.String beanName)
+
+```
+调用顺序：bean init  > postProcessBeforeInitialization
+1、在 Bean初始化回调（如InitializingBean's afterPropertiesSet 或自定义init方法）之后，将此BeanPostProcessor应用于给定的新bean实例。
+2、这个bean已经被填充了属性值。返回的bean实例可能是原始包装。
+3、在FactoryBean的情况下，FactoryBean实例和由FactoryBean创建的对象（从Spring 2.0开始）都将调用此回调函数。
+4、后处理器可以通过相应的bean instanceof FactoryBean检查决定是应用于FactoryBean还是应用于已创建的对象或两者。
+5、InstantiationAwareBeanPostProcessor.postProcessBeforeInstantiation(java.lang.Class<?>, java.lang.String)与所有其他BeanPostProcessor回调相比，
+	此回调也将在由方法触发的短路之后 调用。
+6、默认实现返回给定的bean本身。不可返回null（如返回null导致后续处理时丢失传入的bean，且不会调用后续的BeanPostProcessors）。
+```
+
+### <a id="a_beanPostProcessor">九、Aware 之 ApplicationContextAware</a>
+9.1、Aware：[org.springframework.beans.factory.Aware](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/Aware.html)<br/>
+
+```
+1、标记超级接口，表示一个bean有资格通过一个回调式方法被Spring容器通知一个特定的框架对象。
+2、实际的方法签名由各个子接口确定，但通常应由一个只接受一个参数的void返回方法组成。
+3、请注意，仅实现不Aware提供默认功能。相反，处理必须明确完成，例如在 BeanPostProcessor。
+4、参阅ApplicationContextAwareProcessor 和AbstractAutowireCapableBeanFactory 用于处理的示例 Aware接口回调
+```
+
+9.2、ApplicationContextAware：[org.springframework.context.ApplicationContextAware](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/ApplicationContextAware.html)<br/>
+方法说明：<br/>
+setApplicationContext(ApplicationContext applicationContext)
+
+```
+1、设置该对象运行的ApplicationContext。通常，这个调用将用于初始化对象。
+2、在正常bean属性的设置之后但在init回调（如InitializingBean.afterPropertiesSet() 自定义init方法）之前调用。
+3、之后被调用ResourceLoaderAware.setResourceLoader(org.springframework.core.io.ResourceLoader)， ApplicationEventPublisherAware.setApplicationEventPublisher(org.springframework.context.ApplicationEventPublisher)
+并且 MessageSourceAware，如果适用
+```
+
+9.3、ApplicationContext：[org.springframework.context.ApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/ApplicationContext.html)<br/>
+9.3.1、通过@Autowired或@Resource注解自动注入 ApplicationContext
+
+```Java
+package com.mutistic.annotation.processor;
+import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
+/**
+ * 通过@Autowired或@Resource注解自动注入
+ */
+@Component
+public class TestApplicationContextAware {
+	@Autowired // 使用 spring  @Autowired 自动注入bean
+//	@Resource  // 使用 JSR-250 @Resource:javax.annotation.Resource 自动注入bean
+	private ApplicationContext applicationContextByAuto;
+}
+```
+
+9.3.2、通过 ApplicationContextAware.setApplicationContext()接口方法注入 ApplicationContext
+
+```Java
+package com.mutistic.annotation.processor;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
+/**
+ * 通过 ApplicationContextAware.setApplicationContext()接口方法注入 
+ */
+@Component
+public class TestApplicationContextAware implements ApplicationContextAware {
+	private ApplicationContext applicationContextByImpl;
+	
+	/**
+	 * 通过 ApplicationContextAware.setApplicationContext()接口方法注入  
+	 * @param applicationContext
+	 * @throws BeansException
+	 * @see org.springframework.context.ApplicationContextAware#setApplicationContext(org.springframework.context.ApplicationContext)
+	 */
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		/**
+		 * spring在bean初始化之后判断是否是 实现了ApplicationContextAware接口，如是则通过 setApplicationContext 方法将 ApplicationContext 注入到bean中。
+		 */
+		this.applicationContextByImpl = applicationContext;
+	}
+}
+```
+
+9.3.3、通过spring4.3的新特性 构造函数 自动注入 ApplicationContext
+
+```Java
+package com.mutistic.annotation.processor;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
+/**
+ * 通过spring4.3的新特性 构造函数 自动注入
+ */
+@Component
+public class TestApplicationContextAware {
+	private ApplicationContext applicationContextByCtor;
+	/**
+	 * @description 3、通过spring4.3的新特性 构造函数 自动注入
+	 */
+	public TestApplicationContextAware(ApplicationContext applicationContextByCtor) {
+	// public TestRegisterContext(ApplicationContext applicationContextByCtor, TestController testController) {
+		/**
+		 * 通过构造函数自动注入的局限性：
+		 * 1、本类只能有一个构造函数，存在多个的话则会调去默认构造函数，则会导致 ApplicationContext无法实现自动注入。
+		 * 2、构造函数参数个数无要求，但是参数要求spring容器中有对应bean，bean的可以是一个或多个。
+		 */
+		this.applicationContextByCtor = applicationContextByCtor;
+	}
+}
 ```
 
 

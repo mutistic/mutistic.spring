@@ -6,12 +6,11 @@ import com.mutistic.utils.CommonConstant;
 
 /**
  * @program 演示 BeanPostProcessor 处理器
- * @description 
+ * @description 加载机制：AnnotationConfigApplicationContext > GenericApplicationContext > AbstractApplicationContext.refresh()
  * @author mutisitic
  * @date 2018年6月12日
  */
 public class AnnotationMainByProcessor {
-
 	public static void main(String[] args) {
 		showBeanPostProcessor();
 		showApplicationContextAware();

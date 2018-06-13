@@ -3,6 +3,7 @@ package com.mutistic.annotation.processor;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +11,7 @@ import com.mutistic.utils.CommonConstant;
 
 /**
  * @program 配合模拟 ApplicationContextAware的接口功能 之 BeanPostProcessor实现类
- * @description 
+ * @description 实现逻辑参考：AbstractApplicationContext.prepareBeanFactory()  > ConfigurableListableBeanFactory.addBeanPostProcessor() > ApplicationContextAwareProcessor
  * @author mutisitic
  * @date 2018年6月12日
  */
