@@ -38,11 +38,11 @@ public class TestBeanDefinitionRegistryPostProcessor implements BeanDefinitionRe
 	 */
 	@Override
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-		CommonConstant.printPref("自定义实现类重写 BeanFactoryPostProcessor.postProcessBeanFactory", beanFactory);
+		CommonConstant.printTwo("自定义实现类重写 BeanDefinitionRegistryPostProcessor.postProcessBeanFactory", beanFactory);
 		
-		CommonConstant.printPref("自定义实现类 从 ConfigurableListableBeanFactory 中获取Spring bean的数量", beanFactory.getBeanDefinitionCount());
+		CommonConstant.printThree("自定义实现类 从 ConfigurableListableBeanFactory 中获取Spring bean的数量", beanFactory.getBeanDefinitionCount());
 		for(String name : beanFactory.getBeanDefinitionNames()) {
-			CommonConstant.printPref("自定义实现类 从 ConfigurableListableBeanFactory 中获取Spring bean的name", name);
+			CommonConstant.printThree("自定义实现类 从 ConfigurableListableBeanFactory 中获取Spring bean的name", name);
 		}
 	}
 
@@ -56,7 +56,7 @@ public class TestBeanDefinitionRegistryPostProcessor implements BeanDefinitionRe
 	 */
 	@Override
 	public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
-		CommonConstant.printPref("自定义实现类重写 BeanDefinitionRegistryPostProcessor.postProcessBeanDefinitionRegistry", registry);
+		CommonConstant.printTwo("自定义实现类重写 BeanDefinitionRegistryPostProcessor.postProcessBeanDefinitionRegistry", registry);
 		
 		for (int i = 0; i < 10; i++) {
 			// 通过 BeanDefinitionBuilder 实现 bean类型的构建和属性的注入
@@ -64,7 +64,7 @@ public class TestBeanDefinitionRegistryPostProcessor implements BeanDefinitionRe
 			bdb.addPropertyValue("property", "注入属性值："+i);
 			registry.registerBeanDefinition("beanName"+i, bdb.getBeanDefinition());
 			
-			CommonConstant.printPref("通过 BeanDefinitionRegistry和BeanDefinitionBuilder实现动态注册bean", registry);
+			CommonConstant.printThree("通过 BeanDefinitionRegistry和BeanDefinitionBuilder实现动态注册bean", registry);
 		}
 		
 	}

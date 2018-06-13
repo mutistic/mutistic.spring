@@ -19,7 +19,7 @@ public class TestBean {
 	@Autowired // @Autowired 不仅可以设置在属性上，也可以设置在方法方实现bean的自动注入
 	public void setApplicationContext(ApplicationContext applicationContext) {
 		this.applicationContext = applicationContext;
-		CommonConstant.printPref("TestBean 属性设置(自动注入 ApplicationContext)", this.applicationContext);
+		CommonConstant.printTwo("TestBean 属性设置(自动注入 ApplicationContext)", this.applicationContext);
 	}
 
 
@@ -29,7 +29,7 @@ public class TestBean {
 	 * @date 2018年6月121日
 	 */
 	public void initial() {
-		CommonConstant.printPref("TestBean initial", TestBean.class);
+		CommonConstant.printTwo("TestBean initial", TestBean.class);
 	}
 	
 }

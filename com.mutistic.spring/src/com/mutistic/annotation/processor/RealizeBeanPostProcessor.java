@@ -23,12 +23,12 @@ public class RealizeBeanPostProcessor implements BeanPostProcessor {
 
 	@Override
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-		CommonConstant.printPref("RealizeApplicationContextAware > RealizeBeanPostProcessor.postProcessBeforeInitialization", bean);
+		CommonConstant.printTwo("RealizeApplicationContextAware > RealizeBeanPostProcessor.postProcessBeforeInitialization", bean);
 		
 		if(bean instanceof RealizeApplicationContextAware) {
 			RealizeApplicationContextAware aware = (RealizeApplicationContextAware)bean;
 			aware.setApplicationContext(applicationContext);
-			CommonConstant.printPref("RealizeApplicationContextAware >  实现ApplicationContext的注入", bean);
+			CommonConstant.printTwo("RealizeApplicationContextAware >  实现ApplicationContext的注入", bean);
 		}
 		
 		return bean;
@@ -36,7 +36,7 @@ public class RealizeBeanPostProcessor implements BeanPostProcessor {
 
 	@Override
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-		CommonConstant.printPref("RealizeApplicationContextAware > RealizeBeanPostProcessor.postProcessAfterInitialization", bean);
+		CommonConstant.printTwo("RealizeApplicationContextAware > RealizeBeanPostProcessor.postProcessAfterInitialization", bean);
 		return bean;
 	}
 	

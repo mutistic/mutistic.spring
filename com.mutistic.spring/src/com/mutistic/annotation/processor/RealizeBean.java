@@ -16,12 +16,12 @@ public class RealizeBean implements RealizeApplicationContextAware {
 
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) {
-		CommonConstant.printPref("RealizeApplicationContextAware.setApplicationContext", applicationContext);
+		CommonConstant.printTwo("RealizeApplicationContextAware.setApplicationContext", applicationContext);
 		this.applicationContext = applicationContext;
 	}
 
 	public void show() {
-		CommonConstant.printPref("RealizeApplicationContextAware > RealizeBean", applicationContext);
+		CommonConstant.printTwo("RealizeApplicationContextAware > RealizeBean", applicationContext);
 	}
 
 }

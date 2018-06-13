@@ -22,7 +22,7 @@ public class IDByInterface implements InitializingBean, DisposableBean {
 	 */
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		System.out.println(CommonConstant.PRINTLN_PREF + "IDByImplements implements InitializingBean.afterPropertiesSet"+ CommonConstant.PRINT_PREF);
+		System.out.println(CommonConstant.LINE_SHORT + "IDByImplements implements InitializingBean.afterPropertiesSet"+ CommonConstant.LINE_SHORT);
 	}
 
 	/**
@@ -34,7 +34,7 @@ public class IDByInterface implements InitializingBean, DisposableBean {
 	 */
 	@Override
 	public void destroy() throws Exception {
-		System.out.println(CommonConstant.PRINTLN_PREF + "IDByImplements implements DisposableBean.destroy"+ CommonConstant.PRINT_PREF);		
+		System.out.println(CommonConstant.LINE_SHORT + "IDByImplements implements DisposableBean.destroy"+ CommonConstant.LINE_SHORT);		
 	}
 	
 }

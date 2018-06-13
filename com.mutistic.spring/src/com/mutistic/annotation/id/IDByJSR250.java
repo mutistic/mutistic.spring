@@ -20,7 +20,7 @@ public class IDByJSR250 {
 	 */
 	@PostConstruct
 	public void initial() {
-		System.out.println(CommonConstant.PRINTLN_PREF + "IDByJSR25 @PostConstruct 指定initial"+ CommonConstant.PRINT_PREF);
+		CommonConstant.printTwo("IDByJSR25 @PostConstruct 指定initial", "initial()");
 	}
 
 	/**
@@ -30,6 +30,6 @@ public class IDByJSR250 {
 	 */
 	@PreDestroy
 	public void destroy() {
-		System.out.println(CommonConstant.PRINTLN_PREF + "IDByJSR250 @PreDestroy 指定 destroy"+ CommonConstant.PRINT_PREF);		
+		CommonConstant.printTwo("IDByJSR25 @PreDestroy 指定destroy", "destroy()");
 	}
 }

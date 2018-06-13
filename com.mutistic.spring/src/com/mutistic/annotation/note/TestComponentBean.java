@@ -24,6 +24,6 @@ public class TestComponentBean {
 	private ApplicationContext applicationContext;
 	
 	public void show() {
-		System.out.println(CommonConstant.PRINT_PREF + "TestComponentBean 使用 @Autowried自动注入的ApplicationConext："+ applicationContext.getClass());
+		System.out.println(CommonConstant.LINE_SHORT + "TestComponentBean 使用 @Autowried自动注入的ApplicationConext："+ applicationContext.getClass());
 	}
 }

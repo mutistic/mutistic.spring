@@ -895,11 +895,13 @@ public class TestBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 10.2、BeanFactoryPostProcessor 执行顺序
 
 ```
-1、BeanFactoryPostProcessor.postProcessBeanFactory() 
-2、Bean 的依赖配置
-3、BeanPostProcessor.postProcessBeforeInitialization()
-4、Bean 的初始化方法 
-5、BeanPostProcessor.postProcessAfterInitialization()
+1、BeanDefinitionRegistryPostProcessor.postProcessBeanDefinitionRegistry()
+2、BeanDefinitionRegistryPostProcessor.postProcessBeanFactory()
+3、BeanFactoryPostProcessor.postProcessBeanFactory() 
+4、Bean 的依赖配置
+5、BeanPostProcessor.postProcessBeforeInitialization()
+6、Bean 的初始化方法 
+7、BeanPostProcessor.postProcessAfterInitialization()
 ```
 
 10.3、使用BeanDefinitionRegistryPostProcessor的动态注册bean（BeanFactoryPostProcessor的子类）

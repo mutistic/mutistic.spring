@@ -18,7 +18,7 @@ public class IDByBean {
 	 * @date 2018年6月11日
 	 */
 	public void initial() {
-		System.out.println(CommonConstant.PRINTLN_PREF + "IDByBean： @Bean initMethod 指定initial"+ CommonConstant.PRINT_PREF);
+		System.out.println(CommonConstant.LINE_SHORT + "IDByBean： @Bean initMethod 指定initial"+ CommonConstant.LINE_SHORT);
 	}
 
 	/**
@@ -27,7 +27,7 @@ public class IDByBean {
 	 * @date 2018年6月11日
 	 */
 	public void destroy() {
-		System.out.println(CommonConstant.PRINTLN_PREF + "IDByBean： @Bean destroyMethod 指定destroy"+ CommonConstant.PRINT_PREF);		
+		System.out.println(CommonConstant.LINE_SHORT + "IDByBean： @Bean destroyMethod 指定destroy"+ CommonConstant.LINE_SHORT);		
 	}
 	
 }

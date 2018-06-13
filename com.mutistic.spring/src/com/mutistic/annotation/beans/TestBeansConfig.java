@@ -101,7 +101,7 @@ public class TestBeansConfig {
 	 */
 	@Bean
 	public Focus focus(/*@Qualifier("focusBeanFactory")*/ FocusBeanFactory focusBeanFactory) {
-		System.out.println(CommonConstant.PRINTLN_PREF +"FocusBeanFactory = "+ focusBeanFactory);
+		System.out.println(CommonConstant.LINE_SHORT +"FocusBeanFactory = "+ focusBeanFactory);
 		return focusBeanFactory.createrFocus();
 	}
 }

@@ -36,7 +36,7 @@ public class MainByBeans {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		CommonConstant.printLine("使用AnnotationConfigApplicationContext获取和注册bean");
+		CommonConstant.printOne("使用AnnotationConfigApplicationContext获取和注册bean");
 
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(TestBeansConfig.class);
 		getTestBean(context);
@@ -55,11 +55,11 @@ public class MainByBeans {
 	 * @param context
 	 */
 	private static void getTestBean(AnnotationConfigApplicationContext context) {
-		CommonConstant.printLine("通过 @Bean直接创建 bean");
-		System.out.println(CommonConstant.PRINT_PREF + "通过class获取 Bean【" + context.getBean(TestAnnotationBean.class) + "】");
+		CommonConstant.printOne("通过 @Bean直接创建 bean");
+		System.out.println(CommonConstant.LINE_SHORT + "通过class获取 Bean【" + context.getBean(TestAnnotationBean.class) + "】");
 		// System.out.println(CommonConstant.PRINT_PREF +"方法名获取（未指定bean name属性时，默认为方法名名。指定后则不能用方法名）Bean【" +context.getBean("createrAnnotationBean")+"】");
-		System.out.println(CommonConstant.PRINT_PREF + "通过Bean name属性获取 Bean【" + context.getBean("annotationTestBean") + "】");
-		System.out.println(CommonConstant.PRINT_PREF + "通过 Bean的 @Scope注解-设置是否是单例模式【" + (context.getBean(TestAnnotationBean.class) == context.getBean(TestAnnotationBean.class)) + "】");
+		System.out.println(CommonConstant.LINE_SHORT + "通过Bean name属性获取 Bean【" + context.getBean("annotationTestBean") + "】");
+		System.out.println(CommonConstant.LINE_SHORT + "通过 Bean的 @Scope注解-设置是否是单例模式【" + (context.getBean(TestAnnotationBean.class) == context.getBean(TestAnnotationBean.class)) + "】");
 	}
 
 	/**
@@ -69,12 +69,12 @@ public class MainByBeans {
 	 * @param context
 	 */
 	private static void getRunnableByFactoryBean(AnnotationConfigApplicationContext context) {
-		CommonConstant.printLine("通过 FactoryBean<T> 工厂模式创建 bean");
-		System.out.println(CommonConstant.PRINT_PREF + "通过class获取 工厂Bean【" + context.getBean(RunnableFactory.class) + "】");
-		System.out.println(CommonConstant.PRINT_PREF + "通过&和方法名获取 工厂Bean【" + context.getBean("&createrRunnableFactory") + "】");
-		System.out.println(CommonConstant.PRINT_PREF + "通过class获取 具体Bean：" + context.getBean(Runnable.class) + "】");
-		System.out.println(CommonConstant.PRINT_PREF + "通过方法名获取 具体Bean：" + context.getBean("createrRunnableFactory") + "】");
-		System.out.println(CommonConstant.PRINT_PREF + "通过 FactoryBean.isSingleton()-设置是否是单例模式【" + (context.getBean(RunnableFactory.class) == context.getBean(RunnableFactory.class)) + "】");
+		CommonConstant.printOne("通过 FactoryBean<T> 工厂模式创建 bean");
+		System.out.println(CommonConstant.LINE_SHORT + "通过class获取 工厂Bean【" + context.getBean(RunnableFactory.class) + "】");
+		System.out.println(CommonConstant.LINE_SHORT + "通过&和方法名获取 工厂Bean【" + context.getBean("&createrRunnableFactory") + "】");
+		System.out.println(CommonConstant.LINE_SHORT + "通过class获取 具体Bean：" + context.getBean(Runnable.class) + "】");
+		System.out.println(CommonConstant.LINE_SHORT + "通过方法名获取 具体Bean：" + context.getBean("createrRunnableFactory") + "】");
+		System.out.println(CommonConstant.LINE_SHORT + "通过 FactoryBean.isSingleton()-设置是否是单例模式【" + (context.getBean(RunnableFactory.class) == context.getBean(RunnableFactory.class)) + "】");
 	}
 
 	/**
@@ -84,12 +84,12 @@ public class MainByBeans {
 	 * @param context
 	 */
 	private static void getJeepByFactoryBean(AnnotationConfigApplicationContext context) {
-		CommonConstant.printLine("通过 FactoryBean<T>接口实现类 创建 bean");
-		System.out.println(CommonConstant.PRINT_PREF + "通过class获取 工厂Bean【" + context.getBean(JeepBeanFactory.class) + "】");
-		System.out.println(CommonConstant.PRINT_PREF + "通过&和方法名获取 工厂Bean【" + context.getBean(BeanFactory.FACTORY_BEAN_PREFIX +"jeeptBeanFactory") + "】");
-		System.out.println(CommonConstant.PRINT_PREF + "通过class获取 具体Bean【" + context.getBean(Jeep.class) + "】");
-		System.out.println(CommonConstant.PRINT_PREF + "通过方法名获取 具体Bean【" + context.getBean("jeeptBeanFactory") + "】");
-		System.out.println(CommonConstant.PRINT_PREF + "通过 FactoryBean.isSingleton()-设置是否是单例模式【" + (context.getBean(Jeep.class) == context.getBean(Jeep.class)) + "】");
+		CommonConstant.printOne("通过 FactoryBean<T>接口实现类 创建 bean");
+		System.out.println(CommonConstant.LINE_SHORT + "通过class获取 工厂Bean【" + context.getBean(JeepBeanFactory.class) + "】");
+		System.out.println(CommonConstant.LINE_SHORT + "通过&和方法名获取 工厂Bean【" + context.getBean(BeanFactory.FACTORY_BEAN_PREFIX +"jeeptBeanFactory") + "】");
+		System.out.println(CommonConstant.LINE_SHORT + "通过class获取 具体Bean【" + context.getBean(Jeep.class) + "】");
+		System.out.println(CommonConstant.LINE_SHORT + "通过方法名获取 具体Bean【" + context.getBean("jeeptBeanFactory") + "】");
+		System.out.println(CommonConstant.LINE_SHORT + "通过 FactoryBean.isSingleton()-设置是否是单例模式【" + (context.getBean(Jeep.class) == context.getBean(Jeep.class)) + "】");
 
 	}
 
@@ -100,9 +100,9 @@ public class MainByBeans {
 	 * @param context
 	 */
 	private static void getFocusByFactory2(AnnotationConfigApplicationContext context) {
-		CommonConstant.printLine("通过简单工厂类创建工厂bean和实体bean");
-		System.out.println(CommonConstant.PRINT_PREF + "通过class获取 工厂Bean集合【" + context.getBeansOfType(FocusBeanFactory.class) + "】");
-		System.out.println(CommonConstant.PRINT_PREF + "通过class获取 具体Bean【" + context.getBean(Focus.class) + "】");
-		System.out.println(CommonConstant.PRINT_PREF + "通过 Bean的 @Scope注解-设置是否是单例模式【" + (context.getBean(Focus.class) == context.getBean(Focus.class)) + "】");
+		CommonConstant.printOne("通过简单工厂类创建工厂bean和实体bean");
+		System.out.println(CommonConstant.LINE_SHORT + "通过class获取 工厂Bean集合【" + context.getBeansOfType(FocusBeanFactory.class) + "】");
+		System.out.println(CommonConstant.LINE_SHORT + "通过class获取 具体Bean【" + context.getBean(Focus.class) + "】");
+		System.out.println(CommonConstant.LINE_SHORT + "通过 Bean的 @Scope注解-设置是否是单例模式【" + (context.getBean(Focus.class) == context.getBean(Focus.class)) + "】");
 	}
 }

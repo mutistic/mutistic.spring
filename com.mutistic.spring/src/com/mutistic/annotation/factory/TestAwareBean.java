@@ -17,14 +17,14 @@ public class TestAwareBean implements ApplicationContextAware {
 	private ApplicationContext applicationContext;
 	
 	public void initail() {
-		CommonConstant.printPref("声明TestProcBean 的初始化方法initail", "实现bean的初始化");
+		CommonConstant.printTwo("声明TestProcBean 的初始化方法initail", "实现bean的初始化");
 	}
 
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext)
 			throws BeansException {
 		this.applicationContext = applicationContext;
-		CommonConstant.printPref("声明TestProcBean 的依赖配置", "自动注入ApplicationContext");
+		CommonConstant.printTwo("声明TestProcBean 的依赖配置", "自动注入ApplicationContext");
 	}
 	
 }

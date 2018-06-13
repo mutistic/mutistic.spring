@@ -29,10 +29,10 @@ public class MainByProcessor {
 	private static void showBeanPostProcessor() {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(TestProcessorScan.class);
 		
-		CommonConstant.printPref("TestBean bean", context.getBean(TestBean.class));
-		CommonConstant.printPref("TestBean的代理对象 TestBeanExtend bean", context.getBean("testBean"));
-		CommonConstant.printPref("TestProcessorScan bean", context.getBean(TestProcessorScan.class));
-		CommonConstant.printPref("TestBeanPostProcessor bean", context.getBean(TestBeanPostProcessor.class));
+		CommonConstant.printTwo("TestBean bean", context.getBean(TestBean.class));
+		CommonConstant.printTwo("TestBean的代理对象 TestBeanExtend bean", context.getBean("testBean"));
+		CommonConstant.printTwo("TestProcessorScan bean", context.getBean(TestProcessorScan.class));
+		CommonConstant.printTwo("TestBeanPostProcessor bean", context.getBean(TestBeanPostProcessor.class));
 		
 		context.close();
 	}
@@ -45,7 +45,7 @@ public class MainByProcessor {
 	private static void showApplicationContextAware() {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(TestApplicationContextAware.class);
 		
-		CommonConstant.printLine("实现 ApplicationContext 的注入");
+		CommonConstant.printOne("实现 ApplicationContext 的注入");
 		context.getBean(TestApplicationContextAware.class).show();
 		
 		CommonConstant.println();
@@ -61,7 +61,7 @@ public class MainByProcessor {
 	private static void showApplicationContextAwareBySelf() {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(RealizeBeanPostProcessor.class ,RealizeBean.class);
 		
-		CommonConstant.printLine("模拟 ApplicationContextAware的接口 实现ApplicationContext的注入");
+		CommonConstant.printOne("模拟 ApplicationContextAware的接口 实现ApplicationContext的注入");
 		context.getBean(RealizeBean.class).show();
 		
 		CommonConstant.println();
