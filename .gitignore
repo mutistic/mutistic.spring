@@ -25,5 +25,6 @@ bin/
 *.ldb
 target/
 
+!.project
 !.mvn/wrapper/maven-wrapper.jar
 !/com.mutistic.spring/WebRoot/WEB-INF/lib
