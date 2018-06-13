@@ -1,4 +1,4 @@
-package com.mutistic.annotation.register;
+package com.mutistic.annotation.note;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

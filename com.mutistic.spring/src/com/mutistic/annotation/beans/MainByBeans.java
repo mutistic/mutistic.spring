@@ -15,7 +15,7 @@ import com.mutistic.utils.CommonConstant;
  * @author mutisitic
  * @date 2018年6月5日
  */
-public class AnnotationByBeansMain {
+public class MainByBeans {
 
 	/**
 	 * 1、AnnotationConfigApplicationContext：独立的应用程序上下文
@@ -38,7 +38,7 @@ public class AnnotationByBeansMain {
 	public static void main(String[] args) {
 		CommonConstant.printLine("使用AnnotationConfigApplicationContext获取和注册bean");
 
-		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AnnotationBeansConfig.class);
+		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(TestBeansConfig.class);
 		getTestBean(context);
 		getRunnableByFactoryBean(context);
 		getJeepByFactoryBean(context);

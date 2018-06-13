@@ -1,5 +1,6 @@
 package com.mutistic.annotation.processor;
 
+import org.springframework.beans.factory.Aware;
 import org.springframework.context.ApplicationContext;
 
 /**
@@ -9,6 +10,7 @@ import org.springframework.context.ApplicationContext;
  * @date 2018年6月12日
  */
 public interface RealizeApplicationContextAware {
+// public interface RealizeApplicationContextAware extends Aware {
 
 	void setApplicationContext(ApplicationContext applicationContext);
 	

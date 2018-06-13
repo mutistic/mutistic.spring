@@ -1,4 +1,4 @@
-package com.mutistic.annotation.register;
+package com.mutistic.annotation.note;
 
 import org.springframework.stereotype.Indexed;
 

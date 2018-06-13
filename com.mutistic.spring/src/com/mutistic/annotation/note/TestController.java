@@ -1,4 +1,4 @@
-package com.mutistic.annotation.register;
+package com.mutistic.annotation.note;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;

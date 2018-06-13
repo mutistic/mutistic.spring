@@ -5,9 +5,9 @@ import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 
-import com.mutistic.annotation.beans.AnnotationBeansConfig;
+import com.mutistic.annotation.beans.TestBeansConfig;
 import com.mutistic.annotation.id.IDConfig;
-import com.mutistic.annotation.register.TestAspect;
+import com.mutistic.annotation.note.TestAspect;
 
 /**
  * @program bean组件扫描 引导@Configuration类
@@ -20,7 +20,7 @@ import com.mutistic.annotation.register.TestAspect;
 // @ComponentScan(value = {"com.mutistic.annotation.beans", "com.mutistic.annotation.id"}) // @ComponentScan 通过 value属性或者basePackages属性  可以指定多个需要扫描的包
 @ComponentScan(basePackages="com.mutistic.annotation"
 	,includeFilters = @Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {TestAspect.class}) // @ComponentScan 通过 includeFilters 属性 可以指定导入bean(类型具体参考 FilterType)
-	,excludeFilters = @Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {AnnotationBeansConfig.class, IDConfig.class}) // @ComponentScan 通过 excludeFilters 属性 可以指定忽略bean(类型具体参考 FilterType)
+	,excludeFilters = @Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {TestBeansConfig.class, IDConfig.class}) // @ComponentScan 通过 excludeFilters 属性 可以指定忽略bean(类型具体参考 FilterType)
 ) 
 public class AnnotationScan {
 

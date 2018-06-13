@@ -750,10 +750,11 @@ BeanPostProcessor：[org.springframework.beans.factory.config.BeanPostProcessor]
 9.1、Aware：[org.springframework.beans.factory.Aware](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/Aware.html)<br/>
 
 ```
-1、标记超级接口，表示一个bean有资格通过一个回调式方法被Spring容器通知一个特定的框架对象。
-2、实际的方法签名由各个子接口确定，但通常应由一个只接受一个参数的void返回方法组成。
-3、请注意，仅实现不Aware提供默认功能。相反，处理必须明确完成，例如在 BeanPostProcessor。
-4、参阅ApplicationContextAwareProcessor 和AbstractAutowireCapableBeanFactory 用于处理的示例 Aware接口回调
+1、公共接口Aware
+2、标记超级接口，表示一个bean有资格通过一个回调式方法被Spring容器通知一个特定的框架对象。
+3、实际的方法签名由各个子接口确定，但通常应由一个只接受一个参数的void返回方法组成。
+4、请注意，仅实现不Aware提供默认功能。相反，处理必须明确完成，例如在 BeanPostProcessor。
+5、参阅ApplicationContextAwareProcessor 和AbstractAutowireCapableBeanFactory 用于处理的示例 Aware接口回调
 ```
 
 9.2、ApplicationContextAware：[org.springframework.context.ApplicationContextAware](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/ApplicationContextAware.html)<br/>
@@ -831,7 +832,7 @@ import org.springframework.stereotype.Component;
 public class TestApplicationContextAware {
 	private ApplicationContext applicationContextByCtor;
 	/**
-	 * @description 3、通过spring4.3的新特性 构造函数 自动注入
+	 * 3、通过spring4.3的新特性 构造函数 自动注入
 	 */
 	public TestApplicationContextAware(ApplicationContext applicationContextByCtor) {
 	// public TestRegisterContext(ApplicationContext applicationContextByCtor, TestController testController) {
@@ -841,6 +842,162 @@ public class TestApplicationContextAware {
 		 * 2、构造函数参数个数无要求，但是参数要求spring容器中有对应bean，bean的可以是一个或多个。
 		 */
 		this.applicationContextByCtor = applicationContextByCtor;
+	}
+}
+```
+
+### <a id="a_beanFactoryPostProcessor">十、BeanFactoryPostProcessor 上下文的基础工厂Bean后置处理器</a>
+10.1、BeanFactoryPostProcessor：[org.springframework.beans.factory.config.BeanFactoryPostProcessor](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/config/BeanFactoryPostProcessor.html)<br/>
+
+```
+1、公共接口BeanFactoryPostProcessor。只会执行一次。
+2、允许自定义修改应用程序上下文的bean定义，调整上下文的基础bean工厂的bean属性值。
+3、应用程序上下文可以在其bean定义中自动检测BeanFactoryPostProcessor bean，并在创建任何其他bean之前应用它们。
+4、对于定制配置文件非常有用，这些文件针对系统管理员，覆盖应用程序上下文中配置的bean属性。
+5、请参阅PropertyResourceConfigurer及其具体实现，了解解决此类配置需求的开箱即用解决方案。
+6、BeanFactoryPostProcessor可能与bean定义交互并修改，但永远不会bean实例。这样做可能会导致bean过早实例化，违反容器并导致意想不到的副作用。如果需要bean实例交互，请考虑实现 BeanPostProcessor
+```
+
+TestBeanFactoryPostProcessor.class：
+
+```Java
+package com.mutistic.annotation.factory;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.stereotype.Component;
+import com.mutistic.utils.CommonConstant;
+
+/**
+ * 实现 上下文的基础bean BeanFactoryPostProcessor 接口
+ * 实现 BeanFactoryPostProcessor.postProcessBeanFactory() 方法
+ */
+@Component
+public class TestBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
+	/**
+	 * bean初始化后，修改应用程序上下文的内部bean工厂
+	 * @param beanFactory
+	 * @throws BeansException
+	 * @see org.springframework.beans.factory.config.BeanFactoryPostProcessor#postProcessBeanFactory(org.springframework.beans.factory.config.ConfigurableListableBeanFactory)
+	 */
+	@Override
+	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+		CommonConstant.printPref("自定义实现类重写 BeanFactoryPostProcessor.postProcessBeanFactory", beanFactory);
+		
+		CommonConstant.printPref("自定义实现类 从 ConfigurableListableBeanFactory 中获取Spring bean的数量", beanFactory.getBeanDefinitionCount());
+		for(String name : beanFactory.getBeanDefinitionNames()) {
+			CommonConstant.printPref("自定义实现类 从 ConfigurableListableBeanFactory 中获取Spring bean的name", name);
+		}
+	}
+}
+```
+
+10.2、BeanFactoryPostProcessor 执行顺序
+
+```
+1、BeanFactoryPostProcessor.postProcessBeanFactory() 
+2、Bean 的依赖配置
+3、BeanPostProcessor.postProcessBeforeInitialization()
+4、Bean 的初始化方法 
+5、BeanPostProcessor.postProcessAfterInitialization()
+```
+
+10.3、使用BeanDefinitionRegistryPostProcessor的动态注册bean（BeanFactoryPostProcessor的子类）
+BeanDefinitionRegistryPostProcessor[org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/support/BeanDefinitionRegistryPostProcessor.html)<br/>
+
+ConfigurableListableBeanFactory[org.springframework.beans.factory.config.ConfigurableListableBeanFactory](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/config/ConfigurableListableBeanFactory.html)<br/>
+
+BeanDefinitionRegistry[org.springframework.beans.factory.support.BeanDefinitionRegistry](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/support/BeanDefinitionRegistry.html)<br/>
+
+BeanDefinitionBuilder[org.springframework.beans.factory.support.BeanDefinitionBuilder](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/support/BeanDefinitionBuilder.html)<br/>
+
+
+```
+1、扩展到标准BeanFactoryPostProcessor SPI，允许在正常的BeanFactoryPostProcessor检测开始之前注册更多的bean定义。
+2、特别是，BeanDefinitionRegistryPostProcessor可以注册更多的bean定义，然后定义BeanFactoryPostProcessor实例。
+3、BeanDefinitionRegistryPostProcessor 可以拿到ConfigurableListableBeanFactory，BeanDefinitionRegistry对象。
+	BeanDefinitionRegistry 可以动态注册bean
+	BeanDefinitionBuilder 获取Bean的引用(class)，注入属性，后用于BeanDefinitionRegistry
+```
+
+TestBeanDefinitionRegistryPostProcessor.class：
+
+```Java
+package com.mutistic.annotation.factory;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
+import org.springframework.stereotype.Component;
+import com.mutistic.utils.CommonConstant;
+
+/**
+ * 演示 BeanDefinitionRegistryPostProcessor 的自定义实现类 的动态注册bean
+ * BeanDefinitionRegistryPostProcessor 继承至 BeanFactoryPostProcessor
+ */
+@Component
+public class TestBeanDefinitionRegistryPostProcessor implements BeanDefinitionRegistryPostProcessor {
+	/**
+	 * bean初始化后，修改应用程序上下文的内部bean工厂
+	 * @param beanFactory
+	 * @throws BeansException
+	 * @see org.springframework.beans.factory.config.BeanFactoryPostProcessor#postProcessBeanFactory(org.springframework.beans.factory.config.ConfigurableListableBeanFactory)
+	 */
+	@Override
+	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+		CommonConstant.printPref("自定义实现类重写 BeanFactoryPostProcessor.postProcessBeanFactory", beanFactory);
+		
+		CommonConstant.printPref("自定义实现类 从 ConfigurableListableBeanFactory 中获取Spring bean的数量", beanFactory.getBeanDefinitionCount());
+		for(String name : beanFactory.getBeanDefinitionNames()) {
+			CommonConstant.printPref("自定义实现类 从 ConfigurableListableBeanFactory 中获取Spring bean的name", name);
+		}
+	}
+
+	/**
+	 * 标准初始化后，修改应用程序上下文的内部bean定义注册表
+	 * @param registry
+	 * @throws BeansException
+	 * @see org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor#postProcessBeanDefinitionRegistry(org.springframework.beans.factory.support.BeanDefinitionRegistry)
+	 */
+	@Override
+	public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
+		CommonConstant.printPref("自定义实现类重写 BeanDefinitionRegistryPostProcessor.postProcessBeanDefinitionRegistry", registry);
+		for (int i = 0; i < 10; i++) {
+			// 通过 BeanDefinitionBuilder 获取Bean的引用(class)，注入属性
+			BeanDefinitionBuilder bdb = BeanDefinitionBuilder.rootBeanDefinition(TestRegistryBean.class);
+			bdb.addPropertyValue("property", "注入属性值："+i);
+			registry.registerBeanDefinition("beanName"+i, bdb.getBeanDefinition());
+			CommonConstant.printPref("通过 BeanDefinitionRegistry和BeanDefinitionBuilder实现动态注册bean", registry);
+		}
+	}
+}
+```
+
+10.4、通过AnnotationConfigApplicationContext.registerBeanDefinition() 直接动态注册bean
+
+```Java
+package com.mutistic.annotation.factory;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import com.mutistic.utils.CommonConstant;
+/**
+ * 通过AnnotationConfigApplicationContext.registerBeanDefinition() 直接动态注册bean
+ */
+public class MainByFactoryProcessor {
+	public static void main(String[] args) {
+		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(TestRegistryBean.class);
+		
+		for (int i = 0; i < 10; i++) {
+			// 通过 BeanDefinitionBuilder 获取Bean的引用(class) (可不注入属性)
+			context.registerBeanDefinition("beanName"+i, BeanDefinitionBuilder.rootBeanDefinition(TestRegistryBean.class).getBeanDefinition());
+			CommonConstant.printPref("通过 AnnotationConfigApplicationContext.registerBeanDefinition() 和BeanDefinitionBuilder实现动态注册bean：", i);
+		}
+		CommonConstant.println();
+		context.getBeansOfType(TestRegistryBean.class).values().forEach(System.out::println); // java8流模式打印输入
+		
+		context.close();
 	}
 }
 ```

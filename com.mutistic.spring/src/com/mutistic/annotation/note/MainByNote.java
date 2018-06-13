@@ -1,4 +1,4 @@
-package com.mutistic.annotation.register;
+package com.mutistic.annotation.note;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
@@ -10,12 +10,12 @@ import com.mutistic.annotation.processor.TestApplicationContextAware;
 import com.mutistic.utils.CommonConstant;
 
 /**
- * @program AnnotationConfigApplicationContext Main类
- * @description 演示 @Component，@Repository，@Service，@Controller，@Aspect 等方式注册bean
+ * @program 通过 注解 的方式注册bean
+ * @description 通过 @Component，@Repository，@Service，@Controller，@Aspect 等方式注册bean
  * @author mutisitic
  * @date 2018年6月11日
  */
-public class AnnotationByRegisterMain {
+public class MainByNote {
 
 	public static void main(String[] args) {
 		CommonConstant.println();
@@ -79,7 +79,7 @@ public class AnnotationByRegisterMain {
 	}
 	
 	/**
-	 * @description 在给定的包中，并自动刷新上下文
+	 * @description 在给定的扫描配置类中，并自动刷新上下文
 	 * @author mutisitic
 	 * @date 2018年6月11日
 	 */

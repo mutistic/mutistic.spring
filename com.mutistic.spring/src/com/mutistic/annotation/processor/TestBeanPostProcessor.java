@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 import com.mutistic.utils.CommonConstant;
 
 /**
- * @program BeanPostProcessor在每个bean初始化的时候调用一次
- * @description Bean的后置处理器
+ * @program 实现 Bean的后置处理器  BeanFactoryPostProcessor 接口  
+ * @description BeanPostProcessor 在每个bean初始化的时候调用一次
  * @author mutisitic
  * @date 2018年6月12日
  */

@@ -17,7 +17,7 @@ import com.mutistic.utils.CommonConstant;
  * @date 2018年6月5日
  */
 @Configuration
-public class AnnotationBeansConfig {
+public class TestBeansConfig {
 	
 	/**
 	 * 1、@Configuration：不仅可以使用组件扫描进行引导，还可以使用注释配置组件扫描@ComponentScan

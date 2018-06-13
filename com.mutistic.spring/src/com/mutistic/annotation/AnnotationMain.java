@@ -7,13 +7,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-import com.mutistic.annotation.beans.AnnotationBeansConfig;
+import com.mutistic.annotation.beans.TestBeansConfig;
 import com.mutistic.annotation.beans.TestAnnotationBean;
 import com.mutistic.annotation.id.IDConfig;
-import com.mutistic.annotation.register.TestAspect;
-import com.mutistic.annotation.register.TestController;
-import com.mutistic.annotation.register.TestRepositoryDao;
-import com.mutistic.annotation.register.TestService;
+import com.mutistic.annotation.note.TestAspect;
+import com.mutistic.annotation.note.TestController;
+import com.mutistic.annotation.note.TestRepositoryDao;
+import com.mutistic.annotation.note.TestService;
 import com.mutistic.utils.CommonConstant;
 
 /**
