@@ -13,7 +13,7 @@ import com.mutistic.utils.CommonConstant;
  * @date 2018年6月13日
  */
 @Component
-public class TestBeanPostProcessor implements BeanPostProcessor {
+public class TestBeanProcessor implements BeanPostProcessor {
 
 	@Override
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {

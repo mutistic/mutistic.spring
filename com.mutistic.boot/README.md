@@ -12,7 +12,7 @@ Spring Boot 是伴随着[Spring4.0](https://github.com/mutistic/mutistic.spring/
 ### <a id="a_catalogue">目录</a>：
 1. <a href="#a_springBoot">Spring Boot概述</a>
 2. <a href="#a_info">Spring Boot目录结构说明：</a>
-3. <a href="#a_demoApplication">DemoApplication.java：启动类</a>
+3. <a href="#a_springBootApplication">@SpringBootApplication启动类 ：开启(Spring)组件扫描和(Spring Boot)自动配置</a>
 4. <a href="#a_demoApplicationTests">DemoApplicationTests.java：测试类</a>
 5. <a href="#a_pom">pom.xml：POM配置文件</a>
 6. <a href="#a_applicationProperties">application.properties：配置文件</a>
@@ -78,55 +78,134 @@ Eclipse集成STS插件或Spring Boot CLI初始化应用程序，创建Spring Boo
 2、.mvn、mvnw、mvnw.cmd、pom.xml、.target：<br/>
 Eclipse集成STS插件，创建Spring Boot项目，采用Maven打包发布软件时会生成这些与Maven相关文件。<br/>
 3、application.properties：用于配置应用程序和Spring Boot的属性。<br/>
-4、DemoApplication.java：模板类：应用程序的启动引导类（bootstrap class），也是主要的Spring配置类。<br/>
+4、DemoApplication.java：模板类启动类：应用程序的启动引导类（bootstrap class），也是Spring配置类。<br/>
 5、DemoApplicationTests.java：模板测试类：一个基本的集成测试类。<br/>
 6、src/main/resources：项目文件资源主目录。<br/>
 6.1、src/main/resources/static：静态文件资源目录，如css、js。<br/>
 6.2、src/main/resources/templates：模板文件资源目录，如vm、excel。<br/>
 
-### <a id="a_demoApplication">一、DemoApplication.java：启动类：</a>
-@SpringBootApplication [org.springframework.boot.SpringApplication](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/SpringApplication.html)<br/>
+### <a id="a_springBootApplication">一、@SpringBootApplication启动类 ：开启(Spring)组件扫描和(Spring Boot)自动配置：</a>
+@SpringBootApplication：[org.springframework.boot.SpringApplication](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/SpringApplication.html)
 
-```Java
-package com.mutistic.demo;
+SpringBootApplication：[org.springframework.boot.SpringBootApplication]
+(https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/SpringBootApplication.html)
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+@SpringBootConfiguration：[org.springframework.boot.SpringBootConfiguration](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/SpringBootConfiguration.html)
 
-@SpringBootApplication
-public class DemoApplication {
-	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
-	}
-}
+@ComponentScan：[org.springframework.context.annotation.ComponentScan](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/ComponentScan.html)
+
+@EnableAutoConfiguration：[org.springframework.boot.autoconfigure.EnableAutoConfiguration](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/EnableAutoConfiguration.html)
+
+ConfigurableApplicationContext：[org.springframework.context.ConfigurableApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/ConfigurableApplicationContext.html)
+
+1.1、@SpringBootApplication：开启(Spring)组件扫描和(Spring Boot)自动配置：
+
 ```
-
-1.1、@SpringBootApplication：开启(Spring)组件扫描和(Spring Boot)自动配置：<br/>
+可用于从Java主方法引导和启动Spring应用程序的类。默认情况下，类将执行以下步骤来引导您的应用程序：
+1、创建一个合适的ApplicationContext实例（取决于当前类的路径，往下扫描）
+2、注册一个CommandLinePropertySource将命令行参数作为Spring属性公开
+3、刷新应用程序上下文，加载所有单例bean
+4、触发任何CommandLineRunner bean
+5、在大多数情况下，run(Class, String[])可以直接从主方法调用静态方法来引导应用程序
+```
 
 ```
   实际上，@SpringBootApplication将三个有用的注解组合在了一起，早期版本1.2.0之前还是需要同时标注这三个注解。
-  1、Spring的 @Configuration：标明该类使用Spring基于Java的配置。作为Java开发者会更倾向于使用基于Java而不是XML的配置。
-  2、Spring的 @ComponentScan：启用组件扫描，这样Web控制器类和其他组件才能被自动发现并注册为Spring应用程序上下文里的Bean。
-  3、Spring Boot的 @EnableAutoConfiguration：这个注解也可以称为 @Abracadabra，就是这一行配置开启了SpringBoot自动配置的功能，避免再写成篇的配置。
+ 1、Spring的 @Configuration：标明该类使用Spring基于Java的配置。作为Java开发者会更倾向于使用基于Java而不是XML的配置。
+ 2、Spring的 @ComponentScan：启用组件扫描，这样Web控制器类和其他组件才能被自动发现并注册为Spring应用程序上下文里的Bean。
+ 3、Spring Boot的 @EnableAutoConfiguration：这个注解也可以称为 @Abracadabra，就是这一行配置开启了SpringBoot自动配置的功能，避免再写成篇的配置。
 ```
 
-1.2、SpringApplication.run(DemoApplication.class,args)：负责启动引导应用程序：<br/>
+MainBySpringApplication.java
+
+```Java
+package com.mutistic.beans;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
+import com.mutistic.utils.CommonConstant;
+/**
+ * 通过@SpringBootApplication和SpringApplication 来启动spring boot
+ * 1、 通过SpringApplication.run() 来启动spring boot。2、通过  new SpringApplication()，来启动spring boot
+ */
+@SpringBootApplication
+public class MainBySpringApplication {
+	public static void main(String[] args) {
+		showSpringApplicationByStatic(args);
+		showSpringApplicationByNew(args);
+	}
+
+	/**
+	 * 用于测试的bean，能够直接装配bean，取决于 @SpringBootApplication 本身实现了 @SpringBootConfiguration注解，而@SpringBootConfiguration 实现  @Configuration
+	 * @return
+	 */
+	@Bean
+	public Runnable craterRunnable() { return () -> {}; }
+
+	/**
+	 * 1、演示 SpringApplication.run() 来启动spring boot 
+	 */
+	private static void showSpringApplicationByStatic(String[] args) {
+		CommonConstant.printOne("1、通过  SpringApplication.run() 来启动spring boot，run()本身返回 ConfigurableApplicationContext，然后通过Context获取容器中的bean：");
+		ConfigurableApplicationContext context = SpringApplication.run(MainBySpringApplication.class, args);
+		CommonConstant.printTwo("ConfigurableApplicationContext 获取bean：Runnable.class",
+				context.getBean(Runnable.class));
+		context.close();
+		CommonConstant.println();
+	}
+	
+	/**
+	 * 2、通过 new SpringApplication()，来启动spring boot
+	 */
+	private static void showSpringApplicationByNew(String[] args) {
+		CommonConstant.printOne("2、通过 new SpringApplication()，来启动spring boot：");
+
+		SpringApplication app = new SpringApplication(MainBySpringApplication.class);
+		ConfigurableApplicationContext context = app.run(args);
+		CommonConstant.printTwo("ConfigurableApplicationContext 获取bean：Runnable.class",
+				context.getBean(Runnable.class));
+		context.close();
+		CommonConstant.println();
+	}
+}
 
 ```
-  DemoApplication 本身还是一个启动引导类，提供main()方法。要运行Spring Boot应用程序有几种方式，其中包含传统的WAR文件部署。
-  但这里的 main() 方法让你可以在命令行里把该应用程序当作一个可执行JAR文件来运行。
-  这里向 SpringApplication.run() 传递了一个DemoApplication 类的引用，还有命令行参数，通过这些东西启动应用程序。
+
+SpringBooApplication.java：
+
+```Java
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Inherited
+@SpringBootConfiguration
+@EnableAutoConfiguration
+@ComponentScan(excludeFilters = {
+		@Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class),
+		@Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class) })
+public @interface SpringBootApplication { }
 ```
+
+1.2、方法说明：
+
+1.2.1、public static ConfigurableApplicationContext run(Class<?>[] primarySources, String[] args)<br/>
+静态助手可以使用默认设置和用户提供的参数从指定的数据源运行SpringApplication。（args 通常从Java mian方法传递）
+
+
 
 ---
 ### <a id="a_demoApplicationTests">二、DemoApplicationTests.java：测试类：</a>
-@SpringBootTest [org.springframework.boot.test.context.SpringBootTest](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/test/context/SpringBootTest.html)</br>
-@ActiveProfiles [org.springframework.test.context.ActiveProfiles](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/test/context/ActiveProfiles.html)</br>
-@SpringRunner [org.springframework.test.context.junit4.SpringRunner](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/test/context/junit4/SpringRunner.html)</br>
+@SpringBootTest [org.springframework.boot.test.context.SpringBootTest](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/test/context/SpringBootTest.html)
+
+@ActiveProfiles [org.springframework.test.context.ActiveProfiles](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/test/context/ActiveProfiles.html)
+
+@SpringRunner [org.springframework.test.context.junit4.SpringRunner](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/test/context/junit4/SpringRunner.html)
+
+DemoApplicationTests.java：
 
 ```Java
 package com.mutistic.demo;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -194,6 +273,7 @@ Woring sets / Add project to workong sets：是否需要引入其他工作项目
 ```
 
 3.2：配置文件和构建等编码格式和JDK版本信息等 。<br/>
+properties标签：
 
 ```xml
 <properties>
@@ -204,6 +284,7 @@ Woring sets / Add project to workong sets：是否需要引入其他工作项目
 ```
 
 3.3、配置构建信息：构建插件的主要功能是把项目打包成一个可执行的超级JAR（uber-JAR），包括把应用程序的所有依赖打入JAR文件内，并为JAR添加一个描述文件，其中的内容能让你用 java -jar 来运行应用程序。<br/>
+build标签：
 
 ```xml
 <build>
@@ -217,6 +298,7 @@ Woring sets / Add project to workong sets：是否需要引入其他工作项目
 ```
 
 3.4、将spring-boot-starter-parent作为上一级，这样一来就能利用Maven的依赖管理功能，继承很多常用库的依赖版本，在声明依赖时就不用再去指定版本号了。<br/>
+parent标签：
 
 ```xml
 <parent>
@@ -228,6 +310,7 @@ Woring sets / Add project to workong sets：是否需要引入其他工作项目
 ```
 
 3.4.2、可以通过导入 spring-boot-dependencies 替代 spring-boot-starter-parent。<br/>
+dependencyManagement标签：
 
 ```xml
 <dependencyManagement>
@@ -259,6 +342,8 @@ com.h2database > h2：h2数据库
 mysql > mysql-connector-java：Mysql：Mysql数据库
 javax.inject > javax.inject > 1 ：
 ```
+
+dependencies标签：
 
 ```xml
 <dependencies>
@@ -309,14 +394,18 @@ javax.inject > javax.inject > 1 ：
 
 ---
 ### <a id="a_applicationProperties">四、application.properties：配置文件</a>
+4.1、设置server信息
+
 ```properties
-#设置server信息
 #设置Tomcat的监听端口
 server.port=8888
 #设置servlet上下文路径
 server.servlet.context-path=/boot
+```
 
-#设置DB信息
+4.2、设置数据库信息
+
+```properties
 #设置Mysql驱动类
 spring.datasource.driver-class-name=com.mysql.jdbc.Driver
 #设置Mysql url地址
@@ -325,9 +414,11 @@ spring.datasource.url=jdbc:mysql://127.0.0.1:3306/study
 spring.datasource.username=root
 #设置Mysql password（无则为空）
 spring.datasource.password=root
+```
 
+4.3、设置JPA信息
 
-#设置JPA信息
+```properties
 #设置JPA hibernate.ddl-auto 配置信息
 #ddl-auto:create----每次运行该程序，没有表格会新建表格，表内有数据会清空
 #ddl-auto:create-drop----每次程序结束的时候会清空表
