@@ -3,7 +3,7 @@ package com.mutistic.annotation.id;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-import com.mutistic.utils.CommonConstant;
+import com.mutistic.utils.CommonUtil;
 
 /**
  * @program 使用JSR-250@PostConstruct和@PreDestroy方式指定
@@ -20,7 +20,7 @@ public class IDByJSR250 {
 	 */
 	@PostConstruct
 	public void initial() {
-		CommonConstant.printTwo("IDByJSR25 @PostConstruct 指定initial", "initial()");
+		CommonUtil.printTwo("IDByJSR25 @PostConstruct 指定initial", "initial()");
 	}
 
 	/**
@@ -30,6 +30,6 @@ public class IDByJSR250 {
 	 */
 	@PreDestroy
 	public void destroy() {
-		CommonConstant.printTwo("IDByJSR25 @PreDestroy 指定destroy", "destroy()");
+		CommonUtil.printTwo("IDByJSR25 @PreDestroy 指定destroy", "destroy()");
 	}
 }

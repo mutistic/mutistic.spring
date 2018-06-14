@@ -2,7 +2,7 @@ package com.mutistic.annotation.processor;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import com.mutistic.utils.CommonConstant;
+import com.mutistic.utils.CommonUtil;
 
 /**
  * @program BeanPostProcessor bean处理器
@@ -29,10 +29,10 @@ public class MainByProcessor {
 	private static void showBeanPostProcessor() {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(TestProcessorScan.class);
 		
-		CommonConstant.printTwo("TestBean bean", context.getBean(TestBean.class));
-		CommonConstant.printTwo("TestBean的代理对象 TestBeanExtend bean", context.getBean("testBean"));
-		CommonConstant.printTwo("TestProcessorScan bean", context.getBean(TestProcessorScan.class));
-		CommonConstant.printTwo("TestBeanPostProcessor bean", context.getBean(TestBeanPostProcessor.class));
+		CommonUtil.printTwo("TestBean bean", context.getBean(TestBean.class));
+		CommonUtil.printTwo("TestBean的代理对象 TestBeanExtend bean", context.getBean("testBean"));
+		CommonUtil.printTwo("TestProcessorScan bean", context.getBean(TestProcessorScan.class));
+		CommonUtil.printTwo("TestBeanPostProcessor bean", context.getBean(TestBeanPostProcessor.class));
 		
 		context.close();
 	}
@@ -45,10 +45,10 @@ public class MainByProcessor {
 	private static void showApplicationContextAware() {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(TestApplicationContextAware.class);
 		
-		CommonConstant.printOne("实现 ApplicationContext 的注入");
+		CommonUtil.printOne("实现 ApplicationContext 的注入");
 		context.getBean(TestApplicationContextAware.class).show();
 		
-		CommonConstant.println();
+		CommonUtil.println();
 		context.close();
 	}
 	
@@ -61,10 +61,10 @@ public class MainByProcessor {
 	private static void showApplicationContextAwareBySelf() {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(RealizeBeanPostProcessor.class ,RealizeBean.class);
 		
-		CommonConstant.printOne("模拟 ApplicationContextAware的接口 实现ApplicationContext的注入");
+		CommonUtil.printOne("模拟 ApplicationContextAware的接口 实现ApplicationContext的注入");
 		context.getBean(RealizeBean.class).show();
 		
-		CommonConstant.println();
+		CommonUtil.println();
 		context.close();
 	}
 }

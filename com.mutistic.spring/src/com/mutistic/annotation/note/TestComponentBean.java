@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import com.mutistic.utils.CommonConstant;
+import com.mutistic.utils.CommonUtil;
 
 /**
  * @program 使用  @Component 注解声明一个bean
@@ -24,6 +24,6 @@ public class TestComponentBean {
 	private ApplicationContext applicationContext;
 	
 	public void show() {
-		System.out.println(CommonConstant.LINE_SHORT + "TestComponentBean 使用 @Autowried自动注入的ApplicationConext："+ applicationContext.getClass());
+		System.out.println(CommonUtil.LINE_SHORT + "TestComponentBean 使用 @Autowried自动注入的ApplicationConext："+ applicationContext.getClass());
 	}
 }

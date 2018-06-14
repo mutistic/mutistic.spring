@@ -14,7 +14,7 @@ import com.mutistic.annotation.note.TestAspect;
 import com.mutistic.annotation.note.TestController;
 import com.mutistic.annotation.note.TestRepositoryDao;
 import com.mutistic.annotation.note.TestService;
-import com.mutistic.utils.CommonConstant;
+import com.mutistic.utils.CommonUtil;
 
 /**
  * @program AnnotationConfigApplicationContext 几种注册与发现 bean
@@ -25,7 +25,7 @@ import com.mutistic.utils.CommonConstant;
 public class AnnotationMain {
 
 	public static void main(String[] args) {
-		CommonConstant.println();
+		CommonUtil.println();
 		getBeanByConfigClass();
 		getBeanByClass();
 		getBeanByScanClass();
@@ -37,10 +37,10 @@ public class AnnotationMain {
 	 * @date 2018年6月11日
 	 */
 	private static void getBeanByConfigClass() {
-		CommonConstant.printOne("1、通过加载 @Configuration 配置类实现bean的注册");
+		CommonUtil.printOne("1、通过加载 @Configuration 配置类实现bean的注册");
 		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(AnnotationConfig.class);
 
-		CommonConstant.printTwo("@Configuration 配置类 注册的bean", ctx.getBean(Runnable.class));
+		CommonUtil.printTwo("@Configuration 配置类 注册的bean", ctx.getBean(Runnable.class));
 		ctx.close();
 	}
 
@@ -50,16 +50,16 @@ public class AnnotationMain {
 	 * @date 2018年6月11日
 	 */
 	private static void getBeanByClass() {
-		CommonConstant.printOne("3、通过加载 Class 实现bean的注册");
+		CommonUtil.printOne("3、通过加载 Class 实现bean的注册");
 		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(AnnotationConfig.class,
 				TestController.class, TestService.class, TestRepositoryDao.class, TestAspect.class, TestAnnotationBean.class);
 
-		CommonConstant.printTwo("@Configuration bean",ctx.getBean(AnnotationConfig.class));
-		CommonConstant.printTwo("@Controller bean", ctx.getBean(TestController.class));
-		CommonConstant.printTwo("@Service bean", ctx.getBean(TestService.class));
-		CommonConstant.printTwo("@Repository bean",ctx.getBean(TestRepositoryDao.class));
-		CommonConstant.printTwo("@TestAspect bean",ctx.getBean(TestAspect.class));
-		CommonConstant.printTwo("无任何注解 bean", ctx.getBean(TestAnnotationBean.class));
+		CommonUtil.printTwo("@Configuration bean",ctx.getBean(AnnotationConfig.class));
+		CommonUtil.printTwo("@Controller bean", ctx.getBean(TestController.class));
+		CommonUtil.printTwo("@Service bean", ctx.getBean(TestService.class));
+		CommonUtil.printTwo("@Repository bean",ctx.getBean(TestRepositoryDao.class));
+		CommonUtil.printTwo("@TestAspect bean",ctx.getBean(TestAspect.class));
+		CommonUtil.printTwo("无任何注解 bean", ctx.getBean(TestAnnotationBean.class));
 		ctx.close();
 	}
 	
@@ -69,13 +69,13 @@ public class AnnotationMain {
 	 * @date 2018年6月11日
 	 */
 	private static void getBeanByScanClass() {
-		CommonConstant.printOne("4、通过加载 @ComponentScan Class 实现bean的注册（AnnotationScan配置了需要加载和排除的bean）");
+		CommonUtil.printOne("4、通过加载 @ComponentScan Class 实现bean的注册（AnnotationScan配置了需要加载和排除的bean）");
 		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(AnnotationScan.class);
 
-		CommonConstant.printTwo("无任何注解 bean", ctx.getBean(TestAnnotationBean.class));
-		CommonConstant.printTwo("@Configuration 注解 bean", ctx.getBean(IDConfig.class));
-		CommonConstant.printTwo("@Repository 注解 bean", ctx.getBean(TestRepositoryDao.class));
-		CommonConstant.printTwo("@Aspect 注解 bean", ctx.getBean(TestAspect.class)); // 需要@ComponentScan导入该bean
+		CommonUtil.printTwo("无任何注解 bean", ctx.getBean(TestAnnotationBean.class));
+		CommonUtil.printTwo("@Configuration 注解 bean", ctx.getBean(IDConfig.class));
+		CommonUtil.printTwo("@Repository 注解 bean", ctx.getBean(TestRepositoryDao.class));
+		CommonUtil.printTwo("@Aspect 注解 bean", ctx.getBean(TestAspect.class)); // 需要@ComponentScan导入该bean
 		ctx.close();
 	}
 	

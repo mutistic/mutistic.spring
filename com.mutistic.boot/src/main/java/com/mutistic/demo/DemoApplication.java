@@ -3,7 +3,7 @@ package com.mutistic.demo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.mutistic.utils.CommonConstant;
+import com.mutistic.utils.CommonUtil;
 
 /**
  * @program Spring Boot Application模板类
@@ -29,7 +29,7 @@ public class DemoApplication {
 	 * @param args 命令行参数
 	 */
 	public static void main(String[] args) {
-		CommonConstant.printOne("@SpringBootApplication Demo启动类：");
+		CommonUtil.printOne("@SpringBootApplication Demo启动类：");
 		
 		/**
 		 * SpringApplication.run(DemoApplication.class, args); 负责启动引导应用程序

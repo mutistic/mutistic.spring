@@ -3,7 +3,7 @@ package com.mutistic.annotation.processor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
-import com.mutistic.utils.CommonConstant;
+import com.mutistic.utils.CommonUtil;
 
 /**
  * @program BeanPostProcessor 演示bean
@@ -19,7 +19,7 @@ public class TestBean {
 	@Autowired // @Autowired 不仅可以设置在属性上，也可以设置在方法方实现bean的自动注入
 	public void setApplicationContext(ApplicationContext applicationContext) {
 		this.applicationContext = applicationContext;
-		CommonConstant.printTwo("TestBean 属性设置(自动注入 ApplicationContext)", this.applicationContext);
+		CommonUtil.printTwo("TestBean 属性设置(自动注入 ApplicationContext)", this.applicationContext);
 	}
 
 
@@ -29,7 +29,7 @@ public class TestBean {
 	 * @date 2018年6月121日
 	 */
 	public void initial() {
-		CommonConstant.printTwo("TestBean initial", TestBean.class);
+		CommonUtil.printTwo("TestBean initial", TestBean.class);
 	}
 	
 }

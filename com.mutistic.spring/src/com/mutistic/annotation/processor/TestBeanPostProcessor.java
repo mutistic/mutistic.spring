@@ -4,7 +4,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.stereotype.Component;
 
-import com.mutistic.utils.CommonConstant;
+import com.mutistic.utils.CommonUtil;
 
 /**
  * @program 实现 Bean的后置处理器  BeanFactoryPostProcessor 接口  
@@ -39,10 +39,10 @@ public class TestBeanPostProcessor implements BeanPostProcessor {
 		 * 2、这个bean已经被填充了属性值。返回的bean实例可能是原始包装，或代理对象。	
 		 * 3、默认实现返回给定的bean原样
 		 */
-		CommonConstant.printTwo("BeanPostProcessor.postProcessBeforeInitialization", bean);
+		CommonUtil.printTwo("BeanPostProcessor.postProcessBeforeInitialization", bean);
 		
 		if(bean instanceof TestBean) {
-			CommonConstant.printTwo("postProcessBeforeInitialization可以对bean做一些处理：例如返回的bean实例可能是原始包装，或代理对象", bean);
+			CommonUtil.printTwo("postProcessBeforeInitialization可以对bean做一些处理：例如返回的bean实例可能是原始包装，或代理对象", bean);
 			return new TestBeanExtend();
 		}
 		
@@ -70,7 +70,7 @@ public class TestBeanPostProcessor implements BeanPostProcessor {
 		 * 	此回调也将在由方法触发的短路之后 调用。
 		 * 6、默认实现返回给定的bean原样
 		 */
-		CommonConstant.printTwo("BeanPostProcessor.postProcessAfterInitialization", bean);
+		CommonUtil.printTwo("BeanPostProcessor.postProcessAfterInitialization", bean);
 		return bean; // BeanPostProcessor.super.postProcessAfterInitialization(bean, beanName);
 	}
 	

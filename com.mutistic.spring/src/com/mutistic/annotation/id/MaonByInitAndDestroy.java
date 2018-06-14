@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import com.mutistic.utils.CommonConstant;
+import com.mutistic.utils.CommonUtil;
 
 /**
  * @program 演示 bean initial(初始化) 和 destroy(销毁)方法
@@ -30,10 +30,10 @@ public class MaonByInitAndDestroy {
 		context.register(IDConfig.class);
 		context.refresh();
 		
-		CommonConstant.printOne("演示 bean initial(初始化) 和 destroy(销毁)方法：");
-		System.out.println(CommonConstant.LINE_SHORT +"通过InitializingBean和DisposableBean接口方式实现："+ context.getBean(IDByInterface.class));
-		System.out.println(CommonConstant.LINE_SHORT +"@Bean initMethod和destroyMethod 指定具体的方法："+ context.getBean(IDByBean.class));
-		System.out.println(CommonConstant.LINE_SHORT +"使用JSR-250@PostConstruct和@PreDestroy方式指定："+ context.getBean(IDByJSR250.class));
+		CommonUtil.printOne("演示 bean initial(初始化) 和 destroy(销毁)方法：");
+		System.out.println(CommonUtil.LINE_SHORT +"通过InitializingBean和DisposableBean接口方式实现："+ context.getBean(IDByInterface.class));
+		System.out.println(CommonUtil.LINE_SHORT +"@Bean initMethod和destroyMethod 指定具体的方法："+ context.getBean(IDByBean.class));
+		System.out.println(CommonUtil.LINE_SHORT +"使用JSR-250@PostConstruct和@PreDestroy方式指定："+ context.getBean(IDByJSR250.class));
 		
 		context.close(); // 资源关闭后调用 DisposableBean.destroty(); bean销毁方法
 	}

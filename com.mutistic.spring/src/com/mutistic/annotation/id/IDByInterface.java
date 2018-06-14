@@ -3,7 +3,7 @@ package com.mutistic.annotation.id;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 
-import com.mutistic.utils.CommonConstant;
+import com.mutistic.utils.CommonUtil;
 
 /**
  * @program 使用实现接口方式实现 BeanFactory 的初始化 和销毁 动作
@@ -22,7 +22,7 @@ public class IDByInterface implements InitializingBean, DisposableBean {
 	 */
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		System.out.println(CommonConstant.LINE_SHORT + "IDByImplements implements InitializingBean.afterPropertiesSet"+ CommonConstant.LINE_SHORT);
+		System.out.println(CommonUtil.LINE_SHORT + "IDByImplements implements InitializingBean.afterPropertiesSet"+ CommonUtil.LINE_SHORT);
 	}
 
 	/**
@@ -34,7 +34,7 @@ public class IDByInterface implements InitializingBean, DisposableBean {
 	 */
 	@Override
 	public void destroy() throws Exception {
-		System.out.println(CommonConstant.LINE_SHORT + "IDByImplements implements DisposableBean.destroy"+ CommonConstant.LINE_SHORT);		
+		System.out.println(CommonUtil.LINE_SHORT + "IDByImplements implements DisposableBean.destroy"+ CommonUtil.LINE_SHORT);		
 	}
 	
 }

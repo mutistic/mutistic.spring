@@ -2,7 +2,7 @@ package com.mutistic.annotation.processor;
 
 import org.springframework.context.ApplicationContext;
 
-import com.mutistic.utils.CommonConstant;
+import com.mutistic.utils.CommonUtil;
 
 /**
  * @program 配合模拟 ApplicationContextAware的接口功能 之 Bean实现类
@@ -16,12 +16,12 @@ public class RealizeBean implements RealizeApplicationContextAware {
 
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) {
-		CommonConstant.printTwo("RealizeApplicationContextAware.setApplicationContext", applicationContext);
+		CommonUtil.printTwo("RealizeApplicationContextAware.setApplicationContext", applicationContext);
 		this.applicationContext = applicationContext;
 	}
 
 	public void show() {
-		CommonConstant.printTwo("RealizeApplicationContextAware > RealizeBean", applicationContext);
+		CommonUtil.printTwo("RealizeApplicationContextAware > RealizeBean", applicationContext);
 	}
 
 }

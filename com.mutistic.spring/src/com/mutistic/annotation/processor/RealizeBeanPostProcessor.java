@@ -7,7 +7,7 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import com.mutistic.utils.CommonConstant;
+import com.mutistic.utils.CommonUtil;
 
 /**
  * @program 配合模拟 ApplicationContextAware的接口功能 之 BeanPostProcessor实现类
@@ -23,12 +23,12 @@ public class RealizeBeanPostProcessor implements BeanPostProcessor {
 
 	@Override
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-		CommonConstant.printTwo("RealizeApplicationContextAware > RealizeBeanPostProcessor.postProcessBeforeInitialization", bean);
+		CommonUtil.printTwo("RealizeApplicationContextAware > RealizeBeanPostProcessor.postProcessBeforeInitialization", bean);
 		
 		if(bean instanceof RealizeApplicationContextAware) {
 			RealizeApplicationContextAware aware = (RealizeApplicationContextAware)bean;
 			aware.setApplicationContext(applicationContext);
-			CommonConstant.printTwo("RealizeApplicationContextAware >  实现ApplicationContext的注入", bean);
+			CommonUtil.printTwo("RealizeApplicationContextAware >  实现ApplicationContext的注入", bean);
 		}
 		
 		return bean;
@@ -36,7 +36,7 @@ public class RealizeBeanPostProcessor implements BeanPostProcessor {
 
 	@Override
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-		CommonConstant.printTwo("RealizeApplicationContextAware > RealizeBeanPostProcessor.postProcessAfterInitialization", bean);
+		CommonUtil.printTwo("RealizeApplicationContextAware > RealizeBeanPostProcessor.postProcessAfterInitialization", bean);
 		return bean;
 	}
 	

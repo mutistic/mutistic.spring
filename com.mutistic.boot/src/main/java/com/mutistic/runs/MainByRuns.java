@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 
-import com.mutistic.utils.CommonConstant;
+import com.mutistic.utils.CommonUtil;
 
 /**
  * @program 通过@SpringBootApplication和SpringApplication 来启动spring boot
@@ -40,13 +40,13 @@ public class MainByRuns {
 	 * @param args
 	 */
 	private static void showSpringApplicationByStatic(String[] args) {
-		CommonConstant.printOne("1、通过  SpringApplication.run() 来启动spring boot，run()本身返回 ConfigurableApplicationContext，然后通过Context获取容器中的bean：");
+		CommonUtil.printOne("1、通过  SpringApplication.run() 来启动spring boot，run()本身返回 ConfigurableApplicationContext，然后通过Context获取容器中的bean：");
 
 		ConfigurableApplicationContext context = SpringApplication.run(MainByRuns.class, args);
-		CommonConstant.printTwo("ConfigurableApplicationContext 获取bean：Runnable.class",
+		CommonUtil.printTwo("ConfigurableApplicationContext 获取bean：Runnable.class",
 				context.getBean(Runnable.class));
 		context.close();
-		CommonConstant.println();
+		CommonUtil.println();
 	}
 	
 	/**
@@ -56,14 +56,14 @@ public class MainByRuns {
 	 * @param args
 	 */
 	private static void showSpringApplicationByNew(String[] args) {
-		CommonConstant.printOne("2、通过 new SpringApplication()，来启动spring boot：");
+		CommonUtil.printOne("2、通过 new SpringApplication()，来启动spring boot：");
 
 		SpringApplication app = new SpringApplication(MainByRuns.class);
 		ConfigurableApplicationContext context = app.run(args);
-		CommonConstant.printTwo("ConfigurableApplicationContext 获取bean：Runnable.class",
+		CommonUtil.printTwo("ConfigurableApplicationContext 获取bean：Runnable.class",
 				context.getBean(Runnable.class));
 		context.close();
-		CommonConstant.println();
+		CommonUtil.println();
 	}
 
 }

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.Scope;
 
-import com.mutistic.utils.CommonConstant;
+import com.mutistic.utils.CommonUtil;
 
 /**
  * @program bean组件扫描 引导@Configuration类
@@ -101,7 +101,7 @@ public class TestBeansConfig {
 	 */
 	@Bean
 	public Focus focus(/*@Qualifier("focusBeanFactory")*/ FocusBeanFactory focusBeanFactory) {
-		System.out.println(CommonConstant.LINE_SHORT +"FocusBeanFactory = "+ focusBeanFactory);
+		System.out.println(CommonUtil.LINE_SHORT +"FocusBeanFactory = "+ focusBeanFactory);
 		return focusBeanFactory.createrFocus();
 	}
 }

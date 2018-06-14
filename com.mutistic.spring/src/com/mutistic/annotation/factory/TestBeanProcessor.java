@@ -4,7 +4,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.stereotype.Component;
 
-import com.mutistic.utils.CommonConstant;
+import com.mutistic.utils.CommonUtil;
 
 /**
  * @program 实现 Bean的后置处理器  BeanFactoryPostProcessor 接口
@@ -17,13 +17,13 @@ public class TestBeanProcessor implements BeanPostProcessor {
 
 	@Override
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-		CommonConstant.printTwo("TestBeanPostProcessor 重写  BeanPostProcessor.postProcessBeforeInitialization", bean);
+		CommonUtil.printTwo("TestBeanPostProcessor 重写  BeanPostProcessor.postProcessBeforeInitialization", bean);
 		return bean;
 	}
 
 	@Override
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-		CommonConstant.printTwo("TestBeanPostProcessor 重写  BeanPostProcessor.postProcessAfterInitialization", bean);
+		CommonUtil.printTwo("TestBeanPostProcessor 重写  BeanPostProcessor.postProcessAfterInitialization", bean);
 		return bean;
 	}
 

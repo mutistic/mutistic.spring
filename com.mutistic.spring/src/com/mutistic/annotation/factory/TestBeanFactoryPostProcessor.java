@@ -5,7 +5,7 @@ import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.stereotype.Component;
 
-import com.mutistic.utils.CommonConstant;
+import com.mutistic.utils.CommonUtil;
 
 /**
  * @program 实现 上下文的基础bean BeanFactoryPostProcessor 接口
@@ -36,11 +36,11 @@ public class TestBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 	 */
 	@Override
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-		CommonConstant.printTwo("TestBeanFactoryPostProcessor 重写 BeanFactoryPostProcessor.postProcessBeanFactory", beanFactory);
+		CommonUtil.printTwo("TestBeanFactoryPostProcessor 重写 BeanFactoryPostProcessor.postProcessBeanFactory", beanFactory);
 		
-		CommonConstant.printThree("TestBeanFactoryPostProcessor 从 ConfigurableListableBeanFactory 中获取Spring bean的数量", beanFactory.getBeanDefinitionCount());
+		CommonUtil.printThree("TestBeanFactoryPostProcessor 从 ConfigurableListableBeanFactory 中获取Spring bean的数量", beanFactory.getBeanDefinitionCount());
 		for(String name : beanFactory.getBeanDefinitionNames()) {
-			CommonConstant.printThree("TestBeanFactoryPostProcessor 从 ConfigurableListableBeanFactory 中获取Spring bean的name", name);
+			CommonUtil.printThree("TestBeanFactoryPostProcessor 从 ConfigurableListableBeanFactory 中获取Spring bean的name", name);
 		}
 	}
 

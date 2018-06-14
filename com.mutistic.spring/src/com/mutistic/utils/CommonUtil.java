@@ -1,12 +1,12 @@
 package com.mutistic.utils;
 
 /**
- * @program 公共静态常量类
- * @description 用于声明常用的静态常量类
+ * @program 普通工具类
+ * @description
  * @author mutisitic
  * @date 2018年6月5日
  */
-public class CommonConstant {
+public class CommonUtil {
 
 	public final static String T_LEFT = "【";
 	public final static String T_RIGTH = "】";

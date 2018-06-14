@@ -8,7 +8,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
-import com.mutistic.utils.CommonConstant;
+import com.mutistic.utils.CommonUtil;
 
 /**
  * @program 实现 ApplicationContext 的注入
@@ -71,10 +71,10 @@ public class TestApplicationContextAware implements ApplicationContextAware {
 
 
 	public void show() {
-		CommonConstant.printTwo("1、通过@Autowired或@Resource注解自动注入", applicationContextByAuto);
-		CommonConstant.printTwo("2、通过 ApplicationContextAware.setApplicationContext()接口方法注入", applicationContextByImpl);
-		CommonConstant.printTwo("3、通过通过spring4.3的新特性 构造函数 自动注入", applicationContextByCtor);
+		CommonUtil.printTwo("1、通过@Autowired或@Resource注解自动注入", applicationContextByAuto);
+		CommonUtil.printTwo("2、通过 ApplicationContextAware.setApplicationContext()接口方法注入", applicationContextByImpl);
+		CommonUtil.printTwo("3、通过通过spring4.3的新特性 构造函数 自动注入", applicationContextByCtor);
 		boolean isSingleton = (applicationContextByAuto == applicationContextByImpl) == (applicationContextByImpl == applicationContextByCtor);
-		CommonConstant.printTwo("ApplicationContext 是否是单例模式", isSingleton);
+		CommonUtil.printTwo("ApplicationContext 是否是单例模式", isSingleton);
 	}
 }

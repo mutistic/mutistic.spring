@@ -4,7 +4,7 @@ import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import com.mutistic.utils.CommonConstant;
+import com.mutistic.utils.CommonUtil;
 
 /**
  * @program 上下文的基础bean BeanFactoryPostProcessor 基础工厂Bean后置处理器
@@ -28,7 +28,7 @@ public class MainByFactoryProcessor {
 	 * @date 2018年6月13日
 	 */
 	private static void showBeanFactoryPostProcessor() {
-		CommonConstant.printOne("1、演示上下文的基础bean BeanFactoryPostProcessor 自定义实现的使用");
+		CommonUtil.printOne("1、演示上下文的基础bean BeanFactoryPostProcessor 自定义实现的使用");
 		new AnnotationConfigApplicationContext(TestBeanFactoryPostProcessor.class).close();
 	}
 	
@@ -39,7 +39,7 @@ public class MainByFactoryProcessor {
 	 * @date 2018年6月13日
 	 */
 	private static void showBeanFactoryPostProcessorByIndex() {
-		CommonConstant.printOne("2、演示上下文的基础bean BeanFactoryPostProcessor 自定义实现的执行顺序");
+		CommonUtil.printOne("2、演示上下文的基础bean BeanFactoryPostProcessor 自定义实现的执行顺序");
 		/**
 		 * 执行顺序：
 		 * 1、BeanDefinitionRegistryPostProcessor.postProcessBeanDefinitionRegistry()
@@ -59,10 +59,10 @@ public class MainByFactoryProcessor {
 	 * @date 2018年6月13日
 	 */
 	private static void showBeanDefinitionRegisteryPostPorcessor() {
-		CommonConstant.printOne("3、演示上下文的基础bean BeanFactoryPostProcessor 的子类 BeanDefinitionRegistryPostProcessor 的自定义实现类的动态注册bean");
+		CommonUtil.printOne("3、演示上下文的基础bean BeanFactoryPostProcessor 的子类 BeanDefinitionRegistryPostProcessor 的自定义实现类的动态注册bean");
 		
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(TestBeanDefinitionRegistryPostProcessor.class);
-		CommonConstant.printTwo("输入动态注入的bean：TestRegistryBean", context.getBeansOfType(TestRegistryBean.class));		
+		CommonUtil.printTwo("输入动态注入的bean：TestRegistryBean", context.getBeansOfType(TestRegistryBean.class));		
 		context.close();
 	}
 	
@@ -73,15 +73,15 @@ public class MainByFactoryProcessor {
 	 * @date 2018年6月13日
 	 */
 	private static void showAnnotationRegisteryBean() {
-		CommonConstant.printOne("4、通过AnnotationConfigApplicationContext.registerBeanDefinition() 直接动态注册bean：");
+		CommonUtil.printOne("4、通过AnnotationConfigApplicationContext.registerBeanDefinition() 直接动态注册bean：");
 		
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(TestRegistryBean.class);
 		for (int i = 0; i < 10; i++) {
 			// 通过 BeanDefinitionBuilder 获取Bean的引用(class) (可不注入属性)
 			context.registerBeanDefinition("registeryName"+i, BeanDefinitionBuilder.rootBeanDefinition(TestRegistryBean.class).getBeanDefinition());
-			CommonConstant.printThree("MainByFactoryProcessor 通过 AnnotationConfigApplicationContext.registerBeanDefinition() 和BeanDefinitionBuilder实现动态注册bean：", "registeryName"+i);
+			CommonUtil.printThree("MainByFactoryProcessor 通过 AnnotationConfigApplicationContext.registerBeanDefinition() 和BeanDefinitionBuilder实现动态注册bean：", "registeryName"+i);
 		}
-		CommonConstant.println();
+		CommonUtil.println();
 		context.getBeansOfType(TestRegistryBean.class).values().forEach(System.out::println); // java8流模式打印输入
 		
 		context.close();
