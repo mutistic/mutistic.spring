@@ -1,7 +1,9 @@
 package com.mutistic.demo;
 
 import org.springframework.boot.SpringApplication;
-//import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import com.mutistic.utils.CommonConstant;
 
 /**
  * @program Spring Boot Application模板类
@@ -9,7 +11,7 @@ import org.springframework.boot.SpringApplication;
  * @author mutisitic
  * @date 2018年5月31日
  */
-//@SpringBootApplication
+@SpringBootApplication
 public class DemoApplication {
 
 	/**
@@ -27,6 +29,8 @@ public class DemoApplication {
 	 * @param args 命令行参数
 	 */
 	public static void main(String[] args) {
+		CommonConstant.printOne("@SpringBootApplication Demo启动类：");
+		
 		/**
 		 * SpringApplication.run(DemoApplication.class, args); 负责启动引导应用程序
 			 DemoApplication 本身还是一个启动引导类，提供main()方法。要运行Spring Boot应用程序有几种方式，其中包含传统的WAR文件部署。

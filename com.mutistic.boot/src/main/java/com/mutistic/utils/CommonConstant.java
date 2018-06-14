@@ -10,20 +10,25 @@ public class CommonConstant {
 
 	public final static String T_LEFT = "【";
 	public final static String T_RIGTH = "】";
-	public final static String PRINT_PREF = "==========";
-	public final static String PRINTLN_PREF = "\n==========";
-	public final static String PRINT_LINE = "========================================";
-	public final static String PRINTLN_LINE = "\n========================================";
-	
+	public final static String LINE_LONG = "------------------------";
+	public final static String LINE_LONG_LN = "\n\n" + LINE_LONG;
+	public final static String LINE_SHORT = "----------------";
+	public final static String LINE_SHORT_LN = "\n" + LINE_SHORT;
+
 	public static void println() {
 		System.out.println();
 	}
 
-	public static void printLine(String str) {
-		System.out.println(PRINTLN_LINE + str);
+	public static void printOne(String str) {
+		System.out.println(LINE_LONG_LN + (str == null ? "" : str));
 	}
-	
-	public static void printPref(String str, Object obj) {
-		System.out.println(PRINTLN_PREF + str + T_LEFT + obj + T_RIGTH);
+
+	public static void printTwo(String str, Object obj) {
+		System.out.println(LINE_SHORT_LN + (str == null ? "" : str) + (obj == null ? "" : T_LEFT + obj + T_RIGTH));
 	}
+
+	public static void printThree(String str, Object obj) {
+		System.out.println(LINE_SHORT + (str == null ? "" : str) + (obj == null ? "" : T_LEFT + obj + T_RIGTH));
+	}
+
 }

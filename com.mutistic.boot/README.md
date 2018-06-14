@@ -1,4 +1,4 @@
-# [Spring Boot](https://spring.io/projects/spring-boot)
+# <a id="a_top">[Spring Boot](https://spring.io/projects/spring-boot)</a>
 此项目基于Craig Walls的《Spring Boot实战》一书。<br/>
 使用的是Eclipse 集成的 STS插件自动创建的Spring Boot项目。<br/>
 Spring Boot 是伴随着[Spring4.0](https://github.com/mutistic/mutistic.spring/blob/master/com.mutistic.spring/README.md)诞生的。<br/>
@@ -8,7 +8,22 @@ Spring Boot 是伴随着[Spring4.0](https://github.com/mutistic/mutistic.spring/
 [Spring Boot Actuator Web API.PDF](https://docs.spring.io/spring-boot/docs/current/actuator-api/pdf/spring-boot-actuator-web-api.pdf)<br/>
 [Spring Boot 参考指南](https://docs.spring.io/spring-boot/docs/current/reference/html/index.html)<br/>
 
+---
+### <a id="a_catalogue">目录</a>：
+1. <a href="#a_springBoot">Spring Boot概述</a>
+2. <a href="#a_info">Spring Boot目录结构说明：</a>
+3. <a href="#a_demoApplication">DemoApplication.java：启动类</a>
+4. <a href="#a_demoApplicationTests">DemoApplicationTests.java：测试类</a>
+5. <a href="#a_pom">pom.xml：POM配置文件</a>
+6. <a href="#a_applicationProperties">application.properties：配置文件</a>
+97. <a href="#a_pit">spring boot 入坑总结</a>
+98. <a href="#a_sql">sql</a>
+99. <a href="#a_down">down</a>
+
+---
+## <a id="a_springBoot">Spring Boot概述：</a>
 1、Spring Boot 是什么
+
 ```
 1、Spring Boot是由Pivotal团队提供的全新框架，其设计目的是用来简化新Spring应用的初始搭建以及开发过程。
 2、该框架使用了特定的方式来进行配置，从而使开发人员不再需要定义样板化的配置。
@@ -16,6 +31,7 @@ Spring Boot 是伴随着[Spring4.0](https://github.com/mutistic/mutistic.spring/
 ```
 
 2、Spring Boot 有什么用
+
 ```
 1、Spring Boot的目的在于创建和启动新的基于Spring框架的项目。
 2、Spring Boot会选择最适合的Spring子项目和第三方开源库进行整合。
@@ -25,6 +41,7 @@ Spring Boot 是伴随着[Spring4.0](https://github.com/mutistic/mutistic.spring/
 ```
 
 3、Spring Boot 特点
+
 ```
 1、为基于spring的开发提供更决的入门体验
 2、创建可以独立运行的spring应用
@@ -38,6 +55,7 @@ Spring Boot 是伴随着[Spring4.0](https://github.com/mutistic/mutistic.spring/
 
 
 4、Spring Boot 优点
+
 ```
 1、Spring Bott 使编码变得简单
 2、Spring Bott 使配置变得简单
@@ -46,6 +64,7 @@ Spring Boot 是伴随着[Spring4.0](https://github.com/mutistic/mutistic.spring/
 ```
 
 5、Spring Boot 缺点
+
 ```
 1、依赖太多，随便一个Spring Boot应用都有几十M到几百M（继承至spring-boot-starter-parent）。
 2、缺少服务的注册和发现等解决方案
@@ -53,7 +72,7 @@ Spring Boot 是伴随着[Spring4.0](https://github.com/mutistic/mutistic.spring/
 4、中文的文档和资料太少且不够深入（有英文API）
 ```
 
-## 目录结构说明：
+## <a id="a_info">Spring Boot目录结构说明：</a>
 1、.gradle、gradle、build.gradle、gradlew、gradlew.bat、settings.gradle：<br/>
 Eclipse集成STS插件或Spring Boot CLI初始化应用程序，创建Spring Boot项目，采用Gradle打包发布软件时会生成这些与Gradle相关文件。<br/>
 2、.mvn、mvnw、mvnw.cmd、pom.xml、.target：<br/>
@@ -65,8 +84,7 @@ Eclipse集成STS插件，创建Spring Boot项目，采用Maven打包发布软件
 6.1、src/main/resources/static：静态文件资源目录，如css、js。<br/>
 6.2、src/main/resources/templates：模板文件资源目录，如vm、excel。<br/>
 
-## 注解及代码说明：
-### 一、DemoApplication.java：启动类<br/>
+### <a id="a_demoApplication">一、DemoApplication.java：启动类：</a>
 @SpringBootApplication [org.springframework.boot.SpringApplication](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/SpringApplication.html)<br/>
 
 ```Java
@@ -100,7 +118,8 @@ public class DemoApplication {
   这里向 SpringApplication.run() 传递了一个DemoApplication 类的引用，还有命令行参数，通过这些东西启动应用程序。
 ```
 
-### 二、DemoApplicationTests.java：测试类<br/>
+---
+### <a id="a_demoApplicationTests">二、DemoApplicationTests.java：测试类：</a>
 @SpringBootTest [org.springframework.boot.test.context.SpringBootTest](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/test/context/SpringBootTest.html)</br>
 @ActiveProfiles [org.springframework.test.context.ActiveProfiles](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/test/context/ActiveProfiles.html)</br>
 @SpringRunner [org.springframework.test.context.junit4.SpringRunner](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/test/context/junit4/SpringRunner.html)</br>
@@ -137,7 +156,8 @@ public class DemoApplicationTests {
 
 2.3、@ActiveProfiles(profiles = "test")：在测试类上面指定profiles，可以改变当前spring 的profile，来达到多环境的测试<br/>
 
-### 三、pom.xml：POM文件<br/>
+---
+### <a id="a_pom">三、pom.xml：POM配置文件</a>
 3.1、配置项目基本信息：<br/>
 
 ```xml
@@ -150,6 +170,8 @@ public class DemoApplicationTests {
 <description>此项目基于Craig Walls的《Spring Boot实战》一书。使用的是Eclipse 集成的 STS插件自动创建的Spring Boot项目</description>
 ```
 
+属性说明：
+
 ```
 name：项目名称。
 groupId：项目组名。
@@ -157,71 +179,23 @@ arrtifactId：模板代码所在包名。
 version：项目版本号：默认 0.0.1-SNAPASHOT。
 packaging：打包方式：Jar / War。
 description：项目描述信息。
+```
+
 Eclipse使用STS创建spring boot项目其他信息：
+
+```
 Service URL: https://start.spring.io  ： 默认Service URL。
 Use default location / Location：项目所在路径。默认即可。
 Type：构建方式：Maven / Gradel。
-Language：开发语言：Java / Kotlin / Groovy。。
+Language：开发语言：Java / Kotlin / Groovy。
 Java Version：Java版本号。
 Package：项目包名。
 Woring sets / Add project to workong sets：是否需要引入其他工作项目。
 ```
 
-3.2：将spring-boot-starter-parent作为上一级，这样一来就能利用Maven的依赖管理功能，继承很多常用库的依赖版本，在声明依赖时就不用再去指定版本号了。<br/>
+3.2：配置文件和构建等编码格式和JDK版本信息等 。<br/>
 
 ```xml
-<!-- 2、从 spring-boot-starter-parent 继承版本号 -->
-<parent>
-	<groupId>org.springframework.boot</groupId>
-	<artifactId>spring-boot-starter-parent</artifactId>
-	<version>2.0.2.RELEASE</version>
-	<relativePath/> <!-- lookup parent from repository -->
-</parent>
-```
-
-3.3：起步依赖本质上是一个Maven项目对象模型（Project Object Model，POM），定义了对其他库的传递依赖，这些东西加在一起即支持某项功能。很多起步依赖的命名都暗示了它们提供的某种或某类功能 。<br/>
-
-```xml
-<!-- 3、起步依赖-->
-<dependencies>
-	<!-- Web：web项目 -->
-	<dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-web</artifactId>
-	</dependency>
-	<!-- Test：Junit测试 -->
-	<dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-test</artifactId>
-		<scope>test</scope>
-	</dependency>
-	<!-- JPA：在关系型数据库里持久化数据：application.propertions未配置DB和JPA信息的话，引入此包会报错 -->
-	<dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-data-jpa</artifactId>
-	</dependency>
-	<!-- Thymeleaf：作为Web视图 -->
-	<dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-thymeleaf</artifactId>
-	</dependency>
-	<!-- H2：h2数据库 -->
-	<!-- <dependency>
-		<groupId>com.h2database</groupId>
-		<artifactId>h2</artifactId>
-	</dependency> -->
-	<!-- Mysql：Mysql数据库 -->
-	<dependency>
-		<groupId>mysql</groupId>
-		<artifactId>mysql-connector-java</artifactId>
-	</dependency>
-</dependencies>
-```
-
-3.4：配置文件和构建等编码格式和JDK版本信息等 。<br/>
-
-```xml
-<!-- 4、配置文件和构建等编码格式和JDK版本信息 -->
 <properties>
 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -229,10 +203,9 @@ Woring sets / Add project to workong sets：是否需要引入其他工作项目
 </properties>
 ```
 
-3.5、配置构建信息：构建插件的主要功能是把项目打包成一个可执行的超级JAR（uber-JAR），包括把应用程序的所有依赖打入JAR文件内，并为JAR添加一个描述文件，其中的内容能让你用 java -jar 来运行应用程序。<br/>
+3.3、配置构建信息：构建插件的主要功能是把项目打包成一个可执行的超级JAR（uber-JAR），包括把应用程序的所有依赖打入JAR文件内，并为JAR添加一个描述文件，其中的内容能让你用 java -jar 来运行应用程序。<br/>
 
 ```xml
-<!-- 5、配置spring boot 构建信息： maven -->
 <build>
 	<plugins>
 		<plugin>
@@ -243,7 +216,99 @@ Woring sets / Add project to workong sets：是否需要引入其他工作项目
 </build>
 ```
 
-### 四、application.properties：配置文件<br/>
+3.4、将spring-boot-starter-parent作为上一级，这样一来就能利用Maven的依赖管理功能，继承很多常用库的依赖版本，在声明依赖时就不用再去指定版本号了。<br/>
+
+```xml
+<parent>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-parent</artifactId>
+	<version>2.0.2.RELEASE</version>
+	<relativePath/> <!-- lookup parent from repository -->
+</parent>
+```
+
+3.4.2、可以通过导入 spring-boot-dependencies 替代 spring-boot-starter-parent。<br/>
+
+```xml
+<dependencyManagement>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-dependencies</artifactId>
+			<version>2.0.2.RELEASE</version>
+			<scope>import</scope>
+			<type>pom</type>
+		</dependency>
+	</dependencies>
+</dependencyManagement>
+```
+
+3.5、起步依赖本质上是一个Maven项目对象模型（Project Object Model，POM），定义了对其他库的传递依赖，这些东西加在一起即支持某项功能。很多起步依赖的命名都暗示了它们提供的某种或某类功能 。<br/>
+dependency依赖注入包说明：
+
+```
+org.springframework.boot > spring-boot-starter：spring boot java启动
+org.springframework.boot > spring-boot-starter-web：spring boot web启动
+org.springframework.boot > spring-boot-starter-test > test：spring boot test：Junit测试启动
+org.springframework.boot > spring-boot-starter-data-jpa：JPA：在关系型数据库里持久化数据：application.propertions未配置DB和JPA信息的话，引入此包会报错
+org.hibernate > hibernate-ehcache：
+org.hibernate > hibernate-entitymanager：
+org.hibernate.validator > hibernate-validator：
+org.springframework.boot > spring-boot-starter-thymeleaf：Web视图
+com.h2database > h2：h2数据库
+mysql > mysql-connector-java：Mysql：Mysql数据库
+javax.inject > javax.inject > 1 ：
+```
+
+```xml
+<dependencies>
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-web</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-test</artifactId>
+		<scope>test</scope>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-data-jpa</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.hibernate</groupId>
+		<artifactId>hibernate-ehcache</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.hibernate</groupId>
+		<artifactId>hibernate-entitymanager</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.hibernate.validator</groupId>
+		<artifactId>hibernate-validator</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-thymeleaf</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>com.h2database</groupId>
+		<artifactId>h2</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>mysql</groupId>
+		<artifactId>mysql-connector-java</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>javax.inject</groupId>
+		<artifactId>javax.inject</artifactId>
+		<version>1</version>
+	</dependency>
+</dependencies>
+```
+
+---
+### <a id="a_applicationProperties">四、application.properties：配置文件</a>
 ```properties
 #设置server信息
 #设置Tomcat的监听端口
@@ -273,15 +338,21 @@ spring.jpa.hibernate.ddl-auto=create
 spring.jpa.show-sql=true
 ```
 
-
-## [spring boot 入坑总结](https://github.com/mutistic/mutistic.spring/tree/master/com.mutistic.boot/notes/pit)<br/>
+---
+## <a id="a_pit">I、[spring boot 入坑总结](https://github.com/mutistic/mutistic.spring/tree/master/com.mutistic.boot/notes/pit)</a>
 [pit1、spring boot之 maven install 报错[Maven]](https://github.com/mutistic/mutistic.spring/blob/master/com.mutistic.boot/notes/pit/pit1_spring%20boot%E4%B9%8B%20maven%20install%20%E6%8A%A5%E9%94%99%5BMaven%5D.docx)<br/>
 [pit2、pom.xml无法找到[Maven]](https://github.com/mutistic/mutistic.spring/blob/master/com.mutistic.boot/notes/pit/pit2_pom.xml%E6%97%A0%E6%B3%95%E6%89%BE%E5%88%B0%5BMaven%5D.docx)<br/>
 [pit3、引入spring-boot-starter-data-jpa 后启动项目报错[JPA]](https://github.com/mutistic/mutistic.spring/blob/master/com.mutistic.boot/notes/pit/pit3_%E5%BC%95%E5%85%A5spring-boot-starter-data-jpa%20%E5%90%8E%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%9B%AE%E6%8A%A5%E9%94%99%5BJPA%5D.docx)<br/>
 [pit4、继承JpaRepository时报错[JPA]](https://github.com/mutistic/mutistic.spring/blob/master/com.mutistic.boot/notes/pit/pit4_%E7%BB%A7%E6%89%BFJpaRepository%E6%97%B6%E6%8A%A5%E9%94%99%5BJPA%5D.docx)<br/>
 
-## [sql](https://github.com/mutistic/mutistic.spring/tree/master/com.mutistic.boot/notes/sql)
+---
+## <a id="a_sql">II、[sql](https://github.com/mutistic/mutistic.spring/tree/master/com.mutistic.boot/notes/sql)</a>
 [ddl_creater_database_study](https://github.com/mutistic/mutistic.spring/blob/master/com.mutistic.boot/notes/sql/ddl_creater_database_study.sql)
 
+
+---
+<a id="a_down"></a>  
+<a href="#a_top">Top</a> 
+<a href="#a_catalogue">Catalogue</a>  
 
 

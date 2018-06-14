@@ -12,8 +12,10 @@
 5. <a href="#a_initial">指定 bean的 initial（初始化） 和 destroy（销毁） 方法</a>
 6. <a href="#a_component">使用@Component、@Repository、@Service、@Controller、@Aspect 等方式注册bean</a>
 7. <a href="#a_componentScan">@ComponentScan 扫描注解<a/>
-8. <a id="a_beanPostProcessor">BeanPostProcessor bean后置处理器</a>
-9. <a href="#a_down">down</a>
+8. <a href="a_beanPostProcessor">BeanPostProcessor bean后置处理器</a>
+9. <a href="#a_applicationContextAware">Aware 之 ApplicationContextAware</a>
+10. <a href="#a_beanFactoryPostProcessor">BeanFactoryPostProcessor 上下文的基础工厂Bean后置处理器</a>
+99. <a href="#a_down">down</a>
 
 ---
 ### <a id="a_annotationConfigApplicationContext">一、AnnotationConfigApplicationContext 独立的应用程序上下文：</a>
@@ -746,7 +748,7 @@ BeanPostProcessor：[org.springframework.beans.factory.config.BeanPostProcessor]
 6、默认实现返回给定的bean本身。不可返回null（如返回null导致后续处理时丢失传入的bean，且不会调用后续的BeanPostProcessors）。
 ```
 
-### <a id="a_beanPostProcessor">九、Aware 之 ApplicationContextAware</a>
+### <a id="a_applicationContextAware">九、Aware 之 ApplicationContextAware</a>
 9.1、Aware：[org.springframework.beans.factory.Aware](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/Aware.html)<br/>
 
 ```
