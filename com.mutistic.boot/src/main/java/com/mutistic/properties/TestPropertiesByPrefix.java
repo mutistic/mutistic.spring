@@ -28,8 +28,10 @@ public class TestPropertiesByPrefix {
 	
 	private String jdbcPassword;
 	
+	// 声明格式 key[index]=value
 	private List<String> jdbcHostList;// = new ArrayList<String>();
 	
+	// 声明格式 key[index]=value
 	private Integer[] jdbcProtArray;
 
 	public void show() {
