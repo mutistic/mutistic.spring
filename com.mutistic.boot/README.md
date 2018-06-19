@@ -820,7 +820,7 @@ public class TestPropertiesByPrefix {
 }
 ```
 
-5.6、通过实现 EnvironmentPostProcessor 动态注入自定义配置文件：<br/>
+5.6、通过实现 EnvironmentPostProcessor  自定义注入配置文件：<br/>
 EnvironmentPostProcessor：[org.springframework.boot.env.EnvironmentPostProcessor](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/env/EnvironmentPostProcessor.html)
 
 Properties：[java.util.Properties](https://docs.oracle.com/javase/10/docs/api/java/util/Properties.html)
@@ -868,7 +868,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.PropertiesPropertySource;
 import org.springframework.stereotype.Component;
 import com.mutistic.utils.CommonUtil;
-// 6、通过实现 EnvironmentPostProcessor 动态注入自定义配置文件
+// 6、通过实现 EnvironmentPostProcessor  自定义注入配置文件
 @Component
 public class TestEnvironmentPostProcessor implements EnvironmentPostProcessor {
 	/**

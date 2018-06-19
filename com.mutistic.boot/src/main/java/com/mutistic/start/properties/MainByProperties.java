@@ -134,7 +134,7 @@ public class MainByProperties {
 	}
 	
 	/**
-	 * @description 6、通过实现 EnvironmentPostProcessor 动态注入自定义配置文件： 
+	 * @description 6、通过实现 EnvironmentPostProcessor 自定义注入配置文件： 
 	 * @author mutisitic
 	 * @date 2018年6月19日
 	 * @param args

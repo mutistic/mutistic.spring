@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import com.mutistic.utils.CommonUtil;
 
 /**
- * @program 6、通过实现 EnvironmentPostProcessor 动态注入自定义配置文件
+ * @program 6、通过实现 EnvironmentPostProcessor 自定义注入配置文件
  * @description
  * @author mutisitic
  * @date 2018年6月19日
