@@ -16,6 +16,7 @@ Spring Boot 是伴随着[Spring4.0](https://github.com/mutistic/mutistic.spring/
 4. <a href="#a_demoApplicationTests">DemoApplicationTests.java：测试类</a>
 5. <a href="#a_pom">pom.xml：POM配置文件</a>
 6. <a href="#a_applicationProperties">application.properties：配置文件</a>
+7. <a href="#a_getproperties">获取 application.properties（或者application.yml）及其他配置文件声明的属性值</a>
 97. <a href="#a_pit">spring boot 入坑总结</a>
 98. <a href="#a_sql">sql</a>
 99. <a href="#a_down">down</a>
@@ -87,8 +88,7 @@ Eclipse集成STS插件，创建Spring Boot项目，采用Maven打包发布软件
 ### <a id="a_springBootApplication">一、@SpringBootApplication启动类 ：开启(Spring)组件扫描和(Spring Boot)自动配置：</a>
 @SpringBootApplication：[org.springframework.boot.SpringApplication](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/SpringApplication.html)
 
-SpringBootApplication：[org.springframework.boot.SpringBootApplication]
-(https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/SpringBootApplication.html)
+SpringBootApplication：[org.springframework.boot.SpringBootApplication](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/SpringBootApplication.html)
 
 @SpringBootConfiguration：[org.springframework.boot.SpringBootConfiguration](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/SpringBootConfiguration.html)
 
@@ -125,10 +125,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import com.mutistic.utils.CommonConstant;
-/**
- * 通过@SpringBootApplication和SpringApplication 来启动spring boot
- * 1、 通过SpringApplication.run() 来启动spring boot。2、通过  new SpringApplication()，来启动spring boot
- */
+// 通过@SpringBootApplication和SpringApplication 来启动spring boot
+// 通过SpringApplication.run() 来启动spring boot。2、通过  new SpringApplication()，来启动spring boot
 @SpringBootApplication
 public class MainBySpringApplication {
 	public static void main(String[] args) {
@@ -136,28 +134,20 @@ public class MainBySpringApplication {
 		showSpringApplicationByNew(args);
 	}
 
-	/**
-	 * 用于测试的bean，能够直接装配bean，取决于 @SpringBootApplication 本身实现了 @SpringBootConfiguration注解，而@SpringBootConfiguration 实现  @Configuration
-	 * @return
-	 */
+	// 用于测试的bean，能够直接装配bean，取决于 @SpringBootApplication 本身实现了 @SpringBootConfiguration注解，而@SpringBootConfiguration 实现  @Configuration
 	@Bean
 	public Runnable craterRunnable() { return () -> {}; }
 
-	/**
-	 * 1、演示 SpringApplication.run() 来启动spring boot 
-	 */
+	// 1、演示 SpringApplication.run() 来启动spring boot 
 	private static void showSpringApplicationByStatic(String[] args) {
 		CommonConstant.printOne("1、通过  SpringApplication.run() 来启动spring boot，run()本身返回 ConfigurableApplicationContext，然后通过Context获取容器中的bean：");
 		ConfigurableApplicationContext context = SpringApplication.run(MainBySpringApplication.class, args);
 		CommonConstant.printTwo("ConfigurableApplicationContext 获取bean：Runnable.class",
 				context.getBean(Runnable.class));
 		context.close();
-		CommonConstant.println();
 	}
 	
-	/**
-	 * 2、通过 new SpringApplication()，来启动spring boot
-	 */
+	// 2、通过 new SpringApplication()，来启动spring boot
 	private static void showSpringApplicationByNew(String[] args) {
 		CommonConstant.printOne("2、通过 new SpringApplication()，来启动spring boot：");
 
@@ -166,7 +156,6 @@ public class MainBySpringApplication {
 		CommonConstant.printTwo("ConfigurableApplicationContext 获取bean：Runnable.class",
 				context.getBean(Runnable.class));
 		context.close();
-		CommonConstant.println();
 	}
 }
 
@@ -216,12 +205,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(classes = DemoApplication.class)
 @ActiveProfiles(profiles = "test")
 public class DemoApplicationTests {
-
 	@Test
 	public void contextLoads() {
 		System.out.println("Demo Application Spring Boot Tests!");
 	}
-
 }
 ```
 
@@ -428,6 +415,403 @@ spring.jpa.hibernate.ddl-auto=create
 #设置JPA 是否显示sql ： true显示，false不显示
 spring.jpa.show-sql=true
 ```
+
+### <a id="a_getproperties">五、获取 application.properties（或者application.yml）及其他配置文件声明的属性值</a>
+
+application.properties：
+
+```properties
+# 配合 MainByProperties 获取 application.properties属性值
+local.ip=127.0.0.1
+local.port=8888
+name=spring boot
+project.name=\u6F14\u793A\u5C5E\u6027\u503C${name}
+
+#配合 TestPropertiesByPropertySource 获取 指定前缀属性值
+dev.jdbcUrl=jdbc:mysql://127.0.0.1:3306/study
+dev.driverClassName=com.mysql.jdbc.Driver
+dev.jdbcUsername=MYSQL
+dev.jdbcPassword=MYSQL123
+```
+
+application.yml：
+
+```properties
+#配合 MainByProperties 获取 application.yml属性值
+locale: 
+  name:application.yml
+```
+
+
+test-jdbc.properties：
+
+```properties
+#配合 TestPropertiesByPropertySource 获取 自定义资源 test-jdbc.properties 属性值
+jdbcUrl=jdbc:mysql://127.0.0.1:3306/study
+driverClassName=com.mysql.jdbc.Driver
+
+#配合 TestJDBCPropertiesByPrefix 获取 指定前缀属性值属性值
+dev.jdbcUrl=jdbc:mysql://localhost:3306/study
+dev.driverClassName=com.mysql.jdbc.Driver
+dev.jdbcUsername=root
+dev.jdbcPassword=root
+dev.jdbcHostList[0]=localhost
+dev.jdbcHostList[1]=127.0.0.1
+dev.jdbcProtArray[0]=8080
+dev.jdbcProtArray[1]=8181
+dev.jdbcProtArray[2]=9088
+```
+
+test-jdbc2.properties：
+
+```properties
+#配合 TestPropertiesByPropertySource 获取 自定义的多资源 test-jdbc2.properties 属性值
+jdbc.username=root
+jdbc.password=root
+```
+
+MainByProperties.java：演示入口类
+
+```Java
+package com.mutistic.properties;
+import java.util.Map;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.core.env.ConfigurableEnvironment;
+import com.mutistic.utils.CommonUtil;
+// 获取 application.properties（或者application.yml）及其他配置文件声明的属性值
+@SpringBootApplication
+public class MainByProperties {
+	public static void main(String[] args) {
+		showPropertiesByConfigurableEnvironment(args);
+		showPropertiesBySystemEnvironment(args);
+		showPropertiesByEnvironment(args);
+		showPropertiesByValue(args);
+		showPropertiesByPropertySource(args);
+		showPropertiesByPrifex(args);
+	}
+
+	// 1.1、通过ConfigurableApplicationContext.getEnvironment().getProperty()获取具体属性值
+	private static void showPropertiesByConfigurableEnvironment(String[] args) {
+		ConfigurableApplicationContext context = SpringApplication.run(MainByProperties.class, args);
+		ConfigurableEnvironment env = context.getEnvironment();
+		
+		CommonUtil.printOne("1.1、通过ConfigurableApplicationContext.getEnvironment().getProperty()获取指定属性值：");
+		CommonUtil.printThree("获取 application.properties声明的属性：local.ip", env.getProperty("local.ip"));
+		CommonUtil.printThree("获取 application.yml声明的属性：local.name", env.getProperty("local.name"));
+		
+		context.close();
+	}
+	
+	// 1.2、通过ConfigurableApplicationContext.getSystemEnvironment()获取指定系统环境中的属性值
+	private static void showPropertiesBySystemEnvironment(String[] args) {
+		ConfigurableApplicationContext context = SpringApplication.run(MainByProperties.class, args);
+		
+		ConfigurableEnvironment env = context.getEnvironment();
+		CommonUtil.printOne("1.2、通过ConfigurableApplicationContext.getSystemEnvironment()获取指定系统环境中的属性值：");
+		Map<String, Object> systemMap = env.getSystemEnvironment();
+		for (String key : systemMap.keySet()) {
+			CommonUtil.printThree("获取系统环境中的属性："+key, systemMap.get(key));
+		}
+		
+		context.close();
+	}
+	
+	// 2、通过 自动注入 Environment 获取属性值
+	private static void showPropertiesByEnvironment(String[] args) {
+		ConfigurableApplicationContext context = SpringApplication.run(MainByProperties.class, args);
+		
+		CommonUtil.printOne("2、通过 自动注入 Environment 的 getProperty() 获取属性值：");
+		context.getBean(TestPropertiesByEnvironment.class).show();
+		
+		context.close();
+	}
+	
+	// 3、通过 @Value 自动注入 application.properties声明的属性
+	private static void showPropertiesByValue(String[] args) {
+		ConfigurableApplicationContext context = SpringApplication.run(MainByProperties.class, args);
+
+		CommonUtil.printOne("3、通过 @Value 自动注入 application.properties声明的属性：");
+		context.getBean(TestPropertiesByValue.class).show();
+		
+		context.close();
+	}
+	
+	// 4、通过 @PropertySource 加载指定资源文件
+	private static void showPropertiesByPropertySource(String[] args) {
+		ConfigurableApplicationContext context = SpringApplication.run(MainByProperties.class, args);
+		
+		CommonUtil.printOne("4、通过 @PropertySource 加载指定资源文件：");
+		context.getBean(TestPropertiesByPropertySource.class).show();
+		ConfigurableEnvironment env = context.getEnvironment();
+		CommonUtil.printThree("通过 env.getProperty() 获取 test-jdbc.properties声明的属性：jdbcUrl", env.getProperty("jdbcUrl"));
+		CommonUtil.printThree("通过 env.getProperty() 获取 test-jdbc.properties声明的属性：driverClassName", env.getProperty("driverClassName"));
+		
+		context.close();
+	}
+	
+	// 5、通过 @ConfigurationProperties 加载指定前缀属性
+	private static void showPropertiesByPrifex(String[] args) {
+		ConfigurableApplicationContext context = SpringApplication.run(MainByProperties.class, args);
+		
+		CommonUtil.printOne("5、通过 @ConfigurationProperties 加载指定前缀属性：");
+		context.getBean(TestPropertiesByPrefix.class).show();
+		
+		context.close();
+	}
+}
+```
+
+
+5.1.1、通过ConfigurableApplicationContext.getEnvironment().getProperty()获取具体属性值<br/>
+ConfigurableEnvironment：[org.springframework.core.env.ConfigurableEnvironment](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/core/env/ConfigurableEnvironment.html)
+
+
+```
+1、参考：MainByProperties.showPropertiesByConfigurableEnvironment();
+2、配置接口，如果不是所有的 Environment 类型都可以实现。提供设置活动和默认概要文件和操纵底层属性的工具。允许客户端设置和验证所需的属性，定制转换服务，并通过可配置的 ConfigurablePropertyResolver 超级接口进行更多的定制。
+3、当一个  Environment 被  ApplicationContext 使用时，重要的是在调用上下文的refresh（）方法之前执行任何此类PropertySource操作。这确保了在容器引导过程中所有的属性源都可用，包括属性占位符配置者的使用。
+```
+
+5.1.2、通过ConfigurableEnvironment.getSystemEnvironment()获取指定系统环境中的属性值：<br/>
+
+```
+1、运行演示参考：MainByProperties.showPropertiesBySystemEnvironment();
+2、java.util.Map<java.lang.String,java.lang.Object> getSystemEnvironment()：
+2.1、如果由当前SecurityManager允许的话，返回system.getenv() 的值，否则返回一个map实现，它将尝试通过调用system.getenv(String)来访问单个键。
+2.2、请注意，大多数Environment实现将把这个系统环境映射包含为要搜索的默认PropertySource。因此，建议不直接使用该方法，除非明确指定绕过其他属性源
+```
+
+5.2、通过 自动注入 Environment 获取属性值：<br/>
+Environment：[org.springframework.core.env.Environment](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/core/env/Environment.html)
+
+PropertyResolver：[org.springframework.core.env.PropertyResolver](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/core/env/PropertyResolver.html)
+
+```
+1、运行演示参考：MainByProperties.showPropertiesByEnvironment();
+2、ConfigurableEnvironment 继承 Environment，Environment 继承 PropertyResolver。
+3、Environment：接口表示当前应用程序正在运行的环境。模型的两个关键方面：概要文件和属性。与资源访问相关的方法通过PropertyResolver 超级接口公开。
+4、属性在几乎所有的应用程序中都扮演着重要的角色，可能来自各种来源：属性文件，JVM系统属性，系统环境变量，JNDI，servlet上下文参数，ad-hoc属性对象，Map等等。环境对象与属性相关的角色是为用户提供一个方便的服务接口，用于配置属性源并解析属性
+5、PropertyResolver：java.lang.String getProperty(java.lang.String key)：
+返回与给定键相关联的属性值，如果键不能被解析，则返回null。
+```
+TestPropertiesByEnvironment.java：
+
+```Java
+package com.mutistic.properties;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
+import com.mutistic.utils.CommonUtil;
+// 2、通过 自动注入 Environment 获取属性值
+@Component
+public class TestPropertiesByEnvironment {
+	// 自动注入 Environment：ConfigurableEnvironment 是 Environment 其中的一个子类
+	@Autowired
+	private Environment evn;
+	
+	public void show() {
+		CommonUtil.printThree("通过 Environment 获取 application.properties声明的属性：local.ip", evn.getProperty("local.ip"));
+		CommonUtil.printThree("通过 Environment 获取 application.properties声明的属性：local.prot，可以指定其类型", evn.getProperty("local.port", Integer.class));
+		CommonUtil.printThree("通过 Environment 获取 application.properties声明的属性：tomcat.port", evn.getProperty("tomcat.port", "101010"));
+	}
+}
+```
+
+5.3、通过 @Value 自动注入 application.properties声明的属性：<br/>
+@Value：[org.springframework.beans.factory.annotation.Value](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/annotation/Value.html)
+
+```
+1、运行演示参考：MainByProperties.showPropertiesByValue();<br/>
+2、在字段或方法/构造器参数级别上的注释，表示受影响参数的默认值表达式。
+3、通常用于表达驱动的依赖注入。还支持处理handler方法参数的动态解析，例如在Spring MVC中。 一个常见的用例是使用“systemProperties”分配默认字段值。myProp }”风格表达式。
+4、注意，@value标注的实际处理是由BeanPostProcessor执行的，这意味着您不能在BeanPostProcessor或BeanFactoryPostProcessor类型中使用@value。请参考AutowiredAnnotationBeanPostProcessor类的javadoc（默认情况下，它检查这个注释的存在）。
+```
+
+TestPropertiesByValue.java：
+
+```Java
+package com.mutistic.properties;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import com.mutistic.utils.CommonUtil;
+// 3、通过 @Value 自动注入 application.properties声明的属性
+@Component
+public class TestPropertiesByValue {
+	@Value("${local.ip}")
+//	@Value(value = "${local.ip}")
+	private String localIP;
+	
+	@Value("${name}")
+	private String name;
+	
+	// 通过  @Value 注解自动注入时 会根据字段类型进行转换
+	@Value("${local.port}")
+	private Integer localPort;
+	
+	// 在application.properties 可以用 ${key}引用声明的属性
+	@Value("${project.name}")
+	private String projectName;
+	
+	// 通过  @Value 注解，可以用 ${key:value}对字段给定默认值
+	@Value("${tomcat.prot:9090}")
+	private String tomcatPort;
+	
+	public void show() {
+		CommonUtil.printThree("通过  @Value 注解自动注入 application.properties声明的属性：local.ip", localIP);
+		CommonUtil.printThree("通过  @Value 注解自动注入 application.properties声明的属性(会根据字段类型进行转换)：local.prot:", localPort);
+		CommonUtil.printThree("通过  @Value 注解自动注入 application.properties声明的属性：name", name);
+		CommonUtil.printThree("通过  @Value 注解自动注入 在application.properties 可以用 ${key}引用声明的属性：project.name 引用 name", projectName);
+		CommonUtil.printThree("通过  @Value 注解，可以用 ${key:value}对字段给定默认值，优先取application.properties的值", tomcatPort);
+	}
+}
+```
+
+5.4、通过 @PropertySource 加载指定资源文件：<br/>
+@PropertySource：[org.springframework.context.annotation.PropertySource](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/PropertySource.html)
+
+@PropertySources：[org.springframework.context.annotation.PropertySources](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/PropertySources.html)
+
+```
+1、运行演示参考：MainByProperties.showPropertiesByPropertySource();<br/>
+2、@PropertySource：注释提供了一种方便的声明机制，可以将PropertySource添加到Spring的环境中。与@configuration类一起使用。
+3、@PropertySources：集合了多个PropertySource注释的容器注释。可以原生使用，声明几个嵌套的PropertySource注释。也可以与Java 8对可重复注释的支持结合使用，其中PropertySource可以简单地在同一类型上多次声明，从而隐式生成此容器注释
+```
+
+@PropertySource属性介绍：
+
+```
+1、value
+	指示要加载的属性文件的资源位置。传统和基于XML的属性文件格式均受支持 - 例如"classpath:/com/myco/app.properties" 或"file:/path/to/file.xml"。资源位置通配符（例如** / *。properties）是不允许的; 
+	每个位置都必须评估一个.properties资源。
+	${...}占位符将针对已注册的任何/所有属性源进行解析Environment。
+	每个位置都将Environment作为其自己的属性来源添加到附件中，并按声明顺序添加
+2、name：指明此属性来源的名称。如果省略，将根据底层资源的描述生成名称。
+3、ignoreResourceNotFound
+	公共抽象布尔ignoreResourceNotFound
+	指示是否property resource应该忽略找不到的答案。
+	true如果属性文件是完全可选的，则是合适的。默认是false。
+4、encoding
+公共抽象java.lang.String编码，给定资源的特定字符编码，例如“UTF-8”
+5、factory
+	public abstract java.lang.Class<? extends PropertySourceFactory> factory
+	指定一个自定义PropertySourceFactory，如果有的话。默认情况下，将使用标准资源文件的默认工厂。
+```
+
+
+TestPropertiesByPropertySource.java：
+
+```Java
+package com.mutistic.properties;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
+import org.springframework.stereotype.Component;
+import com.mutistic.utils.CommonUtil;
+// 4、通过 @PropertySource 加载指定资源文件
+// 通过其 value 属性指定资源文件路径： classpath 默认去查找根路径下的文件。file 可以指定绝对路径
+@Component
+@PropertySource(value = "test-jdbc.properties")
+//@PropertySource(value = "file:C:/Work/Study/GitProduct/mutistic.spring/com.mutistic.boot/notes/test-jdbc2.properties") // 可以加载多个配置文件
+//@PropertySource( name="test-jdbc.properties", value= {"classpath:test-jdbc.properties"}, ignoreResourceNotFound=false, encoding="UTF-8")
+//@PropertySource(value = {"clapatch:test-jdbc.properties", "file:C:/Work/Study/GitProduct/mutistic.spring/com.mutistic.boot/notes/test-jdbc2.properties"}) // 可以用使用 value 加载多个配置文件
+//@PropertySources({@PropertySource(value = "test-jdbc.properties"), @PropertySource(value = "file:C:/Work/Study/GitProduct/mutistic.spring/com.mutistic.boot/notes/test-jdbc2.properties")}) // 可以使用 @PropertiesSources 加载多个配置为文件
+public class TestPropertiesByPropertySource {
+	@Value("${jdbcUrl}")
+	private String jdbcUrl;
+
+	@Value("${driverClassName}")
+	private String driverClassName;
+
+//	@Value("${jdbc.username}") // test-jdbc2.properties
+	private String jdbcUsername;
+	
+//	@Value("${jdbc.password}") // test-jdbc2.properties
+	private String jdbcPassword;
+	
+	public void show() {
+		CommonUtil.printTwo("通过 @Value 自动注入 test-jdbc.properties声明的属性：jdbcUrl", jdbcUrl);
+		CommonUtil.printThree("通过 @Value 自动注入 test-jdbc.properties声明的属性：driverClassName", driverClassName);
+		CommonUtil.printThree("通过 @Value 自动注入 test-jdbc2.properties声明的属性：jdbc.username", jdbcUsername);
+		CommonUtil.printThree("通过 @Value 自动注入 test-jdbc2.properties声明的属性：jdbc.password", jdbcPassword);
+	}
+}
+```
+
+5.5、通过 @ConfigurationProperties 加载指定前缀属性：<br/>
+@ConfigurationProperties：[org.springframework.boot.context.properties.ConfigurationProperties](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/context/properties/ConfigurationProperties.html)
+
+```
+1、运行演示参考：MainByProperties.showPropertiesByPrifex();
+2、注释外部化配置。如果要绑定和验证某些外部属性（例如，从.Properties文件），请将其添加到类中的类定义或 @Bean方法中@Configuration。
+3、请注意@Value，与之相反，由于属性值是外部化的，因此不会评估SpEL表达式。
+```
+
+@ConfigurationProperties属性介绍：
+
+```
+1、value：有效绑定到此对象的属性的名称前缀。prefix()的同义词
+2、prefix：有效绑定到此对象的属性的名称前缀。value()的同义词
+3、ignoreUnknownFields：标记以指示绑定到此对象时应忽略未知字段。未知字段可能是属性中的错误的标志。
+4、ignoreInvalidFields：标志表明绑定到这个对象时应该忽略无效的字段。根据使用的联编程序，无效意味着无效，通常这意味着错误类型的字段（或不能被强制转换为正确类型）
+公共抽象java.lang.String编码，给定资源的特定字符编码，例如“UTF-8”
+5、locations: 指定资源路径。已删除
+```
+
+TestPropertiesByValue.java：
+
+```Java
+package com.mutistic.properties;
+import java.util.Arrays;
+import java.util.List;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
+import com.mutistic.utils.CommonUtil;
+// 5、通过 @ConfigurationProperties 加载指定前缀属性
+// 通过prefix属性会从默认加载指定前缀的属性（加载后，则不会再次加载。默认配置文件查找不到，会匹配整个上下文资源文件中的前缀），通过字段的set方法注入。
+@Component
+@PropertySource(value = "test-jdbc.properties") // 默认配置文件查找不到，会匹配整个上下文资源文件中的前缀
+@ConfigurationProperties(prefix = "dev") // prefix指定属性前缀。其中locations指定资源路径属性已删除
+public class TestPropertiesByPrefix {
+	private String jdbcUrl;
+	private String driverClassName;
+	private String jdbcUsername;
+	private String jdbcPassword;
+	private List<String> jdbcHostList;// = new ArrayList<String>();
+	private Integer[] jdbcProtArray;
+
+	public void show() {
+		CommonUtil.printTwo("通过 @Value 自动注入 test-jdbc.properties声明的属性：jdbcUrl", jdbcUrl);
+		CommonUtil.printThree("通过 @Value 自动注入 test-jdbc.properties声明的属性：driverClassName", driverClassName);
+		CommonUtil.printThree("通过 @Value 自动注入 test-jdbc.properties声明的属性：jdbcUsername", jdbcUsername);
+		CommonUtil.printThree("通过 @Value 自动注入 test-jdbc.properties声明的属性：jdbcPassword", jdbcPassword);
+		CommonUtil.printThree("通过 @Value 自动注入 test-jdbc.properties声明的属性(集合)：jdbcHostList", jdbcHostList);
+		CommonUtil.printThree("通过 @Value 自动注入 test-jdbc.properties声明的属性(数组)：jdbcProtArray", Arrays.asList(jdbcProtArray));
+	}
+
+	public String getJdbcUrl() { return jdbcUrl; }
+	public void setJdbcUrl(String jdbcUrl) { this.jdbcUrl = jdbcUrl; }
+	public String getDriverClassName() { return driverClassName; }
+	public void setDriverClassName(String driverClassName) { this.driverClassName = driverClassName; }
+	public String getJdbcUsername() { return jdbcUsername; }
+	public void setJdbcUsername(String jdbcUsername) { this.jdbcUsername = jdbcUsername; }
+	public String getJdbcPassword() { return jdbcPassword; }
+	public void setJdbcPassword(String jdbcPassword) { this.jdbcPassword = jdbcPassword; }
+	public List<String> getJdbcHostList() { return jdbcHostList; }
+	public void setJdbcHostList(List<String> jdbcHostList) { this.jdbcHostList = jdbcHostList; }
+	public Integer[] getJdbcProtArray() { return jdbcProtArray; }
+	public void setJdbcProtArray(Integer[] jdbcProtArray) { this.jdbcProtArray = jdbcProtArray; }
+}
+```
+
+
+
+
+
+
+
 
 ---
 ## <a id="a_pit">I、[spring boot 入坑总结](https://github.com/mutistic/mutistic.spring/tree/master/com.mutistic.boot/notes/pit)</a>
