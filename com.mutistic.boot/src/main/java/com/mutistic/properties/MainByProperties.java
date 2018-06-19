@@ -10,7 +10,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import com.mutistic.utils.CommonUtil;
 
 /**
- * @program 获取 application.properties（或者application.yml）及其他配置文件声明的属性值
+ * @program 获取默认配置文件或其他配置文件声明的属性值
  * @description 
  * @author mutisitic
  * @date 2018年6月14日

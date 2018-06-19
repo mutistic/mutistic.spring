@@ -16,7 +16,7 @@ Spring Boot 是伴随着[Spring4.0](https://github.com/mutistic/mutistic.spring/
 4. <a href="#a_demoApplicationTests">DemoApplicationTests.java：测试类</a>
 5. <a href="#a_pom">pom.xml：POM配置文件</a>
 6. <a href="#a_applicationProperties">application.properties：配置文件</a>
-7. <a href="#a_getproperties">获取 application.properties（或者application.yml）及其他配置文件声明的属性值</a>
+7. <a href="#a_getproperties">获取默认配置文件或其他配置文件声明的属性值</a>
 97. <a href="#a_pit">spring boot 入坑总结</a>
 98. <a href="#a_sql">sql</a>
 99. <a href="#a_down">down</a>
@@ -416,7 +416,7 @@ spring.jpa.hibernate.ddl-auto=create
 spring.jpa.show-sql=true
 ```
 
-### <a id="a_getproperties">五、获取 application.properties（或者application.yml）及其他配置文件声明的属性值</a>
+### <a id="a_getproperties">五、获取默认配置文件或其他配置文件声明的属性值</a>
 
 application.properties：
 
@@ -480,7 +480,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 import com.mutistic.utils.CommonUtil;
-// 获取 application.properties（或者application.yml）及其他配置文件声明的属性值
+// 获取默认配置文件或其他配置文件声明的属性值
 @SpringBootApplication
 public class MainByProperties {
 	public static void main(String[] args) {
@@ -564,7 +564,7 @@ public class MainByProperties {
 ```
 
 
-5.1.1、通过ConfigurableApplicationContext.getEnvironment().getProperty()获取具体属性值<br/>
+5.1.1、通过ConfigurableApplicationContext.getEnvironment().getProperty()获取application.properties的属性值<br/>
 ConfigurableEnvironment：[org.springframework.core.env.ConfigurableEnvironment](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/core/env/ConfigurableEnvironment.html)
 
 
