@@ -1,4 +1,4 @@
-package com.mutistic.runs;
+package com.mutistic.start.runs;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

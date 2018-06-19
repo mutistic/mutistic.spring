@@ -1,4 +1,4 @@
-package com.mutistic.demo;
+package com.mutistic.start.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

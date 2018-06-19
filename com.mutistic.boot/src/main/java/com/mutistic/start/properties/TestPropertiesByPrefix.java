@@ -1,4 +1,4 @@
-package com.mutistic.properties;
+package com.mutistic.start.properties;
 
 import java.util.Arrays;
 import java.util.List;

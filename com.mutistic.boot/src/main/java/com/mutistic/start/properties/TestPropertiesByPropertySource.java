@@ -1,4 +1,4 @@
-package com.mutistic.properties;
+package com.mutistic.start.properties;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
