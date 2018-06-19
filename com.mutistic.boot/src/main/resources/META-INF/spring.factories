@@ -1,0 +1,2 @@
+#配合 TestEnvironmentPostProcessor 
+org.springframework.boot.env.EnvironmentPostProcessor=com.mutistic.start.properties.TestEnvironmentPostProcessor

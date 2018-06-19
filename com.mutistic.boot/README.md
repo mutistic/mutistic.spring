@@ -490,6 +490,7 @@ public class MainByProperties {
 		showPropertiesByValue(args);
 		showPropertiesByPropertySource(args);
 		showPropertiesByPrifex(args);
+		showPropertiesByEnvironmentPostProcessor(args);
 	}
 
 	// 1.1、通过ConfigurableApplicationContext.getEnvironment().getProperty()获取具体属性值
@@ -559,6 +560,17 @@ public class MainByProperties {
 		context.getBean(TestPropertiesByPrefix.class).show();
 		
 		context.close();
+	}
+	
+	// 6、通过实现 EnvironmentPostProcessor 动态注入自定义配置文件： 
+	private static void showPropertiesByEnvironmentPostProcessor(String[] args) {
+		ConfigurableApplicationContext context = SpringApplication.run(MainByProperties.class, args);
+		ConfigurableEnvironment env = context.getEnvironment();
+		CommonUtil.printOne("6、通过实现 EnvironmentPostProcessor 动态注入自定义配置文件：");
+		CommonUtil.printThree("TestEnvironmentPostProcessor 实现 EnvironmentPostProcessor bean：", context.getBean(TestEnvironmentPostProcessor.class));
+		CommonUtil.printThree("获取 自定义配置文件 test-processor.properties 的属性值 project：", env.getProperty("project"));
+		CommonUtil.printThree("获取 自定义配置文件 test-processor.properties 的属性值 author：", env.getProperty("author"));
+		CommonUtil.printThree("获取 自定义配置文件 test-processor.properties 的属性值 time：", env.getProperty("time"));
 	}
 }
 ```
@@ -808,10 +820,80 @@ public class TestPropertiesByPrefix {
 }
 ```
 
+5.6、通过实现 EnvironmentPostProcessor 动态注入自定义配置文件：<br/>
+EnvironmentPostProcessor：[org.springframework.boot.env.EnvironmentPostProcessor](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/env/EnvironmentPostProcessor.html)
 
+Properties：[java.util.Properties](https://docs.oracle.com/javase/10/docs/api/java/util/Properties.html)
 
+PropertiesPropertySource：[org.springframework.core.env.PropertiesPropertySource](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/core/env/PropertiesPropertySource.html)
 
+MutablePropertySources：[org.springframework.core.env.MutablePropertySources](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/core/env/MutablePropertySources.html)
 
+```
+1、运行演示参考：MainByProperties.showPropertiesByEnvironmentPostProcessor();
+2、EnvironmentPostProcessor：
+	允许Environment在刷新应用程序上下文之前自定义应用程序。
+	EnvironmentPostProcessor实现必须META-INF/spring.factories使用此类的完全限定名称作为注册进行注册 。
+	EnvironmentPostProcessor我们鼓励处理器检测Spring的 Ordered接口是否已经实现，或者是否存在@Order注释，并且如果在调用之前进行了相应的排序实例。
+3、Properties：
+	是代表一个持久的一套详细属性，属性可以被保存到一个流或从流中加载的类。以下是关于属性的要点：
+	属性列表中每个键及其对应值是一个字符串。
+	一个属性列表可包含另一个属性列表作为它的“默认”，第二个属性可在列表中搜索，如果没有在原有的属性列表中找到的属性键。
+	这个类是线程安全的;多个线程可以共享一个Properties对象，而不需要外部同步
+4、PropertiesPropertySource：PropertySource从Properties对象中提取属性的实现
+5、MutablePropertySources：
+	PropertySources接口的默认实现。
+	允许对内含的属性源进行操作，并提供复制现有PropertySources实例的构造器。
+	在其的方法中提到了优先级，这是关于在用PropertyResolver解决给定属性时，将搜索属性源的顺序。
+```
+
+resources/META-INF/spring.factories
+
+```factories
+#配合 TestEnvironmentPostProcessor 
+org.springframework.boot.env.EnvironmentPostProcessor=com.mutistic.start.properties.TestEnvironmentPostProcessor
+```
+
+TestEnvironmentPostProcessor.java：
+
+```Java
+package com.mutistic.start.properties;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.env.EnvironmentPostProcessor;
+import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.core.env.PropertiesPropertySource;
+import org.springframework.stereotype.Component;
+import com.mutistic.utils.CommonUtil;
+// 6、通过实现 EnvironmentPostProcessor 动态注入自定义配置文件
+@Component
+public class TestEnvironmentPostProcessor implements EnvironmentPostProcessor {
+	/**
+	 * @description 给定的环境的后置处理器
+	 * @param environment
+	 * @param application
+	 * @see org.springframework.boot.env.EnvironmentPostProcessor#postProcessEnvironment(org.springframework.core.env.ConfigurableEnvironment, org.springframework.boot.SpringApplication)
+	 */
+	@Override
+	public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
+		String fileName = "C:/Work/Study/GitProduct/mutistic.spring/com.mutistic.boot/notes/test/test-processor.properties";
+		try {
+			InputStream input = new FileInputStream(fileName);
+			Properties source = new Properties();
+			source.load(input); // 从输入字节流中读取属性列表（键和元素对） 
+			
+			PropertiesPropertySource propertySource = new PropertiesPropertySource("testInput", source);
+			environment.getPropertySources().addLast(propertySource); // 添加具有最低优先级的给定属性源对象
+		} catch (IOException e) {
+			CommonUtil.printErr("TestEnvironmentPostProcessor 无法加载到指定资源fileName："+fileName);
+			e.printStackTrace();
+		}
+	}
+}
+```
 
 
 

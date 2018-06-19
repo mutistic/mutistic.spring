@@ -24,6 +24,7 @@ public class MainByProperties {
 		showPropertiesByValue(args);
 		showPropertiesByPropertySource(args);
 		showPropertiesByPrifex(args);
+		showPropertiesByEnvironmentPostProcessor(args);
 	}
 
 	/**
@@ -132,5 +133,20 @@ public class MainByProperties {
 		CommonUtil.println();
 	}
 	
+	/**
+	 * @description 6、通过实现 EnvironmentPostProcessor 动态注入自定义配置文件： 
+	 * @author mutisitic
+	 * @date 2018年6月19日
+	 * @param args
+	 */
+	private static void showPropertiesByEnvironmentPostProcessor(String[] args) {
+		ConfigurableApplicationContext context = SpringApplication.run(MainByProperties.class, args);
+		ConfigurableEnvironment env = context.getEnvironment();
+		CommonUtil.printOne("6、通过实现 EnvironmentPostProcessor 动态注入自定义配置文件：");
+		CommonUtil.printThree("TestEnvironmentPostProcessor 实现 EnvironmentPostProcessor bean：", context.getBean(TestEnvironmentPostProcessor.class));
+		CommonUtil.printThree("获取 自定义配置文件 test-processor.properties 的属性值 project：", env.getProperty("project"));
+		CommonUtil.printThree("获取 自定义配置文件 test-processor.properties 的属性值 author：", env.getProperty("author"));
+		CommonUtil.printThree("获取 自定义配置文件 test-processor.properties 的属性值 time：", env.getProperty("time"));
+	}
 	
 }

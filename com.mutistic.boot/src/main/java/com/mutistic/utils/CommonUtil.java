@@ -18,6 +18,10 @@ public class CommonUtil {
 	public static void println() {
 		System.out.println();
 	}
+	
+	public static void printErr(String str) {
+		System.err.println(LINE_LONG_LN + (str == null ? "" : str));
+	}
 
 	public static void printOne(String str) {
 		System.out.println(LINE_LONG_LN + (str == null ? "" : str));

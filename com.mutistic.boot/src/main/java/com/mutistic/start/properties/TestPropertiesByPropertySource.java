@@ -15,10 +15,10 @@ import com.mutistic.utils.CommonUtil;
  */
 @Component
 @PropertySource(value = "test-jdbc.properties")
-//@PropertySource(value = "file:C:/Work/Study/GitProduct/mutistic.spring/com.mutistic.boot/notes/test-jdbc2.properties") // 可以加载多个配置文件
+//@PropertySource(value = "file:C:/Work/Study/GitProduct/mutistic.spring/com.mutistic.boot/notes/test/test-jdbc2.properties") // 可以加载多个配置文件
 //@PropertySource( name="test-jdbc.properties", value= {"classpath:test-jdbc.properties"}, ignoreResourceNotFound=false, encoding="UTF-8")
-//@PropertySource(value = {"clapatch:test-jdbc.properties", "file:C:/Work/Study/GitProduct/mutistic.spring/com.mutistic.boot/notes/test-jdbc2.properties"}) // 可以用使用 value 加载多个配置文件
-//@PropertySources({@PropertySource(value = "test-jdbc.properties"), @PropertySource(value = "file:C:/Work/Study/GitProduct/mutistic.spring/com.mutistic.boot/notes/test-jdbc2.properties")}) // 可以使用 @PropertiesSources 加载多个配置为文件
+//@PropertySource(value = {"clapatch:test-jdbc.properties", "file:C:/Work/Study/GitProduct/mutistic.spring/com.mutistic.boot/notes/test/test-jdbc2.properties"}) // 可以用使用 value 加载多个配置文件
+//@PropertySources({@PropertySource(value = "test-jdbc.properties"), @PropertySource(value = "file:C:/Work/Study/GitProduct/mutistic.spring/com.mutistic.boot/notes/test/test-jdbc2.properties")}) // 可以使用 @PropertiesSources 加载多个配置为文件
 public class TestPropertiesByPropertySource {
 
 	@Value("${jdbcUrl}")
