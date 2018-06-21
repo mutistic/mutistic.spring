@@ -15,29 +15,29 @@ import com.mutistic.utils.CommonUtil;
  */
 @Component
 @PropertySource(value = "test-jdbc.properties")
-//@PropertySource(value = "file:C:/Work/Study/GitProduct/mutistic.spring/com.mutistic.boot/notes/test/test-jdbc2.properties") // 可以加载多个配置文件
+@PropertySource(value = "file:C:/Work/Study/GitProduct/mutistic.spring/com.mutistic.boot/notes/test/test-jdbc2.properties") // 可以加载多个配置文件
 //@PropertySource( name="test-jdbc.properties", value= {"classpath:test-jdbc.properties"}, ignoreResourceNotFound=false, encoding="UTF-8")
 //@PropertySource(value = {"clapatch:test-jdbc.properties", "file:C:/Work/Study/GitProduct/mutistic.spring/com.mutistic.boot/notes/test/test-jdbc2.properties"}) // 可以用使用 value 加载多个配置文件
 //@PropertySources({@PropertySource(value = "test-jdbc.properties"), @PropertySource(value = "file:C:/Work/Study/GitProduct/mutistic.spring/com.mutistic.boot/notes/test/test-jdbc2.properties")}) // 可以使用 @PropertiesSources 加载多个配置为文件
 public class TestPropertiesByPropertySource {
 
-	@Value("${jdbcUrl}")
+	@Value("${test.jdbcUrl}")
 	private String jdbcUrl;
 
-	@Value("${driverClassName}")
+	@Value("${test.driverClassName}")
 	private String driverClassName;
 
-//	@Value("${jdbc.username}") // test-jdbc2.properties
+	@Value("${jdbc2.username}") // test-jdbc2.properties
 	private String jdbcUsername;
 	
-//	@Value("${jdbc.password}") // test-jdbc2.properties
+	@Value("${jdbc2.password}") // test-jdbc2.properties
 	private String jdbcPassword;
 	
 	public void show() {
-		CommonUtil.printTwo("通过 @Value 自动注入 test-jdbc.properties声明的属性：jdbcUrl", jdbcUrl);
-		CommonUtil.printThree("通过 @Value 自动注入 test-jdbc.properties声明的属性：driverClassName", driverClassName);
-		CommonUtil.printThree("通过 @Value 自动注入 test-jdbc2.properties声明的属性：jdbc.username", jdbcUsername);
-		CommonUtil.printThree("通过 @Value 自动注入 test-jdbc2.properties声明的属性：jdbc.password", jdbcPassword);
+		CommonUtil.printTwo("通过 @Value 自动注入 test-jdbc.properties声明的属性：test.jdbcUrl", jdbcUrl);
+		CommonUtil.printThree("通过 @Value 自动注入 test-jdbc.properties声明的属性：test.driverClassName", driverClassName);
+		CommonUtil.printThree("通过 @Value 自动注入 test-jdbc2.properties声明的属性：jdbc2.username", jdbcUsername);
+		CommonUtil.printThree("通过 @Value 自动注入 test-jdbc2.properties声明的属性：jdbc2.password", jdbcPassword);
 	}
 
 }

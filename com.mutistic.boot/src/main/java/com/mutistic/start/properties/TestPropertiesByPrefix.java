@@ -17,7 +17,7 @@ import com.mutistic.utils.CommonUtil;
  */
 @Component
 @PropertySource(value = "test-jdbc.properties")
-@ConfigurationProperties(prefix = "dev") // prefix指定属性前缀。其中locations属性已删除
+@ConfigurationProperties(prefix = "test") // prefix指定属性前缀。其中locations属性已删除
 public class TestPropertiesByPrefix {
 
 	private String jdbcUrl;

@@ -17,12 +17,14 @@ Spring Boot 是伴随着[Spring4.0](https://github.com/mutistic/mutistic.spring/
 5. <a href="#a_pom">pom.xml：POM配置文件</a>
 6. <a href="#a_applicationProperties">application.properties：配置文件</a>
 7. <a href="#a_getproperties">获取默认配置文件或其他配置文件声明的属性值</a>
+8. <a href="#a_profile">设置需要激活配置文件</a>
 97. <a href="#a_pit">spring boot 入坑总结</a>
 98. <a href="#a_sql">sql</a>
 99. <a href="#a_down">down</a>
 
 ---
 ## <a id="a_springBoot">Spring Boot概述：</a>
+
 1、Spring Boot 是什么
 
 ```
@@ -86,9 +88,7 @@ Eclipse集成STS插件，创建Spring Boot项目，采用Maven打包发布软件
 6.2、src/main/resources/templates：模板文件资源目录，如vm、excel。<br/>
 
 ### <a id="a_springBootApplication">一、@SpringBootApplication启动类 ：开启(Spring)组件扫描和(Spring Boot)自动配置：</a>
-@SpringBootApplication：[org.springframework.boot.SpringApplication](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/SpringApplication.html)
-
-SpringBootApplication：[org.springframework.boot.SpringBootApplication](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/SpringBootApplication.html)
+@SpringBootApplication：[org.springframework.boot.autoconfigure.SpringBootApplication](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/SpringBootApplication.html)
 
 @SpringBootConfiguration：[org.springframework.boot.SpringBootConfiguration](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/SpringBootConfiguration.html)
 
@@ -96,24 +96,19 @@ SpringBootApplication：[org.springframework.boot.SpringBootApplication](https:/
 
 @EnableAutoConfiguration：[org.springframework.boot.autoconfigure.EnableAutoConfiguration](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/EnableAutoConfiguration.html)
 
+SpringApplication：[org.springframework.boot.SpringApplication](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/SpringApplication.html)
+
 ConfigurableApplicationContext：[org.springframework.context.ConfigurableApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/ConfigurableApplicationContext.html)
 
 1.1、@SpringBootApplication：开启(Spring)组件扫描和(Spring Boot)自动配置：
 
 ```
-可用于从Java主方法引导和启动Spring应用程序的类。默认情况下，类将执行以下步骤来引导您的应用程序：
-1、创建一个合适的ApplicationContext实例（取决于当前类的路径，往下扫描）
-2、注册一个CommandLinePropertySource将命令行参数作为Spring属性公开
-3、刷新应用程序上下文，加载所有单例bean
-4、触发任何CommandLineRunner bean
-5、在大多数情况下，run(Class, String[])可以直接从主方法调用静态方法来引导应用程序
-```
-
-```
-  实际上，@SpringBootApplication将三个有用的注解组合在了一起，早期版本1.2.0之前还是需要同时标注这三个注解。
- 1、Spring的 @Configuration：标明该类使用Spring基于Java的配置。作为Java开发者会更倾向于使用基于Java而不是XML的配置。
- 2、Spring的 @ComponentScan：启用组件扫描，这样Web控制器类和其他组件才能被自动发现并注册为Spring应用程序上下文里的Bean。
- 3、Spring Boot的 @EnableAutoConfiguration：这个注解也可以称为 @Abracadabra，就是这一行配置开启了SpringBoot自动配置的功能，避免再写成篇的配置。
+1、指示configuration声明一个或多个@Bean方法以及触发器auto-configuration和类的类 component scanning。
+2、这是一个便利的注释，则等于声明@Configuration， @EnableAutoConfiguration和@ComponentScan
+    2.1、实际上，@SpringBootApplication将三个有用的注解组合在了一起，早期版本1.2.0之前还是需要同时标注这三个注解。
+    2.2、Spring的 @Configuration：标明该类使用Spring基于Java的配置。作为Java开发者会更倾向于使用基于Java而不是XML的配置。
+    2.3、Spring的 @ComponentScan：启用组件扫描，这样Web控制器类和其他组件才能被自动发现并注册为Spring应用程序上下文里的Bean。    
+    2.4、Spring Boot的 @EnableAutoConfiguration：这个注解也可以称为@Abracadabra，就是这一行配置开启了SpringBoot自动配置的功能，避免再写成篇的配置。
 ```
 
 MainBySpringApplication.java
@@ -179,7 +174,7 @@ public @interface SpringBootApplication { }
 1.2、方法说明：
 
 1.2.1、public static ConfigurableApplicationContext run(Class<?>[] primarySources, String[] args)<br/>
-静态助手可以使用默认设置和用户提供的参数从指定的数据源运行SpringApplication。（args 通常从Java mian方法传递）
+静态方法可以使用默认设置和用户提供的参数从指定的数据源运行SpringApplication。（args 通常从Java mian方法传递）
 
 
 
@@ -428,10 +423,10 @@ name=spring boot
 project.name=\u6F14\u793A\u5C5E\u6027\u503C${name}
 
 #配合 TestPropertiesByPropertySource 获取 指定前缀属性值
-dev.jdbcUrl=jdbc:mysql://127.0.0.1:3306/study
-dev.driverClassName=com.mysql.jdbc.Driver
-dev.jdbcUsername=MYSQL
-dev.jdbcPassword=MYSQL123
+test.jdbcUrl=jdbc:mysql://test/study
+test.driverClassName=com.mysql.jdbc.Driver
+test.jdbcUsername=test
+test.jdbcPassword=test123
 ```
 
 application.yml：
@@ -450,7 +445,7 @@ test-jdbc.properties：
 jdbcUrl=jdbc:mysql://127.0.0.1:3306/study
 driverClassName=com.mysql.jdbc.Driver
 
-#配合 TestJDBCPropertiesByPrefix 获取 指定前缀属性值属性值
+#配合 TestPropertiesByPrefix 获取 指定前缀属性值属性值
 dev.jdbcUrl=jdbc:mysql://localhost:3306/study
 dev.driverClassName=com.mysql.jdbc.Driver
 dev.jdbcUsername=root
@@ -462,13 +457,6 @@ dev.jdbcProtArray[1]=8181
 dev.jdbcProtArray[2]=9088
 ```
 
-test-jdbc2.properties：
-
-```properties
-#配合 TestPropertiesByPropertySource 获取 自定义的多资源 test-jdbc2.properties 属性值
-jdbc.username=root
-jdbc.password=root
-```
 
 MainByProperties.java：演示入口类
 
@@ -605,8 +593,7 @@ PropertyResolver：[org.springframework.core.env.PropertyResolver](https://docs.
 2、ConfigurableEnvironment 继承 Environment，Environment 继承 PropertyResolver。
 3、Environment：接口表示当前应用程序正在运行的环境。模型的两个关键方面：概要文件和属性。与资源访问相关的方法通过PropertyResolver 超级接口公开。
 4、属性在几乎所有的应用程序中都扮演着重要的角色，可能来自各种来源：属性文件，JVM系统属性，系统环境变量，JNDI，servlet上下文参数，ad-hoc属性对象，Map等等。环境对象与属性相关的角色是为用户提供一个方便的服务接口，用于配置属性源并解析属性
-5、PropertyResolver：java.lang.String getProperty(java.lang.String key)：
-返回与给定键相关联的属性值，如果键不能被解析，则返回null。
+5、PropertyResolver：java.lang.String getProperty(java.lang.String key)：返回与给定键相关联的属性值，如果键不能被解析，则返回null。
 ```
 TestPropertiesByEnvironment.java：
 
@@ -640,6 +627,9 @@ public class TestPropertiesByEnvironment {
 3、通常用于表达驱动的依赖注入。还支持处理handler方法参数的动态解析，例如在Spring MVC中。 一个常见的用例是使用“systemProperties”分配默认字段值。myProp }”风格表达式。
 4、注意，@value标注的实际处理是由BeanPostProcessor执行的，这意味着您不能在BeanPostProcessor或BeanFactoryPostProcessor类型中使用@value。请参考AutowiredAnnotationBeanPostProcessor类的javadoc（默认情况下，它检查这个注释的存在）。
 ```
+
+@Value属性说明：<br/>
+java.lang.String value：实际的值表达式：例如"#{systemProperties.myProp}"。
 
 TestPropertiesByValue.java：
 
@@ -691,26 +681,34 @@ public class TestPropertiesByValue {
 3、@PropertySources：集合了多个PropertySource注释的容器注释。可以原生使用，声明几个嵌套的PropertySource注释。也可以与Java 8对可重复注释的支持结合使用，其中PropertySource可以简单地在同一类型上多次声明，从而隐式生成此容器注释
 ```
 
-@PropertySource属性介绍：
+@PropertySource属性说明：
 
 ```
-1、value
+1、java.lang.String[] value
 	指示要加载的属性文件的资源位置。传统和基于XML的属性文件格式均受支持 - 例如"classpath:/com/myco/app.properties" 或"file:/path/to/file.xml"。资源位置通配符（例如** / *。properties）是不允许的; 
 	每个位置都必须评估一个.properties资源。
 	${...}占位符将针对已注册的任何/所有属性源进行解析Environment。
 	每个位置都将Environment作为其自己的属性来源添加到附件中，并按声明顺序添加
-2、name：指明此属性来源的名称。如果省略，将根据底层资源的描述生成名称。
-3、ignoreResourceNotFound
+2、java.lang.String name
+	指明此属性来源的名称。如果省略，将根据底层资源的描述生成名称。
+3、boolean ignoreResourceNotFound
 	公共抽象布尔ignoreResourceNotFound
 	指示是否property resource应该忽略找不到的答案。
 	true如果属性文件是完全可选的，则是合适的。默认是false。
-4、encoding
-公共抽象java.lang.String编码，给定资源的特定字符编码，例如“UTF-8”
-5、factory
+4、java.lang.String encoding
+	公共抽象java.lang.String编码，给定资源的特定字符编码，例如"UTF-8"
+5、java.lang.Class<? extends PropertySourceFactory> factory
 	public abstract java.lang.Class<? extends PropertySourceFactory> factory
 	指定一个自定义PropertySourceFactory，如果有的话。默认情况下，将使用标准资源文件的默认工厂。
 ```
 
+test-jdbc2.properties：
+
+```properties
+#配合 TestPropertiesByPropertySource 获取 自定义的多资源 test-jdbc2.properties 属性值
+jdbc2.username=root
+jdbc2.password=root
+```
 
 TestPropertiesByPropertySource.java：
 
@@ -725,28 +723,28 @@ import com.mutistic.utils.CommonUtil;
 // 通过其 value 属性指定资源文件路径： classpath 默认去查找根路径下的文件。file 可以指定绝对路径
 @Component
 @PropertySource(value = "test-jdbc.properties")
-//@PropertySource(value = "file:C:/Work/Study/GitProduct/mutistic.spring/com.mutistic.boot/notes/test-jdbc2.properties") // 可以加载多个配置文件
+@PropertySource(value = "file:C:/Work/Study/GitProduct/mutistic.spring/com.mutistic.boot/notes/test-jdbc2.properties") // 可以加载多个配置文件
 //@PropertySource( name="test-jdbc.properties", value= {"classpath:test-jdbc.properties"}, ignoreResourceNotFound=false, encoding="UTF-8")
 //@PropertySource(value = {"clapatch:test-jdbc.properties", "file:C:/Work/Study/GitProduct/mutistic.spring/com.mutistic.boot/notes/test-jdbc2.properties"}) // 可以用使用 value 加载多个配置文件
 //@PropertySources({@PropertySource(value = "test-jdbc.properties"), @PropertySource(value = "file:C:/Work/Study/GitProduct/mutistic.spring/com.mutistic.boot/notes/test-jdbc2.properties")}) // 可以使用 @PropertiesSources 加载多个配置为文件
 public class TestPropertiesByPropertySource {
-	@Value("${jdbcUrl}")
+	@Value("${test.jdbcUrl}")
 	private String jdbcUrl;
 
-	@Value("${driverClassName}")
+	@Value("${test.driverClassName}")
 	private String driverClassName;
 
-//	@Value("${jdbc.username}") // test-jdbc2.properties
+	@Value("${jdbc2.jdbcUsername}") // test-jdbc2.properties
 	private String jdbcUsername;
 	
-//	@Value("${jdbc.password}") // test-jdbc2.properties
+	@Value("${jdbc2.jdbcPassword}") // test-jdbc2.properties
 	private String jdbcPassword;
 	
 	public void show() {
-		CommonUtil.printTwo("通过 @Value 自动注入 test-jdbc.properties声明的属性：jdbcUrl", jdbcUrl);
-		CommonUtil.printThree("通过 @Value 自动注入 test-jdbc.properties声明的属性：driverClassName", driverClassName);
-		CommonUtil.printThree("通过 @Value 自动注入 test-jdbc2.properties声明的属性：jdbc.username", jdbcUsername);
-		CommonUtil.printThree("通过 @Value 自动注入 test-jdbc2.properties声明的属性：jdbc.password", jdbcPassword);
+		CommonUtil.printTwo("通过 @Value 自动注入 test-jdbc.properties声明的属性：test.jdbcUrl", jdbcUrl);
+		CommonUtil.printThree("通过 @Value 自动注入 test-jdbc.properties声明的属性：test.driverClassName", driverClassName);
+		CommonUtil.printThree("通过 @Value 自动注入 test-jdbc2.properties声明的属性：jdbc2.jdbcUsername", jdbcUsername);
+		CommonUtil.printThree("通过 @Value 自动注入 test-jdbc2.properties声明的属性：jdbc2.jdbcPassword", jdbcPassword);
 	}
 }
 ```
@@ -760,14 +758,17 @@ public class TestPropertiesByPropertySource {
 3、请注意@Value，与之相反，由于属性值是外部化的，因此不会评估SpEL表达式。
 ```
 
-@ConfigurationProperties属性介绍：
+@ConfigurationProperties属性说明：
 
 ```
-1、value：有效绑定到此对象的属性的名称前缀。prefix()的同义词
-2、prefix：有效绑定到此对象的属性的名称前缀。value()的同义词
-3、ignoreUnknownFields：标记以指示绑定到此对象时应忽略未知字段。未知字段可能是属性中的错误的标志。
-4、ignoreInvalidFields：标志表明绑定到这个对象时应该忽略无效的字段。根据使用的联编程序，无效意味着无效，通常这意味着错误类型的字段（或不能被强制转换为正确类型）
-公共抽象java.lang.String编码，给定资源的特定字符编码，例如“UTF-8”
+1、java.lang.String value
+	有效绑定到此对象的属性的名称前缀。prefix()的同义词
+2、java.lang.String prefix
+	有效绑定到此对象的属性的名称前缀。value()的同义词
+3、boolean ignoreUnknownFields
+	标记以指示绑定到此对象时应忽略未知字段。未知字段可能是属性中的错误的标志。
+4、boolean ignoreInvalidFields
+	标志表明绑定到这个对象时应该忽略无效的字段。根据使用的联编程序，无效意味着无效，通常这意味着错误类型的字段（或不能被强制转换为正确类型）
 5、locations: 指定资源路径。已删除
 ```
 
@@ -785,7 +786,7 @@ import com.mutistic.utils.CommonUtil;
 // 通过prefix属性会从默认加载指定前缀的属性（加载后，则不会再次加载。默认配置文件查找不到，会匹配整个上下文资源文件中的前缀），通过字段的set方法注入。
 @Component
 @PropertySource(value = "test-jdbc.properties") // 默认配置文件查找不到，会匹配整个上下文资源文件中的前缀
-@ConfigurationProperties(prefix = "dev") // prefix指定属性前缀。其中locations指定资源路径属性已删除
+@ConfigurationProperties(prefix = "test") // prefix指定属性前缀。其中locations指定资源路径属性已删除
 public class TestPropertiesByPrefix {
 	private String jdbcUrl;
 	private String driverClassName;
@@ -847,7 +848,7 @@ MutablePropertySources：[org.springframework.core.env.MutablePropertySources](h
 	在其的方法中提到了优先级，这是关于在用PropertyResolver解决给定属性时，将搜索属性源的顺序。
 ```
 
-resources/META-INF/spring.factories
+resources/META-INF/spring.factories：
 
 ```factories
 #配合 TestEnvironmentPostProcessor 
@@ -895,7 +896,182 @@ public class TestEnvironmentPostProcessor implements EnvironmentPostProcessor {
 }
 ```
 
+### <a id="#a_profile">六、设置需要激活配置文件</a>
+SpringApplication：[org.springframework.boot.SpringApplication](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/SpringApplication.html)
 
+```
+1、可用于从Java主方法引导和启动Spring应用程序的类。默认情况下，类将执行以下步骤来引导应用程序
+    1.1、创建一个合适的ApplicationContext实例（取决于你的类路径）
+    1.2、注册一个CommandLinePropertySource将命令行参数作为Spring属性公开
+    1.3、刷新应用程序上下文，加载所有单例bean
+    1.4、触发任何CommandLineRunner beans
+2、在大多数情况下，run(Class, String[])可以直接从主方法调用静态方法来引导应用程序
+3、SpringApplications可以从各种不同的来源读取bean。通常建议使用单个@Configuration类来引导应用程序。
+4、也可以sources从以下位置进行设置：
+    4.1、要加载的完全限定类名 AnnotatedBeanDefinitionReader
+    4.2、要加载的XML资源的位置XmlBeanDefinitionReader，或要加载的常规脚本GroovyBeanDefinitionReader
+    4.3、要扫描的包的名称 ClassPathBeanDefinitionScanner
+5、配置属性也绑定到SpringApplication。这使得SpringApplication动态设置属性成为可能，如其他来源（“spring.main.sources” - 一个CSV列表）的标志来指示Web环境（“spring.main.web-application-type = none”）或标志关闭横幅（“spring.main.banner-mode = off”）。
+```
+
+6.1、通过 SpringApplication.setAdditionalProfiles() 设置需要激活文件 <br/>
+public void setAdditionalProfiles(String... profiles)：设置要使用的其他配置文件值（在系统或命令行属性中设置的值之上:--spring.profiles.active=test,uat）
+
+application.properties：
+
+```properties
+配合MainByAdditionalProfiles
+jdbc.url=jdbc:mysql://127.0.0.1:3306/study
+jdbc.driverClassName=com.mysql.jdbc.Driver
+jdbc.username=root
+jdbc.password=
+```
+
+application-dev.properties：
+
+```properties
+配合MainByAdditionalProfiles
+jdbc.url=jdbc:mysql://dev/study
+jdbc.driverClassName=com.mysql.jdbc.Driver
+jdbc.username=dev
+jdbc.password=dev123
+```
+
+application-aut.properties：
+
+```properties
+配合MainByAdditionalProfiles
+jdbc.url=jdbc:mysql://uat/study
+jdbc.driverClassName=com.mysql.jdbc.Driver
+jdbc.username=uat
+jdbc.password=uat123
+```
+
+MainByAdditionalProfiles.java：
+
+```Java
+package com.mutistic.start.additional;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.core.env.ConfigurableEnvironment;
+import com.mutistic.utils.CommonUtil;
+// 设置需要激活配置文件
+// 默认的配置文件是自动激活生效的。可以激活多个配置文件。也可以使用启动参数来激活生效的配置文件： --spring.profiles.active=test,uat
+@SpringBootApplication
+public class MainByAdditionalProfiles {
+	public static void main(String[] args) {
+		showPropertiesByAdditionalProfiles(args, null);
+		showPropertiesByAdditionalProfiles(args, "dev");
+		showPropertiesByAdditionalProfiles(args, "test");
+		showPropertiesByAdditionalProfiles(args, "uat");
+	}
+
+	/**
+	 * 通过指定的 profiles 激活配置文件
+	 * @param profiles
+	 */
+	private static void showPropertiesByAdditionalProfiles(String[] args, String profiles) {
+		SpringApplication app = new SpringApplication(MainByAdditionalProfiles.class);
+		String fileName = "application.properties";
+		if (profiles != null && !profiles.isEmpty()) {
+			app.setAdditionalProfiles(profiles, "dev"); // 设置生效文件，可以设置多个。
+			fileName = "application-" + profiles + ".properties或包含"+ fileName +"前缀的属性";
+		}
+		ConfigurableApplicationContext context = app.run(args);
+		ConfigurableEnvironment env = context.getEnvironment();
+
+		CommonUtil.printOne("通过SpringApplication.setAdditionalProfiles()激活文件：" + fileName);
+		if("test".equals(profiles)) {
+			CommonUtil.printThree("获取激活后的" + fileName + "属性值：test.jdbcUrl", env.getProperty("test.jdbcUrl"));
+			CommonUtil.printThree("获取激活后的" + fileName + "属性值：test.driverClassName", env.getProperty("test.driverClassName"));
+			CommonUtil.printThree("获取激活后的" + fileName + "属性值：test.jdbcUsername", env.getProperty("test.jdbcUsername"));
+			CommonUtil.printThree("获取激活后的" + fileName + "属性值：test.jdbcPassword", env.getProperty("test.jdbcPassword"));
+		} else {
+			CommonUtil.printThree("获取激活后的" + fileName + "属性值：jdbc.url", env.getProperty("jdbc.url"));
+			CommonUtil.printThree("获取激活后的" + fileName + "属性值：jdbc.driverClassName", env.getProperty("jdbc.driverClassName"));
+			CommonUtil.printThree("获取激活后的" + fileName + "属性值：jdbc.username", env.getProperty("jdbc.username"));
+			CommonUtil.printThree("获取激活后的" + fileName + "属性值：jdbc.password", env.getProperty("jdbc.password"));
+		}
+		
+		context.close();
+	}
+}
+```
+
+6.2、通过 @Profile 当激活对应配置文件或包含指定前缀的属性，组件可以注册 <br/>
+@Profile：[org.springframework.context.annotation.Profile](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Profile.html)
+
+```
+1、表示当一个或多个指定的配置文件处于活动状态时，组件可以注册。
+2、@Profile是可通过编程来激活一个命名逻辑分组ConfigurableEnvironment.setActiveProfiles(java.lang.String...)或声明通过设置spring.profiles.active属性作为JVM系统属性，作为环境变量，
+或者作为在Servlet上下文参数web.xml 为web应用程序。配置文件也可以在集成测试中通过@ActiveProfiles注释以声明方式激活。
+3、@Profile注释可以在以下任一方式使用：
+    3.1、作为任何直接或间接注解的类的类型级注释 @Component，包括@Configuration类
+    3.2、作为元注释，用于组成自定义构造型注释
+    3.3、作为任何@Bean方法的方法级别注释
+4、如果一个@Configuration类标记了@Profile，除非一个或多个指定的配置文件处于活动状态，否则与该类关联的所有 @Bean方法和@Import注释都将被绕过。
+    这与Spring XML中的行为类似：如果提供profile了beans元素的属性，
+    例如，除非至少激活了配置文件'p1'或'p2'，否则<beans profile="p1,p2">该beans元素将不会被解析。
+    同样，如果一个@Component或一个@Configuration类标记了@Profile({"p1","p2"})，
+    除非至少激活了配置文件“p1”或“p2”，否则该类将不会被注册或处理。
+5、如果给定的配置文件以NOT运算符（!）为前缀，则如果配置文件未处于活动状态，注释的组件将被注册
+    例如，@Profile({"p1", "!p2"})如果配置文件“p1”处于活动状态或配置文件“p2” 未处于活动状态。
+6、如果@Profile省略注释，则无论哪个（如果有）配置文件处于活动状态，都将进行注册。
+7、注意：
+    7.1、使用@Profileon @Bean方法时，可能需要一个特殊的场景：
+    对于具有@Bean相同Java方法名称的重载方法（类似于构造函数重载），@Profile需要在所有重载方法上一致地声明一个条件。
+    如果条件不一致，那么只有重载方法中的第一个声明的条件很重要。 @Profile因此不能用于选择具有特定参数签名而不是另一个的重载方法; 
+    7.2、对于同一bean的所有工厂方法之间的解析遵循Spring的构造器解析算法。如果想要定义具有不同配置文件条件的备用bean，请使用指向相同的Java方法名称bean name; 请参阅到ProfileDatabaseConfig在@Configurationjavadoc中。
+    7.3、当通过XML定义Spring bean时，可以使用元素的"profile"属性 <beans>。有关详细信息，请参阅spring-beans XSD中的文档 （版本3.1或更高版本）
+8、演示结果参考 MainByAdditionalProfiles.main();
+```
+
+@Profile属性说明：<br/>
+java.lang.String[] value：注释组件应注册的配置文件集合。不可以声明为null和空字符串。
+
+TestBeanByProfile.java<br/>
+
+```Java
+package com.mutistic.start.additional;
+import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
+import com.mutistic.utils.CommonUtil;
+// 通过 @Profile 当激活对应配置文件或包含指定前缀的属性，组件可以注册
+// 1、@Profile 不支持null和空字符串。2、@Profile可以作用在类和方法上或方法参数上。
+// 3、支持NOT运算符(!)作为前缀，当某个配置文件处于非激活状态，组件才可以注册
+@SpringBootConfiguration
+//@Profile("dev") // @Profile(dev)：当SpringApplication.setAdditionalProfiles()激活dev配置文件时，TestBeanByProfile组件才被注册 
+public class TestBeanByProfile {
+	@Bean
+	public Runnable runnable() {
+		CommonUtil.printTwo("未声明@Profile：默认配置文件(如application.properties)是激活的。直接注册runnable bean：", "runnable");
+		return () -> {};
+	}
+	
+	@Bean
+	@Profile("dev")
+	public Runnable devRunnable() {
+		CommonUtil.printTwo("@Profile(dev)：当SpringApplication.setAdditionalProfiles()激活dev配置文件时，注册devRunnable bean：", "devRunnable");
+		return () -> {};
+	}
+	
+	@Bean
+	@Profile("test")
+	public Runnable testRunnable() {
+		CommonUtil.printTwo("@Profile(test)：当SpringApplication.setAdditionalProfiles()激活test配置文件时，注册testRunnable bean：", "testRunnable");
+		return () -> {};
+	}
+	
+	@Bean
+	@Profile("uat")
+	public Runnable uatRunnable() {
+		CommonUtil.printThree("@Profile(uat)：当SpringApplication.setAdditionalProfiles()激活uat配置文件时，注册uatRunnable bean：", "uatRunnable");
+		return () -> {};
+	}
+}
+```
 
 ---
 ## <a id="a_pit">I、[spring boot 入坑总结](https://github.com/mutistic/mutistic.spring/tree/master/com.mutistic.boot/notes/pit)</a>

@@ -125,7 +125,7 @@ public class MainByProperties {
 	 */
 	private static void showPropertiesByPrifex(String[] args) {
 		ConfigurableApplicationContext context = SpringApplication.run(MainByProperties.class, args);
-		CommonUtil.printOne("5s、通过 @ConfigurationProperties 加载指定前缀属性：");
+		CommonUtil.printOne("5、通过 @ConfigurationProperties 加载指定前缀属性：");
 		
 		context.getBean(TestPropertiesByPrefix.class).show();
 		
