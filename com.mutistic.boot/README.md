@@ -1080,6 +1080,8 @@ public class TestBeanByProfile {
 ```
 
 ### <a id="a_condition">七、使用 @Conditional 和 Condition 组合实现基于条件的自动装配bean</a>
+MainByCondition.java：
+
 ```Java
 package com.mutistic.start.condition;
 import org.springframework.boot.SpringApplication;
@@ -1121,7 +1123,7 @@ public class MainByCondition {
 }
 ```
 
-7.1、使用 @Conditional 和 Condition 组合自定义实现根据条件自动装配bean<br/>
+7.1、使用 @Conditional 和 Condition 组合自定义实现根据条件自动装配bean：<br/>
 @Conditional：[org.springframework.context.annotation.Conditional](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Conditional.html)
 
 ```
@@ -1165,7 +1167,7 @@ import org.springframework.context.annotation.Conditional;
 @SpringBootConfiguration
 // @Conditional({TestUTF8Condition.class, TestGBKCondition.class, TestISOCondition.class}) // 作用在类上对其所有的方法生效
 public class TestConditionConfiguration {
-	/// 当@Conditional(TestUTF8Condition.class)条件为true时装配
+	// 当@Conditional(TestUTF8Condition.class)条件为true时装配
 	@Bean
 	@Conditional(TestUTF8Condition.class)
 	public TestEncodingConvert createrTestUTF8EncodingConvert() { return new TestUTF8EncodingConvert(); }
@@ -1175,7 +1177,7 @@ public class TestConditionConfiguration {
 	@Conditional(TestGBKCondition.class)
 	public TestEncodingConvert createrTestGBKEncodingConvert() { return new TestGBKEncodingConvert(); }
 
-	//  当@Conditional(TestISOCondition.class)条件为true时装配
+	// 当@Conditional(TestISOCondition.class)条件为true时装配
 	@Bean
 	@Conditional(TestISOCondition.class)
 	public TestEncodingConvert createrTestISOEncodingConvert() { return new TestISOEncodingConvert(); }
@@ -1209,7 +1211,7 @@ public class TestUTF8Condition implements Condition {
 }
 ```
 
-2、使用常用的Conditional类实现自动装配bean<br/>
+7.2、使用常用的Conditional类实现自动装配bean：<br/>
 @ConditionalOnProperty：[org.springframework.boot.autoconfigure.condition.ConditionalOnProperty](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/condition/ConditionalOnProperty.html)
 
 @ConditionalOnClass：[org.springframework.boot.autoconfigure.condition.ConditionalOnClass](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/condition/ConditionalOnClass.html)
