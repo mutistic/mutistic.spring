@@ -18,6 +18,7 @@ Spring Boot 是伴随着[Spring4.0](https://github.com/mutistic/mutistic.spring/
 6. <a href="#a_applicationProperties">application.properties：配置文件</a>
 7. <a href="#a_getproperties">获取默认配置文件或其他配置文件声明的属性值</a>
 8. <a href="#a_profile">设置需要激活配置文件</a>
+9. <a href="#a_condition">使用 @Conditional 和 Condition 组合实现基于条件的自动装配bean</a>
 97. <a href="#a_pit">spring boot 入坑总结</a>
 98. <a href="#a_sql">sql</a>
 99. <a href="#a_down">down</a>
@@ -1007,25 +1008,25 @@ public class MainByAdditionalProfiles {
 ```
 1、表示当一个或多个指定的配置文件处于活动状态时，组件可以注册。
 2、@Profile是可通过编程来激活一个命名逻辑分组ConfigurableEnvironment.setActiveProfiles(java.lang.String...)
-	或声明通过设置spring.profiles.active属性作为JVM系统属性，作为环境变量，
-	或者作为在Servlet上下文参数web.xml 为web应用程序。
-	配置文件也可以在集成测试中通过@ActiveProfiles注释以声明方式激活。
+      或声明通过设置spring.profiles.active属性作为JVM系统属性，作为环境变量，
+      或者作为在Servlet上下文参数web.xml 为web应用程序。
+      配置文件也可以在集成测试中通过@ActiveProfiles注释以声明方式激活。
 3、@Profile注释可以在以下任一方式使用：
     3.1、作为任何直接或间接注解的类的类型级注释 @Component，包括@Configuration类
     3.2、作为元注释，用于组成自定义构造型注释
     3.3、作为任何@Bean方法的方法级别注释
 4、如果一个@Configuration类标记了@Profile，除非一个或多个指定的配置文件处于活动状态，否则与该类关联的所有 @Bean方法和@Import注释都将被绕过。
-    这与Spring XML中的行为类似：如果提供profile了beans元素的属性，
-    例如，除非至少激活了配置文件'p1'或'p2'，否则<beans profile="p1,p2">该beans元素将不会被解析。
-    同样，如果一个@Component或一个@Configuration类标记了@Profile({"p1","p2"})，
-    除非至少激活了配置文件"p1"或"p2"，否则该类将不会被注册或处理。
+     这与Spring XML中的行为类似：如果提供profile了beans元素的属性，
+     例如，除非至少激活了配置文件'p1'或'p2'，否则<beans profile="p1,p2">该beans元素将不会被解析。
+     同样，如果一个@Component或一个@Configuration类标记了@Profile({"p1","p2"})，
+     除非至少激活了配置文件"p1"或"p2"，否则该类将不会被注册或处理。
 5、如果给定的配置文件以NOT运算符（!）为前缀，则如果配置文件未处于活动状态，注释的组件将被注册
     例如，@Profile({"p1", "!p2"})如果配置文件"p1"处于活动状态或配置文件"p2" 未处于活动状态。
 6、如果@Profile省略注释，则无论哪个（如果有）配置文件处于活动状态，都将进行注册。
 7、注意：
     7.1、使用@Profileon @Bean方法时，可能需要一个特殊的场景：
-    对于具有@Bean相同Java方法名称的重载方法（类似于构造函数重载），@Profile需要在所有重载方法上一致地声明一个条件。
-    如果条件不一致，那么只有重载方法中的第一个声明的条件很重要。 @Profile因此不能用于选择具有特定参数签名而不是另一个的重载方法; 
+	对于具有@Bean相同Java方法名称的重载方法（类似于构造函数重载），@Profile需要在所有重载方法上一致地声明一个条件。
+	如果条件不一致，那么只有重载方法中的第一个声明的条件很重要。 @Profile因此不能用于选择具有特定参数签名而不是另一个的重载方法; 
     7.2、对于同一bean的所有工厂方法之间的解析遵循Spring的构造器解析算法。
  	如果想要定义具有不同配置文件条件的备用bean，请使用指向相同的Java方法名称bean name;请参阅到ProfileDatabaseConfig在@Configurationjavadoc中。
     7.3、当通过XML定义Spring bean时，可以使用元素的"profile"属性 <beans>。有关详细信息，请参阅spring-beans XSD中的文档 （版本3.1或更高版本）
@@ -1077,6 +1078,186 @@ public class TestBeanByProfile {
 	}
 }
 ```
+
+### <a id="a_condition">七、使用 @Conditional 和 Condition 组合实现基于条件的自动装配bean</a>
+```Java
+package com.mutistic.start.condition;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+import com.mutistic.utils.CommonUtil;
+// 使用 @Conditional 和 Condition 组合实现基于条件的自动装配bean
+@SpringBootApplication
+public class MainByCondition {
+	public static void main(String[] args) {
+		try {
+			ConfigurableApplicationContext context = SpringApplication.run(MainByCondition.class, args);
+			
+			showBeanbyCustom(context);
+			showBeanByConditional(context);
+			context.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+//			CommonUtil.printErr(e.getMessage());
+		}
+	}
+
+	// 1、使用 @Conditional 和 Condition 组合自定义实现根据条件自动装配bean
+	private static void showBeanbyCustom(ConfigurableApplicationContext context) {
+		CommonUtil.printOne("1、使用 @Conditional 和 Condition 组合自定义实现根据条件自动装配bean");
+		CommonUtil.printThree("系统启动参数：file.encoding", System.getProperty("file.encoding"));
+		CommonUtil.printThree("系统启动自定义参数：test.encoding", System.getProperty("test.encoding")); // 可以自定义配置VM启动时参数 -Dtest.encoding=ISO-8859-1
+		CommonUtil.printThree("根据 System.getProperty(\"file.encoding\") 条件自动装配bean", context.getBeansOfType(TestEncodingConvert.class));
+	}
+
+	// 2、使用常用的Conditional类实现自动装配bean
+	private static void showBeanByConditional(ConfigurableApplicationContext context) {
+		CommonUtil.printOne("2、使用org.springframework.boot.autoconfigure.condition包下常用的Conditional类实现自动装配bean");
+		CommonUtil.printThree("根据常用的Conditional类实现自动装配bean", context.getBeansOfType(Runnable.class));
+		CommonUtil.printThree("@ConditionalOnProperty：当某个配置符合条件是才装配", context.getBean("createrByConditionalOnProperty"));
+		CommonUtil.printThree("@ConditionalOnClass：当classpatch存在某个类才装配", context.getBean("createrByConditionalOnClass"));
+		CommonUtil.printThree("@ConditionalOnMissingBean：当context不存在某个bean才装配", context.getBean("createrByConditionalOnMisisingBean"));
+	}
+}
+```
+
+7.1、使用 @Conditional 和 Condition 组合自定义实现根据条件自动装配bean<br/>
+@Conditional：[org.springframework.context.annotation.Conditional](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Conditional.html)
+
+```
+1、表示当所有指定的条件匹配时，组件可以注册 。
+2、一个条件是任何可以在bean定义被注册之前以编程方式确定的状态（详见Condition参考资料）。
+3、该@Conditional注释可以在以下任一方式使用：
+	3.1、作为任何类的类型级注解，直接或间接地用@component注解，包括@configuration类
+	3.2、作为元注释，用于组成自定义构造型注释
+	3.3、作为任何@Bean方法的方法级别注释
+4、如果某个@Conditional类标记了@Conditional，则与该类相关的所有@Bean方法，@Import注释和 @ComponentScan注释都将受到这些条件的约束。
+5、注：不支持@Conditional注释的继承;任何来自超类或覆盖方法的条件都不会被考虑
+      为了执行这些语义， @Conditional本身不被声明为 @Inherited; 此外，任何由元注释的自定义组合注释都 @Conditional不得声明为@Inherited。
+6、演示结果参考：MainByCondition.showBeanbyCustom();
+```
+
+@Conditional 属性说明：<br/>
+java.lang.Class<? extends Condition>[]：所有Condition必须匹配 的组件才能被注册
+
+Condition：[org.springframework.context.annotation.Condition](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Condition.html)
+
+```
+1、为了使组件被注册，必须匹配的单个条件。
+2、在bean-定义被注册之前，条件会立即被检查，并且可以根据在这一点上可以确定的任何标准自由地否决注册。
+3、条件必须遵循与BeanFactoryPostProcessor相同的限制，并注意不要与bean实例交互。
+      对于与@configuration bean交互的条件的更细粒度控制，可以考虑ConfigurationCondition接口。
+```
+
+Condition 方法说明：<br/>
+boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata)：确定条件是否匹配、返回true如果条件匹配并且组件可以注册，false否决注释组件的注册
+
+TestConditionConfiguration.java：
+
+```Java
+package com.mutistic.start.condition;
+import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
+// 基于条件的自动配置，一般要配合 Condition接口使用
+// 1、@Conditional可以作用在方法和类上（方法优先级高于类）。 2、Condition.matches()返回 true在装配，返回false不装配。
+// 3、@Conditional参数 Condition 参数可以是多个，当都返回true时在装配。
+@SpringBootConfiguration
+// @Conditional({TestUTF8Condition.class, TestGBKCondition.class, TestISOCondition.class}) // 作用在类上对其所有的方法生效
+public class TestConditionConfiguration {
+	/// 当@Conditional(TestUTF8Condition.class)条件为true时装配
+	@Bean
+	@Conditional(TestUTF8Condition.class)
+	public TestEncodingConvert createrTestUTF8EncodingConvert() { return new TestUTF8EncodingConvert(); }
+
+	// 当@Conditional(TestGBKCondition.class)条件为true时装配
+	@Bean
+	@Conditional(TestGBKCondition.class)
+	public TestEncodingConvert createrTestGBKEncodingConvert() { return new TestGBKEncodingConvert(); }
+
+	//  当@Conditional(TestISOCondition.class)条件为true时装配
+	@Bean
+	@Conditional(TestISOCondition.class)
+	public TestEncodingConvert createrTestISOEncodingConvert() { return new TestISOEncodingConvert(); }
+}
+```
+
+TestUTF8Condition.java：
+
+```Java
+package com.mutistic.start.condition;
+import org.springframework.context.annotation.Condition;
+import org.springframework.context.annotation.ConditionContext;
+import org.springframework.core.type.AnnotatedTypeMetadata;
+// Condition实现类：配合 @Conditional 基于条件自动装配
+public class TestUTF8Condition implements Condition {
+	/**
+	 * @description 判断 System.getProperty("file.encoding") 是否为 UTF-8
+	 * @param context
+	 * @param metadata
+	 * @return
+	 * @see org.springframework.context.annotation.Condition#matches(org.springframework.context.annotation.ConditionContext, org.springframework.core.type.AnnotatedTypeMetadata)
+	 */
+	@Override
+	public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
+		String encoding = System.getProperty("file.encoding");
+		if(encoding != null && !encoding.isEmpty()) {
+			return "UTF-8".equals(encoding.toUpperCase());
+		}
+		return false;
+	}
+}
+```
+
+2、使用常用的Conditional类实现自动装配bean<br/>
+@ConditionalOnProperty：[org.springframework.boot.autoconfigure.condition.ConditionalOnProperty](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/condition/ConditionalOnProperty.html)
+
+@ConditionalOnClass：[org.springframework.boot.autoconfigure.condition.ConditionalOnClass](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/condition/ConditionalOnClass.html)
+
+@ConditionalOnBean：[org.springframework.boot.autoconfigure.condition.ConditionalOnBean](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/condition/ConditionalOnBean.html)
+
+```
+1、演示结果参考：MainByCondition.showBeanByConditional();
+2、常用的Conditional类：org.springframework.boot.autoconfigure.condition包下
+      ConditionalOnBean/ConditionalOnMissingBean：当context存在或不存在某个bean才自动装配
+      ConditionalOnClass/ConditionalOnMissingClass：当classpatch下存在或不存在某个class才自动装配
+      ConditionalOnExpression/ConditionalOnMissingExpression：当匹配或不匹配某个表达才自动装配
+      ConditionalOnJava/ConditionalOnMissingJava：当前JVM版本大于等于或小于某个版本才自动装配
+      ConditionalOnWebApplication/ConditionalOnNotWebApplication：当前项目是或者不是web项目才自动装配
+      ConditionalOnResource：当某个资源存在是才自动装配
+      ConditionalOnProperty：当某个配置存在时或配置文件等于某个值存在时才自动装配
+```
+
+TestConditionConfiguration.java：
+
+```Java
+package com.mutistic.start.condition;
+import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
+// 基于条件的自动配置
+@SpringBootConfiguration
+public class TestConditionConfiguration {
+	// @ConditionalOnProperty：当某个配置符合条件是才装配
+	@Bean
+	@ConditionalOnProperty(name = "local.ip", havingValue = "127.0.0.1") // 存在属性值，且havingValue声明值一致时装配
+//	@ConditionalOnProperty(name = "local.ip", havingValue = "localhost", matchIfMissing = true) // matchIfMissing不存在是也装配，存在时属性值与havingValue声明值一致时装配
+	public Runnable createrByConditionalOnProperty() { return () -> { }; }
+
+	// @ConditionalOnClass：当classpatch存在某个类才装配
+	@Bean
+	@ConditionalOnClass(name = "com.mutistic.utils.CommonUtil") { return () -> { }; }
+	
+	// @ConditionalOnMissingBean：当context不存在某个bean才装配
+	@Bean
+	@ConditionalOnMissingBean(name = "createrTestISOEncodingConvert")
+	public Runnable createrByConditionalOnMisisingBean() { return () -> { }; }
+}
+```
+
 
 ---
 ## <a id="a_pit">I、[spring boot 入坑总结](https://github.com/mutistic/mutistic.spring/tree/master/com.mutistic.boot/notes/pit)</a>
