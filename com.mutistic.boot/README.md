@@ -896,7 +896,7 @@ public class TestEnvironmentPostProcessor implements EnvironmentPostProcessor {
 }
 ```
 
-### <a id="#a_profile">六、设置需要激活配置文件</a>
+### <a id="a_profile">六、设置需要激活配置文件</a>
 SpringApplication：[org.springframework.boot.SpringApplication](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/SpringApplication.html)
 
 ```
@@ -1006,8 +1006,10 @@ public class MainByAdditionalProfiles {
 
 ```
 1、表示当一个或多个指定的配置文件处于活动状态时，组件可以注册。
-2、@Profile是可通过编程来激活一个命名逻辑分组ConfigurableEnvironment.setActiveProfiles(java.lang.String...)或声明通过设置spring.profiles.active属性作为JVM系统属性，作为环境变量，
-或者作为在Servlet上下文参数web.xml 为web应用程序。配置文件也可以在集成测试中通过@ActiveProfiles注释以声明方式激活。
+2、@Profile是可通过编程来激活一个命名逻辑分组ConfigurableEnvironment.setActiveProfiles(java.lang.String...)
+	或声明通过设置spring.profiles.active属性作为JVM系统属性，作为环境变量，
+	或者作为在Servlet上下文参数web.xml 为web应用程序。
+	配置文件也可以在集成测试中通过@ActiveProfiles注释以声明方式激活。
 3、@Profile注释可以在以下任一方式使用：
     3.1、作为任何直接或间接注解的类的类型级注释 @Component，包括@Configuration类
     3.2、作为元注释，用于组成自定义构造型注释
