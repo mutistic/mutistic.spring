@@ -577,7 +577,7 @@ ConfigurableEnvironment：[org.springframework.core.env.ConfigurableEnvironment]
 5.1.2、通过ConfigurableEnvironment.getSystemEnvironment()获取指定系统环境中的属性值：<br/>
 
 ```
-1、运行演示参考：MainByProperties.showPropertiesBySystemEnvironment();
+1、演示结果参考：MainByProperties.showPropertiesBySystemEnvironment();
 2、java.util.Map<java.lang.String,java.lang.Object> getSystemEnvironment()：
 2.1、如果由当前SecurityManager允许的话，返回system.getenv() 的值，否则返回一个map实现，它将尝试通过调用system.getenv(String)来访问单个键。
 2.2、请注意，大多数Environment实现将把这个系统环境映射包含为要搜索的默认PropertySource。因此，建议不直接使用该方法，除非明确指定绕过其他属性源
@@ -589,7 +589,7 @@ Environment：[org.springframework.core.env.Environment](https://docs.spring.io/
 PropertyResolver：[org.springframework.core.env.PropertyResolver](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/core/env/PropertyResolver.html)
 
 ```
-1、运行演示参考：MainByProperties.showPropertiesByEnvironment();
+1、演示结果参考：MainByProperties.showPropertiesByEnvironment();
 2、ConfigurableEnvironment 继承 Environment，Environment 继承 PropertyResolver。
 3、Environment：接口表示当前应用程序正在运行的环境。模型的两个关键方面：概要文件和属性。与资源访问相关的方法通过PropertyResolver 超级接口公开。
 4、属性在几乎所有的应用程序中都扮演着重要的角色，可能来自各种来源：属性文件，JVM系统属性，系统环境变量，JNDI，servlet上下文参数，ad-hoc属性对象，Map等等。环境对象与属性相关的角色是为用户提供一个方便的服务接口，用于配置属性源并解析属性
@@ -622,9 +622,9 @@ public class TestPropertiesByEnvironment {
 @Value：[org.springframework.beans.factory.annotation.Value](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/annotation/Value.html)
 
 ```
-1、运行演示参考：MainByProperties.showPropertiesByValue();<br/>
+1、演示结果参考：MainByProperties.showPropertiesByValue();<br/>
 2、在字段或方法/构造器参数级别上的注释，表示受影响参数的默认值表达式。
-3、通常用于表达驱动的依赖注入。还支持处理handler方法参数的动态解析，例如在Spring MVC中。 一个常见的用例是使用“systemProperties”分配默认字段值。myProp }”风格表达式。
+3、通常用于表达驱动的依赖注入。还支持处理handler方法参数的动态解析，例如在Spring MVC中。 一个常见的用例是使用"systemProperties"分配默认字段值。myProp }"风格表达式。
 4、注意，@value标注的实际处理是由BeanPostProcessor执行的，这意味着您不能在BeanPostProcessor或BeanFactoryPostProcessor类型中使用@value。请参考AutowiredAnnotationBeanPostProcessor类的javadoc（默认情况下，它检查这个注释的存在）。
 ```
 
@@ -676,7 +676,7 @@ public class TestPropertiesByValue {
 @PropertySources：[org.springframework.context.annotation.PropertySources](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/PropertySources.html)
 
 ```
-1、运行演示参考：MainByProperties.showPropertiesByPropertySource();<br/>
+1、演示结果参考：MainByProperties.showPropertiesByPropertySource();<br/>
 2、@PropertySource：注释提供了一种方便的声明机制，可以将PropertySource添加到Spring的环境中。与@configuration类一起使用。
 3、@PropertySources：集合了多个PropertySource注释的容器注释。可以原生使用，声明几个嵌套的PropertySource注释。也可以与Java 8对可重复注释的支持结合使用，其中PropertySource可以简单地在同一类型上多次声明，从而隐式生成此容器注释
 ```
@@ -753,7 +753,7 @@ public class TestPropertiesByPropertySource {
 @ConfigurationProperties：[org.springframework.boot.context.properties.ConfigurationProperties](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/context/properties/ConfigurationProperties.html)
 
 ```
-1、运行演示参考：MainByProperties.showPropertiesByPrifex();
+1、演示结果参考：MainByProperties.showPropertiesByPrifex();
 2、注释外部化配置。如果要绑定和验证某些外部属性（例如，从.Properties文件），请将其添加到类中的类定义或 @Bean方法中@Configuration。
 3、请注意@Value，与之相反，由于属性值是外部化的，因此不会评估SpEL表达式。
 ```
@@ -831,7 +831,7 @@ PropertiesPropertySource：[org.springframework.core.env.PropertiesPropertySourc
 MutablePropertySources：[org.springframework.core.env.MutablePropertySources](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/core/env/MutablePropertySources.html)
 
 ```
-1、运行演示参考：MainByProperties.showPropertiesByEnvironmentPostProcessor();
+1、演示结果参考：MainByProperties.showPropertiesByEnvironmentPostProcessor();
 2、EnvironmentPostProcessor：
 	允许Environment在刷新应用程序上下文之前自定义应用程序。
 	EnvironmentPostProcessor实现必须META-INF/spring.factories使用此类的完全限定名称作为注册进行注册 。
@@ -839,7 +839,7 @@ MutablePropertySources：[org.springframework.core.env.MutablePropertySources](h
 3、Properties：
 	是代表一个持久的一套详细属性，属性可以被保存到一个流或从流中加载的类。以下是关于属性的要点：
 	属性列表中每个键及其对应值是一个字符串。
-	一个属性列表可包含另一个属性列表作为它的“默认”，第二个属性可在列表中搜索，如果没有在原有的属性列表中找到的属性键。
+	一个属性列表可包含另一个属性列表作为它的"默认"，第二个属性可在列表中搜索，如果没有在原有的属性列表中找到的属性键。
 	这个类是线程安全的;多个线程可以共享一个Properties对象，而不需要外部同步
 4、PropertiesPropertySource：PropertySource从Properties对象中提取属性的实现
 5、MutablePropertySources：
@@ -911,7 +911,9 @@ SpringApplication：[org.springframework.boot.SpringApplication](https://docs.sp
     4.1、要加载的完全限定类名 AnnotatedBeanDefinitionReader
     4.2、要加载的XML资源的位置XmlBeanDefinitionReader，或要加载的常规脚本GroovyBeanDefinitionReader
     4.3、要扫描的包的名称 ClassPathBeanDefinitionScanner
-5、配置属性也绑定到SpringApplication。这使得SpringApplication动态设置属性成为可能，如其他来源（“spring.main.sources” - 一个CSV列表）的标志来指示Web环境（“spring.main.web-application-type = none”）或标志关闭横幅（“spring.main.banner-mode = off”）。
+5、配置属性也绑定到SpringApplication。这使得SpringApplication动态设置属性成为可能，
+	如其他来源（"spring.main.sources" - 一个CSV列表）的标志来指示Web环境（"spring.main.web-application-type = none"）
+	或标志关闭横幅（"spring.main.banner-mode = off"）。
 ```
 
 6.1、通过 SpringApplication.setAdditionalProfiles() 设置需要激活文件 <br/>
@@ -920,7 +922,7 @@ public void setAdditionalProfiles(String... profiles)：设置要使用的其他
 application.properties：
 
 ```properties
-配合MainByAdditionalProfiles
+#配合MainByAdditionalProfiles
 jdbc.url=jdbc:mysql://127.0.0.1:3306/study
 jdbc.driverClassName=com.mysql.jdbc.Driver
 jdbc.username=root
@@ -930,7 +932,7 @@ jdbc.password=
 application-dev.properties：
 
 ```properties
-配合MainByAdditionalProfiles
+#配合MainByAdditionalProfiles
 jdbc.url=jdbc:mysql://dev/study
 jdbc.driverClassName=com.mysql.jdbc.Driver
 jdbc.username=dev
@@ -940,7 +942,7 @@ jdbc.password=dev123
 application-aut.properties：
 
 ```properties
-配合MainByAdditionalProfiles
+#配合MainByAdditionalProfiles
 jdbc.url=jdbc:mysql://uat/study
 jdbc.driverClassName=com.mysql.jdbc.Driver
 jdbc.username=uat
@@ -1014,15 +1016,16 @@ public class MainByAdditionalProfiles {
     这与Spring XML中的行为类似：如果提供profile了beans元素的属性，
     例如，除非至少激活了配置文件'p1'或'p2'，否则<beans profile="p1,p2">该beans元素将不会被解析。
     同样，如果一个@Component或一个@Configuration类标记了@Profile({"p1","p2"})，
-    除非至少激活了配置文件“p1”或“p2”，否则该类将不会被注册或处理。
+    除非至少激活了配置文件"p1"或"p2"，否则该类将不会被注册或处理。
 5、如果给定的配置文件以NOT运算符（!）为前缀，则如果配置文件未处于活动状态，注释的组件将被注册
-    例如，@Profile({"p1", "!p2"})如果配置文件“p1”处于活动状态或配置文件“p2” 未处于活动状态。
+    例如，@Profile({"p1", "!p2"})如果配置文件"p1"处于活动状态或配置文件"p2" 未处于活动状态。
 6、如果@Profile省略注释，则无论哪个（如果有）配置文件处于活动状态，都将进行注册。
 7、注意：
     7.1、使用@Profileon @Bean方法时，可能需要一个特殊的场景：
     对于具有@Bean相同Java方法名称的重载方法（类似于构造函数重载），@Profile需要在所有重载方法上一致地声明一个条件。
     如果条件不一致，那么只有重载方法中的第一个声明的条件很重要。 @Profile因此不能用于选择具有特定参数签名而不是另一个的重载方法; 
-    7.2、对于同一bean的所有工厂方法之间的解析遵循Spring的构造器解析算法。如果想要定义具有不同配置文件条件的备用bean，请使用指向相同的Java方法名称bean name; 请参阅到ProfileDatabaseConfig在@Configurationjavadoc中。
+    7.2、对于同一bean的所有工厂方法之间的解析遵循Spring的构造器解析算法。
+ 	如果想要定义具有不同配置文件条件的备用bean，请使用指向相同的Java方法名称bean name;请参阅到ProfileDatabaseConfig在@Configurationjavadoc中。
     7.3、当通过XML定义Spring bean时，可以使用元素的"profile"属性 <beans>。有关详细信息，请参阅spring-beans XSD中的文档 （版本3.1或更高版本）
 8、演示结果参考 MainByAdditionalProfiles.main();
 ```
@@ -1030,7 +1033,7 @@ public class MainByAdditionalProfiles {
 @Profile属性说明：<br/>
 java.lang.String[] value：注释组件应注册的配置文件集合。不可以声明为null和空字符串。
 
-TestBeanByProfile.java<br/>
+TestBeanByProfile.java
 
 ```Java
 package com.mutistic.start.additional;
