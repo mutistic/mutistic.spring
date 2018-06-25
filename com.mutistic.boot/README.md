@@ -25,7 +25,7 @@ Spring Boot 是伴随着[Spring4.0](https://github.com/mutistic/mutistic.spring/
 99. <a href="#a_down">down</a>
 
 ---
-## <a id="a_springBoot">Spring Boot概述：</a>
+## <a id="a_springBoot">Spring Boot概述：</a> <a href="#a_top">last</a> <a href="#a_info">next</a>
 
 1、Spring Boot 是什么
 
@@ -77,7 +77,7 @@ Spring Boot 是伴随着[Spring4.0](https://github.com/mutistic/mutistic.spring/
 4、中文的文档和资料太少且不够深入（有英文API）
 ```
 
-## <a id="a_info">Spring Boot目录结构说明：</a>
+## <a id="a_info">Spring Boot目录结构说明：</a> <a href="#a_springBoot">last</a> <a href="#a_springBootApplication">next</a>
 1、.gradle、gradle、build.gradle、gradlew、gradlew.bat、settings.gradle：<br/>
 Eclipse集成STS插件或Spring Boot CLI初始化应用程序，创建Spring Boot项目，采用Gradle打包发布软件时会生成这些与Gradle相关文件。<br/>
 2、.mvn、mvnw、mvnw.cmd、pom.xml、.target：<br/>
@@ -89,7 +89,7 @@ Eclipse集成STS插件，创建Spring Boot项目，采用Maven打包发布软件
 6.1、src/main/resources/static：静态文件资源目录，如css、js。<br/>
 6.2、src/main/resources/templates：模板文件资源目录，如vm、excel。<br/>
 
-### <a id="a_springBootApplication">一、@SpringBootApplication启动类 ：开启(Spring)组件扫描和(Spring Boot)自动配置：</a>
+### <a id="a_springBootApplication">一、@SpringBootApplication启动类 ：开启(Spring)组件扫描和(Spring Boot)自动配置：</a> <a href="#a_info">last</a> <a href="#a_demoApplicationTests">next</a>
 @SpringBootApplication：[org.springframework.boot.autoconfigure.SpringBootApplication](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/SpringBootApplication.html)
 
 @SpringBootConfiguration：[org.springframework.boot.SpringBootConfiguration](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/SpringBootConfiguration.html)
@@ -181,7 +181,7 @@ public @interface SpringBootApplication { }
 
 
 ---
-### <a id="a_demoApplicationTests">二、DemoApplicationTests.java：测试类：</a>
+### <a id="a_demoApplicationTests">二、DemoApplicationTests.java：测试类：</a> <a href="#a_springBootApplication">last</a> <a href="#a_pom">next</a>
 @SpringBootTest [org.springframework.boot.test.context.SpringBootTest](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/test/context/SpringBootTest.html)
 
 @ActiveProfiles [org.springframework.test.context.ActiveProfiles](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/test/context/ActiveProfiles.html)
@@ -220,7 +220,7 @@ public class DemoApplicationTests {
 2.3、@ActiveProfiles(profiles = "test")：在测试类上面指定profiles，可以改变当前spring 的profile，来达到多环境的测试<br/>
 
 ---
-### <a id="a_pom">三、pom.xml：POM配置文件</a>
+### <a id="a_pom">三、pom.xml：POM配置文件</a> <a href="#a_demoApplicationTests">last</a> <a href="#a_applicationProperties">next</a>
 3.1、配置项目基本信息：<br/>
 
 ```xml
@@ -377,7 +377,7 @@ dependencies标签：
 ```
 
 ---
-### <a id="a_applicationProperties">四、application.properties：配置文件</a>
+### <a id="a_applicationProperties">四、application.properties：配置文件</a> <a href="#a_pom">last</a> <a href="#a_getproperties">next</a>
 4.1、设置server信息
 
 ```properties
@@ -413,7 +413,7 @@ spring.jpa.hibernate.ddl-auto=create
 spring.jpa.show-sql=true
 ```
 
-### <a id="a_getproperties">五、获取默认配置文件或其他配置文件声明的属性值</a>
+### <a id="a_getproperties">五、获取默认配置文件或其他配置文件声明的属性值</a> <a href="#a_applicationProperties">last</a> <a href="#a_profile">next</a>
 
 application.properties：
 
@@ -898,7 +898,7 @@ public class TestEnvironmentPostProcessor implements EnvironmentPostProcessor {
 }
 ```
 
-### <a id="a_profile">六、设置需要激活配置文件</a>
+### <a id="a_profile">六、设置需要激活配置文件</a> <a href="#a_getproperties">last</a> <a href="#a_condition">next</a>
 SpringApplication：[org.springframework.boot.SpringApplication](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/SpringApplication.html)
 
 ```
@@ -1080,7 +1080,7 @@ public class TestBeanByProfile {
 }
 ```
 
-### <a id="a_condition">七、使用 @Conditional 和 Condition 组合实现基于条件的自动装配bean</a>
+### <a id="a_condition">七、使用 @Conditional 和 Condition 组合实现基于条件的自动装配bean</a> <a href="#a_profile">last</a> <a href="#a_enable">next</a>
 MainByCondition.java：
 
 ```Java
@@ -1260,7 +1260,7 @@ public class TestConditionConfiguration {
 	public Runnable createrByConditionalOnMisisingBean() { return () -> { }; }
 }
 ```
-### <a id="a_enable">八、使用 @Eable启用特性</a>
+### <a id="a_enable">八、使用 @Eable启用特性</a> <a href="#a_condition">last</a> <a href="#a_pit">next</a>
 8.1、使用 @EnableAutoConfiguration 启用一个特性：将配置文件的属性注入到bean中：<br/>
 @EnableAutoConfiguration：[org.springframework.boot.autoconfigure.EnableAutoConfiguration](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/EnableAutoConfiguration.html)
 
@@ -1269,7 +1269,7 @@ public class TestConditionConfiguration {
 @EnableAutoConfiguration 说明：
 
 ```
-1、启用S​​pring应用程序上下文的自动配置，试图推测和配置可能需要的bean。自动配置类通常基于您的类路径和您定义的bean应用
+1、启用Spring应用程序上下文的自动配置，试图推测和配置可能需要的bean。自动配置类通常基于您的类路径和您定义的bean应用
 2、使用时SpringBootApplication，上下文的自动配置会自动启用，因此添加此注释不会产生其他影响。
 	自动配置会尝试尽可能地智能化，并会在定义更多自己的配置时退出。始终可以手动exclude()配置任何不想应用的配置（excludeName()如果您无权访问，请使用该配置）。
 2、也可以通过该spring.autoconfigure.exclude属性排除它们 。自动配置总是在用户定义的bean注册后应用。
@@ -1596,14 +1596,14 @@ public class RealizeBeanPostProcessor implements BeanPostProcessor {
 
 
 ---
-## <a id="a_pit">I、[spring boot 入坑总结](https://github.com/mutistic/mutistic.spring/tree/master/com.mutistic.boot/notes/pit)</a>
+## <a id="a_pit">I、[spring boot 入坑总结](https://github.com/mutistic/mutistic.spring/tree/master/com.mutistic.boot/notes/pit)</a> <a href="#a_catalogue">Catalogue</a> <a href="#a_sql">next</a>
 [pit1、spring boot之 maven install 报错[Maven]](https://github.com/mutistic/mutistic.spring/blob/master/com.mutistic.boot/notes/pit/pit1_spring%20boot%E4%B9%8B%20maven%20install%20%E6%8A%A5%E9%94%99%5BMaven%5D.docx)<br/>
 [pit2、pom.xml无法找到[Maven]](https://github.com/mutistic/mutistic.spring/blob/master/com.mutistic.boot/notes/pit/pit2_pom.xml%E6%97%A0%E6%B3%95%E6%89%BE%E5%88%B0%5BMaven%5D.docx)<br/>
 [pit3、引入spring-boot-starter-data-jpa 后启动项目报错[JPA]](https://github.com/mutistic/mutistic.spring/blob/master/com.mutistic.boot/notes/pit/pit3_%E5%BC%95%E5%85%A5spring-boot-starter-data-jpa%20%E5%90%8E%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%9B%AE%E6%8A%A5%E9%94%99%5BJPA%5D.docx)<br/>
 [pit4、继承JpaRepository时报错[JPA]](https://github.com/mutistic/mutistic.spring/blob/master/com.mutistic.boot/notes/pit/pit4_%E7%BB%A7%E6%89%BFJpaRepository%E6%97%B6%E6%8A%A5%E9%94%99%5BJPA%5D.docx)<br/>
 
 ---
-## <a id="a_sql">II、[sql](https://github.com/mutistic/mutistic.spring/tree/master/com.mutistic.boot/notes/sql)</a>
+## <a id="a_sql">II、[sql](https://github.com/mutistic/mutistic.spring/tree/master/com.mutistic.boot/notes/sql)</a> <a href="#a_pit">last</a> <a href="#a_down">Down</a>
 [ddl_creater_database_study](https://github.com/mutistic/mutistic.spring/blob/master/com.mutistic.boot/notes/sql/ddl_creater_database_study.sql)
 
 
