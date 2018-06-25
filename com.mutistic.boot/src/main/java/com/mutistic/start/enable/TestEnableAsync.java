@@ -22,7 +22,7 @@ public class TestEnableAsync implements Runnable {
 		try {
 			for (int i = 0; i < 5; i++) {
 				CommonUtil.printThree("TestEnableAnsyc 执行输出", i);
-				TimeUnit.MICROSECONDS.sleep(500);
+				TimeUnit.MICROSECONDS.sleep(500); // 线程暂停
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();

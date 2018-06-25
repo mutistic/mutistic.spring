@@ -19,6 +19,7 @@ Spring Boot 是伴随着[Spring4.0](https://github.com/mutistic/mutistic.spring/
 7. <a href="#a_getproperties">获取默认配置文件或其他配置文件声明的属性值</a>
 8. <a href="#a_profile">设置需要激活配置文件</a>
 9. <a href="#a_condition">使用 @Conditional 和 Condition 组合实现基于条件的自动装配bean</a>
+10. <a href="#a_enable>使用 @Eable启用特性</a>
 97. <a href="#a_pit">spring boot 入坑总结</a>
 98. <a href="#a_sql">sql</a>
 99. <a href="#a_down">down</a>
@@ -1260,6 +1261,342 @@ public class TestConditionConfiguration {
 }
 ```
 
+### <a id="a_enable>八、使用 @Eable启用特性</a>
+8.1、使用 @EnableAutoConfiguration 启用一个特性：将配置文件的属性注入到bean中：<br/>
+@EnableAutoConfiguration：[org.springframework.boot.autoconfigure.EnableAutoConfiguration](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/EnableAutoConfiguration.html)
+
+@EnableConfigurationProperties：[org.springframework.boot.context.properties.EnableConfigurationProperties](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/context/properties/EnableConfigurationProperties.html)
+
+@EnableAutoConfiguration 说明：
+
+```
+1、启用S​​pring应用程序上下文的自动配置，试图推测和配置可能需要的bean。自动配置类通常基于您的类路径和您定义的bean应用
+2、使用时SpringBootApplication，上下文的自动配置会自动启用，因此添加此注释不会产生其他影响。
+	自动配置会尝试尽可能地智能化，并会在定义更多自己的配置时退出。始终可以手动exclude()配置任何不想应用的配置（excludeName()如果您无权访问，请使用该配置）。
+2、也可以通过该spring.autoconfigure.exclude属性排除它们 。自动配置总是在用户定义的bean注册后应用。
+3、@Enableautoconfiguration注释的类包通常是通过@SpringBootApplication进行注释的，它具有特定的意义，并且经常被用作"默认"。
+	通常建议您在根包中放置@Enableautoconfiguration（如果您没有使用@SpringBootApplication），这样就可以搜索所有子包和类。
+4、自动配置类是普通的Spring Configuration bean。他们使用SpringFactoriesLoader机制（针对这个class）。
+	通常，自动配置bean是@Conditionalbean（最常使用@ConditionalOnClass和 @ConditionalOnMissingBean注释）
+
+@EnableAutoConfiguration属性说明：
+Class<?>[] exclude; 排除特定的自动配置类，从而永远不会应用它们
+String[] excludeName; 排除特定的自动配置类名称，使它们永远不会被应用
+```
+
+@EnableAutoConfiguration 说明：
+
+```
+启用对ConfigurationProperties注释Bean的支持。 ConfigurationPropertiesbean可以以标准方式注册（例如使用@Bean方法），或者为了方便起见，可以直接在此注释中指定bean 
+
+@EnableConfigurationProperties属性说明：
+Class<?>[] value; ConfigurationProperties使用Spring 快速注册带注释的Bean的便捷方式。
+```
+
+MainByEnableAutoConfiguration.java：
+
+```Java
+package com.mutistic.start.enable;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import com.mutistic.utils.CommonUtil;
+// 使用 @EnableAutoConfiguration 启用一个特性：将配置文件的属性注入到bean中
+// 1、实际上起作用的是 @EnableConfigurationProperties 注解。2、@SpringBootApplication 中标注了 @EnableAutoConfiguration注解。
+// 3、@Enable 启用特性实际上是使用 @Import 导入类来实现的。
+@EnableAutoConfiguration
+// @EnableConfigurationProperties
+@ComponentScan
+public class MainByEnableAutoConfiguration {
+	public static void main(String[] args) {
+		ConfigurableApplicationContext context = SpringApplication.run(MainByEnableAutoConfiguration.class, args);
+		CommonUtil.printOne("使用 @EnableAutoConfiguration 启用一个特性：将配置文件的属性注入到bean中");
+		CommonUtil.printThree("使用@ConfigurationProperties 注解通过set方法注入属性", context.getBean(TestEnableAutoProperties.class).toString());
+		context.close();
+	} 
+}
+```
+
+TestEnableAutoProperties.java：
+
+```Java
+package com.mutistic.start.enable;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
+// 配合 MainByEnableAutoConfiguration 实现启用属性自动注入特性
+@Component
+@ConfigurationProperties(prefix="local")
+public class TestEnableAutoProperties {
+	private String ip;
+	private String port;
+	
+	public String getIp() { return ip; }
+	public void setIp(String ip) { this.ip = ip; }
+	public String getPort() { return port; }
+	public void setPort(String port) { this.port = port; }
+
+	@Override
+	public String toString() { return "TestEnableAutoProperties [ip=" + ip + ", port=" + port + "]"; }
+}
+```
+
+8.2、使用 @EnableAsync 启用异步执行特性：<br/>
+@EnableAsync：[org.springframework.scheduling.annotation.EnableAsync](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/scheduling/annotation/EnableAsync.html)
+
+AdviceMode：[org.springframework.context.annotation.AdviceMode](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/AdviceMode.html)
+
+Ordered：[org.springframework.core.Ordered](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/core/Ordered.html)
+
+@EnableAsync说明：
+
+```
+启用S​​pring的异步方法执行功能，类似于Spring的<task:*>XML命名空间中的功能
+
+@EnableAsync属性说明：
+java.lang.Class<? extends java.lang.annotation.Annotation> annotation() default Annotation.class; 指示要在类别或方法级别检测到的'异步'注释类型
+boolean proxyTargetClass() default false; 指示是否创建基于子类的（CGLIB）代理，而不是基于标准Java接口的代理。仅适用于mode()设置为AdviceMode.PROXY
+org.springframework.context.annotation.AdviceMode mode() default AdviceMode.PROXY; 说明如何应用异步建议。
+	默认是AdviceMode.PROXY。请注意，代理模式允许仅通过代理截取调用。同一类的本地调用不能以这种方式被拦截;
+	由于Spring的拦截器甚至没有为这样的运行时场景启动，所以在本地调用中对这种方法的Async注释将被忽略。对于更高级的拦截模式，请考虑将其转换为AdviceMode.ASPECTJ。
+int order default Ordered.LOWEST_PRECEDENCE; 指出AsyncAnnotationBeanPostProcessor 应该应用的顺序。
+	缺省值是Ordered.LOWEST_PRECEDENCE为了在所有其他后处理器之后运行，以便它可以将顾问添加到现有代理而不是双代理
+```
+
+MainByEnableAsync.java：
+
+```Java
+package com.mutistic.start.enable;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.scheduling.annotation.EnableAsync;
+import com.mutistic.utils.CommonUtil;
+// 使用 @EnableAsync 启用异步执行特性
+@SpringBootApplication
+@EnableAsync // 启用异步特性
+public class MainByEnableAsync {
+	public static void main(String[] args) {
+		ConfigurableApplicationContext context = SpringApplication.run(MainByEnableAsync.class, args);
+		CommonUtil.printOne("使用 @EnableAsync 启用异步执行特性");
+		context.getBean("testEnableAsync", Runnable.class).run();
+		CommonUtil.printOne("使用 @EnableAsync 启用异步执行特性===END===");
+		context.close();
+	}
+}
+```
+
+TestEnableAsync.java：
+
+```Java
+package com.mutistic.start.enable;
+import java.util.concurrent.TimeUnit;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
+import com.mutistic.utils.CommonUtil;
+// 配合 MainByEnableAsync 实现启用异步执行特性 
+@Component
+public class TestEnableAsync implements Runnable {
+	@Async // 异步执行注解
+	@Override
+	public void run() {
+		try {
+			for (int i = 0; i < 5; i++) {
+				CommonUtil.printThree("TestEnableAnsyc 执行输出", i);
+				TimeUnit.MICROSECONDS.sleep(500); // 线程暂停
+			}
+		} catch (InterruptedException e) { e.printStackTrace();	}
+	}
+}
+```
+
+8.3、使用 @Import 导入一个或多个类（可以普通类、配置类、ImportSelector接口实现类、ImportBeanDefinitionRegistrar接口实现类）：
+@Import：[org.springframework.context.annotation.Import](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Import.html)
+
+@ImportResource：[org.springframework.context.annotation.ImportResource](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/ImportResource.html)
+
+@Import说明：
+
+```
+1、表示要导入一个或多个@configuration类。
+2、提供与Spring XML中的<import/> 元素相对应的功能。允许导入@configuration类、ImportSelector和importbean定义注册器实现，以及常规组件类。
+3、在导入的@configuration类中声明的@bean定义应该通过使用@autowired注入来访问。要么bean本身可以自动连接，要么宣布bean的配置类实例可以自动连接。
+	后一种方法允许在@configuration类方法之间进行显式的、理想化的导航。
+4、可以在类级别或作为元注释声明。
+5、如果@Configuration需要导入XML或其他非bean定义资源，请改为使用@ImportResource注释
+
+@Import属性说明：
+java.lang.Class<?>[] value：Configuration，ImportSelector，ImportBeanDefinitionRegistrar 或常规组件类导入。
+```
+
+MainByImport.java：
+
+```Java
+package com.mutistic.start.enable;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Import;
+import com.mutistic.utils.CommonUtil;
+// 使用 @Import 导入一个或多个类（可以普通类、配置类、ImportSelector接口实现类、ImportBeanDefinitionRegistrar接口实现类）
+@SpringBootApplication
+@Import({TestBeanByImport.class, TestImportConfiguration.class})
+//@Import(TestImportSelector.class) // 使用ImportSelector.selectImports() 导入返回的class数组。ImportSelector接口实现类本身不会被默认装配成bean
+//@TestEnableByImport(name = "mainByImport") // 使用自定义注解实现 @Import：模拟@Enable注解
+//@Import(TestImportBeanDefinitionRegistrar.class) // 使用ImportBeanDefinitionRegistrar接口实现类，动态注入bean
+public class MainByImport {
+	public static void main(String[] args) {
+		ConfigurableApplicationContext context = SpringApplication.run(MainByImport.class, args);
+		CommonUtil.printOne("使用 @Import 导入一个或多个类：");
+		CommonUtil.printThree("获取导入的普通类：", context.getBean("com.mutistic.start.enable.TestBeanByImport"));
+		CommonUtil.printThree("获取导入的配置类：", context.getBeansOfType(TestImportConfiguration.class));
+		CommonUtil.printThree("获取导入的配置类创建的bean：", context.getBeansOfType(TestBeanByImport.class));
+		context.close();
+	}
+}
+```
+
+TestImportConfiguration.java：
+
+```Java
+package com.mutistic.start.enable;
+import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.context.annotation.Bean;
+// 配合 MainByImport 使用@Import导入配置类
+//@SpringBootConfiguration // @Import导入可以不用声明@SpringBootConfiguration等注解
+public class TestImportConfiguration {
+	@Bean
+	public TestBeanByImport createrTestBeanByImport() { return new TestBeanByImport(); }
+	
+	@Bean
+	public TestBeanByImport createrTestBeanByImport2() { return new TestBeanByImport(); }	
+}
+```
+
+8.4、模拟实现 @Enable、@Import、ImportBeanDefinitionRegistrar、BeanPostProcessor组合使用：<br/>
+MainByRealizeEnable.java：
+
+```Java
+package com.mutistic.start.enable;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+import com.mutistic.utils.CommonUtil;
+// 模拟实现 @Enable、@Import、ImportBeanDefinitionRegistrar、BeanPostProcessor组合使用
+@SpringBootApplication
+@RealizeEnableRegistrar(beans = {RealizeBeanOne.class, RealizeBeanTwo.class}) // 启用 @RealizeEnableRegistrar 特性
+public class MainByRealizeEnable {
+	public static void main(String[] args) {
+		CommonUtil.printOne(MainByRealizeEnable.class +"：模拟实现 @Enable、@Import、ImportBeanDefinitionRegistrar、BeanPostProcessor组合使用：");
+		ConfigurableApplicationContext context = SpringApplication.run(MainByRealizeEnable.class, args);
+		CommonUtil.printTwo("Main-通过 @RealizeEnableRegistrar 获取注入spring容器中的RealizeBeanOne bean", context.getBean(RealizeBeanOne.class));
+		CommonUtil.printThree("Main-通过 @RealizeEnableRegistrar 获取注入到spring容器中的RealizeBeanTwo bean", context.getBean(RealizeBeanTwo.class));
+		context.close();
+	}
+}
+```
+
+RealizeEnableRegistrar.java：
+
+```Java
+package com.mutistic.start.enable;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import org.springframework.context.annotation.Import;
+// 模拟@Enable注解：特性：通过@Import 导入RealizeImportBeanDefinitionRegistrar 将传递过来的class参数注入到spring容器中
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Import(RealizeImportBeanDefinitionRegistrar.class)
+public @interface RealizeEnableRegistrar {
+//	Class[] beans();
+	Class<?>[] beans(); 
+}
+```
+
+RealizeImportBeanDefinitionRegistrar.java：
+
+```Java
+package com.mutistic.start.enable;
+import java.util.Arrays;
+import java.util.Map;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
+import org.springframework.core.type.AnnotationMetadata;
+import com.mutistic.utils.CommonUtil;
+// 模拟 ImportBeanDefinitionRegistrar 接口 实现动态注入
+// 将@RealizeEnableRegistrar 将class参数注入到spring容器和RealizeBeanPostProcessor中。
+public class RealizeImportBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar {
+	@Override
+	public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
+		CommonUtil.printOne(RealizeImportBeanDefinitionRegistrar.class +"：模拟 ImportBeanDefinitionRegistrar 接口 实现动态注入bean");
+		Class<?>[] beans = null;
+
+		// 获取 @RealizeEnableRegistrar 注解的属性值
+		Map<String, Object> attrMap = importingClassMetadata.getAnnotationAttributes(RealizeEnableRegistrar.class.getName());
+		if (attrMap.containsKey("beans")) {
+			beans = (Class<?>[]) attrMap.get("beans");
+		}
+		if(beans == null || beans.length <= 0) {
+			return;
+		}
+		CommonUtil.printThree("Registrar-获取 @RealizeEnableRegistrar 注解的属性值 beans", Arrays.asList(beans));
+		
+		CommonUtil.printThree("Registrar-将  @RealizeEnableRegistrar 的class参数赋值到 RealizeBeanPostProcessor中，同时RealizeBeanPostProcessor注入到spring容器中", 
+				RealizeBeanPostProcessor.class);
+		BeanDefinitionBuilder bdb = BeanDefinitionBuilder.genericBeanDefinition(RealizeBeanPostProcessor.class);
+		bdb.addPropertyValue("beans", beans); // 属性赋值
+		registry.registerBeanDefinition(RealizeBeanPostProcessor.class.getName(), bdb.getBeanDefinition());
+		
+		for (Class<?> temp : beans) {
+			CommonUtil.printThree("Registrar-将  @RealizeEnableRegistrar 的class参数  注入到spring容器中", temp);
+			registry.registerBeanDefinition(temp.getName(), BeanDefinitionBuilder.genericBeanDefinition(temp).getBeanDefinition());
+		}
+	}
+}
+```
+
+RealizeBeanPostProcessor.java：
+
+```Java
+package com.mutistic.start.enable;
+import java.util.Arrays;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.BeanPostProcessor;
+import com.mutistic.utils.CommonUtil;
+// 配合 RealizeImportBeanDefinitionRegistrar 实现 @RealizeEnableRegistrar 参数注入（演示用可以不需要此类）
+public class RealizeBeanPostProcessor implements BeanPostProcessor {
+
+	private Class<?>[] beans;
+	private boolean isPrint = false;
+
+	@Override
+	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {		
+		if (isPrint || beans == null || beans.length < 0) {
+			return bean;
+		}
+		CommonUtil.printOne(RealizeBeanPostProcessor.class +"：配合 RealizeImportBeanDefinitionRegistrar 实现 @RealizeEnableRegistrar 参数注入");
+		CommonUtil.printThree("Processor-获取传入的参数：beans", Arrays.asList(beans));
+		isPrint = true;
+
+		return bean;
+	}
+
+	@Override
+	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException { return bean; }
+
+	public Class<?>[] getBeans() { return beans; }
+	public void setBeans(Class<?>[] beans) { this.beans = beans; }
+}
+```
+
+
+### <a id="a_enable>使用 @Eable启用特性</a>
 
 ---
 ## <a id="a_pit">I、[spring boot 入坑总结](https://github.com/mutistic/mutistic.spring/tree/master/com.mutistic.boot/notes/pit)</a>

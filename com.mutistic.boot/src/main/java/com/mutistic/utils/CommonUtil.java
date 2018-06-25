@@ -19,19 +19,19 @@ public class CommonUtil {
 		System.out.println();
 	}
 	
-	public static void printErr(String str) {
+	public static void printErr(Object str) {
 		System.err.println(LINE_LONG_LN + (str == null ? "" : str));
 	}
 
-	public static void printOne(String str) {
+	public static void printOne(Object str) {
 		System.out.println(LINE_LONG_LN + (str == null ? "" : str));
 	}
 
-	public static void printTwo(String str, Object obj) {
+	public static void printTwo(Object str, Object obj) {
 		System.out.println(LINE_SHORT_LN + (str == null ? "" : str) + (obj == null ? "" : T_LEFT + obj + T_RIGTH));
 	}
 
-	public static void printThree(String str, Object obj) {
+	public static void printThree(Object str, Object obj) {
 		System.out.println(LINE_SHORT + (str == null ? "" : str) + (obj == null ? "" : T_LEFT + obj + T_RIGTH));
 	}
 

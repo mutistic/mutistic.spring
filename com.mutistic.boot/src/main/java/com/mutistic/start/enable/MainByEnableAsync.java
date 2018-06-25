@@ -20,7 +20,7 @@ public class MainByEnableAsync {
 	public static void main(String[] args) {
 		ConfigurableApplicationContext context = SpringApplication.run(MainByEnableAsync.class, args);
 		CommonUtil.printOne("使用 @EnableAsync 启用异步执行特性");
-		context.getBean(Runnable.class).run();
+		context.getBean("testEnableAsync", Runnable.class).run();
 		CommonUtil.printOne("使用 @EnableAsync 启用异步执行特性===END===");
 		context.close();
 	}

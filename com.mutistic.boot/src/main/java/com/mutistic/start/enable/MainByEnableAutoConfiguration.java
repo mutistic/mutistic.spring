@@ -25,5 +25,5 @@ public class MainByEnableAutoConfiguration {
 		CommonUtil.printOne("使用 @EnableAutoConfiguration 启用一个特性：将配置文件的属性注入到bean中");
 		CommonUtil.printThree("使用@ConfigurationProperties 注解通过set方法注入属性", context.getBean(TestEnableAutoProperties.class).toString());
 		context.close();
-	}
+	} 
 }
