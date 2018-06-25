@@ -1,2 +1,5 @@
-#配合 TestEnvironmentPostProcessor 
+#配合 TestEnvironmentPostProcessor 通过实现 EnvironmentPostProcessor 自定义注入配置文件
 org.springframework.boot.env.EnvironmentPostProcessor=com.mutistic.start.properties.TestEnvironmentPostProcessor
+
+#配合 MainByEnableAutoConfiguration 对 @EnableAutoConfiguration 深入分析
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.mutistic.start.auto.MainByEnableAutoConfiguration

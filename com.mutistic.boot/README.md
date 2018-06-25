@@ -20,6 +20,7 @@ Spring Boot 是伴随着[Spring4.0](https://github.com/mutistic/mutistic.spring/
 8. <a href="#a_profile">设置需要激活配置文件</a>
 9. <a href="#a_condition">使用 @Conditional 和 Condition 组合实现基于条件的自动装配bean</a>
 10. <a href="#a_enable">使用 @Eable启用特性</a>
+11. <a href="#a_enableAutoConfiguration">@EnableAutoConfiguration 深入分析</a>
 97. <a href="#a_pit">spring boot 入坑总结</a>
 98. <a href="#a_sql">sql</a>
 99. <a href="#a_down">down</a>
@@ -1260,7 +1261,7 @@ public class TestConditionConfiguration {
 	public Runnable createrByConditionalOnMisisingBean() { return () -> { }; }
 }
 ```
-### <a id="a_enable">十、使用 @Eable启用特性</a> <a href="#a_condition">last</a> <a href="#a_pit">next</a>
+### <a id="a_enable">十、使用 @Eable启用特性</a> <a href="#a_condition">last</a> <a href="#a_enableAutoConfiguration">next</a>
 10.1、使用 @EnableAutoConfiguration 启用一个特性：将配置文件的属性注入到bean中：<br/>
 @EnableAutoConfiguration：[org.springframework.boot.autoconfigure.EnableAutoConfiguration](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/EnableAutoConfiguration.html)
 
@@ -1279,6 +1280,7 @@ public class TestConditionConfiguration {
 	通常，自动配置bean是@Conditionalbean（最常使用@ConditionalOnClass和 @ConditionalOnMissingBean注释）
 
 @EnableAutoConfiguration属性说明：
+String ENABLED_OVERRIDE_PROPERTY = "spring.boot.enableautoconfiguration";  启用自动配置属性配置参数名。默认为true启用自动配置，false不启用自动配置
 Class<?>[] exclude; 排除特定的自动配置类，从而永远不会应用它们
 String[] excludeName; 排除特定的自动配置类名称，使它们永远不会被应用
 ```
@@ -1594,6 +1596,89 @@ public class RealizeBeanPostProcessor implements BeanPostProcessor {
 }
 ```
 
+---
+### <a id="a_enableAutoConfiguration">十一、@EnableAutoConfiguration 深入分析：</a> <a href="#a_enable">last</a> <a href="#">next</a>
+@EnableAutoConfiguration：[org.springframework.boot.autoconfigure.EnableAutoConfiguration](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/EnableAutoConfiguration.html)
+
+AutoConfigurationImportSelector：[org.springframework.boot.autoconfigure.AutoConfigurationImportSelector](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/AutoConfigurationImportSelector.html)
+
+DeferredImportSelector：[org.springframework.boot.autoconfigure.DeferredImportSelector：](https://docs.spring.io/spring-framework/docs/5.0.7.RELEASE/javadoc-api/org/springframework/context/annotation/DeferredImportSelector.html)
+
+@EnableAutoConfiguration 说明参考10.1
+
+```
+一、@SpringBootApplication 能够启用自动配置Spring应用程序上下文的原因：
+	1、标注了 @EnableAutoConfiguration 注解
+	2、@EnableAutoConfiguration 本身 使用了 @Import 导入了 AutoConfigurationImportSelector.class
+	3、AutoConfigurationImportSelector 本身是 ImportSelector接口的一个实现子类。
+二、spring boot 通过 EnableAutoConfiguration.ENABLED_OVERRIDE_PROPERTY = "spring.boot.enableautoconfiguration"
+	参数启用自动配置（默认为true，false表示不启用自动配置）properties语法：key=value：spring.boot.enableautoconfiguration=true
+三、 @EnableAutoConfiguration 配置类，从所有的classpatch中搜索 META-INF/spring.factories 设置需要启用自动配置的类：
+	spring.factories语法(多个类用 , 隔开)：key=classname,classname
+	org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.mutistic.start.auto.MainByEnableAutoConfiguration
+四、AutoConfigurationImportSelector 加载机制
+	1、通过 isEnabled()方法判断自动配置是否启用即：EnableAutoConfiguration.ENABLED_OVERRIDE_PROPERTY=true
+	2、通过 getAttributes() 方法获取 spring.factories 获取需要自动配置的类
+	3、通过 getCandidateConfigurations 方法：通过SpringFactoriesLoader.loadFactoryNames()方法从 classpatch中
+	搜索所有的META-INF/spring.factories配置文件，并读取其配置的类。
+	4、通过 selectImports() 方法返回最终要导入的类的集合给@Import完成导入，并同时注册bean到spring中
+五、@EnableAutoConfiguration 可以通过 exclude() 根据类class来排除，可以通过excludeName() 根据类名排除。
+六、可以参考 spring-boot-autoconfigure/META-INF/spring.factories的配置文件，
+	org.springframework.boot.autoconfigure包下spring boot启动时默认自动配置bean
+```
+
+
+META-INF/spring.factories
+
+```factories
+#配合 MainByEnableAutoConfiguration 对 @EnableAutoConfiguration 深入分析
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.mutistic.start.auto.MainByEnableAutoConfiguration
+```
+
+MainByEnableAutoConfiguration.java：
+
+```Java
+package com.mutistic.start.auto;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import com.google.gson.Gson;
+import com.mutistic.utils.CommonUtil;
+// @EnableAutoConfiguration 深入分析
+//@SpringBootApplication
+@EnableAutoConfiguration
+@ComponentScan
+public class MainByEnableAutoConfiguration {
+	public static void main(String[] args) {
+		ConfigurableApplicationContext context = SpringApplication.run(MainByEnableAutoConfiguration.class, args);
+		showBeanBySpringFactories(context);
+		showBeanByGsonAutoConfiguration(context);
+		context.close();
+	}
+
+	@Bean
+	public Runnable createrRunnable() { return () -> {}; }
+	// 从META-INF/spring.factories设置 EnableAutoConfiguration
+	private static void showBeanBySpringFactories(ConfigurableApplicationContext context) {
+		CommonUtil.printOne("从META-INF/spring.factories设置 EnableAutoConfiguration：");
+		CommonUtil.printThree("spring.factories语法：key=class", 
+				"org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.mutistic.start.auto.MainByEnableAutoConfiguration");
+		CommonUtil.printThree("获取依赖项目的配置的bean", context.getBeansOfType(Runnable.class));
+	}
+	
+	@Bean
+	public Gson createrGson() { return new Gson(); }
+	// 查看spring boot 启动时默认自动配置bean
+	private static void showBeanByGsonAutoConfiguration(ConfigurableApplicationContext context) {
+		CommonUtil.printOne("查看spring boot 启动时默认自动配置bean");
+		CommonUtil.printThree("自定义 ：Gson bean", context.getBean("createrGson"));
+		CommonUtil.printThree("获取org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration自动配置的默认的Gson bean", "gson()");
+		CommonUtil.printThree("GsonAutoConfiguration：Gson bean", context.getBeansOfType(Gson.class)); // 自定义注册的Gson bean优先级高于GsonAutoConfiguration注册的bean
+	}
+}
+```
 
 ---
 ## <a id="a_pit">I、[spring boot 入坑总结](https://github.com/mutistic/mutistic.spring/tree/master/com.mutistic.boot/notes/pit)</a> <a href="#a_catalogue">Catalogue</a> <a href="#a_sql">next</a>
