@@ -25,9 +25,9 @@ Spring Boot 是伴随着[Spring4.0](https://github.com/mutistic/mutistic.spring/
 99. <a href="#a_down">down</a>
 
 ---
-## <a id="a_springBoot">Spring Boot概述：</a> <a href="#a_top">last</a> <a href="#a_info">next</a>
+### <a id="a_springBoot">一、Spring Boot概述：</a> <a href="#a_top">last</a> <a href="#a_info">next</a>
 
-1、Spring Boot 是什么
+1.1、Spring Boot 是什么
 
 ```
 1、Spring Boot是由Pivotal团队提供的全新框架，其设计目的是用来简化新Spring应用的初始搭建以及开发过程。
@@ -35,7 +35,7 @@ Spring Boot 是伴随着[Spring4.0](https://github.com/mutistic/mutistic.spring/
 3、通过这种方式，Spring Boot致力于在蓬勃发展的快速应用开发领域(rapid application development)成为领导者
 ```
 
-2、Spring Boot 有什么用
+1.2、Spring Boot 有什么用
 
 ```
 1、Spring Boot的目的在于创建和启动新的基于Spring框架的项目。
@@ -45,7 +45,7 @@ Spring Boot 是伴随着[Spring4.0](https://github.com/mutistic/mutistic.spring/
 5、Spring Boot提供了一种快速使用Spring的方式
 ```
 
-3、Spring Boot 特点
+1.3、Spring Boot 特点
 
 ```
 1、为基于spring的开发提供更决的入门体验
@@ -59,7 +59,7 @@ Spring Boot 是伴随着[Spring4.0](https://github.com/mutistic/mutistic.spring/
 ```
 
 
-4、Spring Boot 优点
+1.4、Spring Boot 优点
 
 ```
 1、Spring Bott 使编码变得简单
@@ -68,7 +68,7 @@ Spring Boot 是伴随着[Spring4.0](https://github.com/mutistic/mutistic.spring/
 4、Spring Bott 使监控变得简单
 ```
 
-5、Spring Boot 缺点
+1.5、Spring Boot 缺点
 
 ```
 1、依赖太多，随便一个Spring Boot应用都有几十M到几百M（继承至spring-boot-starter-parent）。
@@ -77,7 +77,8 @@ Spring Boot 是伴随着[Spring4.0](https://github.com/mutistic/mutistic.spring/
 4、中文的文档和资料太少且不够深入（有英文API）
 ```
 
-## <a id="a_info">Spring Boot目录结构说明：</a> <a href="#a_springBoot">last</a> <a href="#a_springBootApplication">next</a>
+---
+### <a id="a_info">二、Spring Boot目录结构说明：</a> <a href="#a_springBoot">last</a> <a href="#a_springBootApplication">next</a>
 1、.gradle、gradle、build.gradle、gradlew、gradlew.bat、settings.gradle：<br/>
 Eclipse集成STS插件或Spring Boot CLI初始化应用程序，创建Spring Boot项目，采用Gradle打包发布软件时会生成这些与Gradle相关文件。<br/>
 2、.mvn、mvnw、mvnw.cmd、pom.xml、.target：<br/>
@@ -89,7 +90,8 @@ Eclipse集成STS插件，创建Spring Boot项目，采用Maven打包发布软件
 6.1、src/main/resources/static：静态文件资源目录，如css、js。<br/>
 6.2、src/main/resources/templates：模板文件资源目录，如vm、excel。<br/>
 
-### <a id="a_springBootApplication">一、@SpringBootApplication启动类 ：开启(Spring)组件扫描和(Spring Boot)自动配置：</a> <a href="#a_info">last</a> <a href="#a_demoApplicationTests">next</a>
+---
+### <a id="a_springBootApplication">三、@SpringBootApplication启动类 ：开启(Spring)组件扫描和(Spring Boot)自动配置：</a> <a href="#a_info">last</a> <a href="#a_demoApplicationTests">next</a>
 @SpringBootApplication：[org.springframework.boot.autoconfigure.SpringBootApplication](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/SpringBootApplication.html)
 
 @SpringBootConfiguration：[org.springframework.boot.SpringBootConfiguration](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/SpringBootConfiguration.html)
@@ -102,7 +104,7 @@ SpringApplication：[org.springframework.boot.SpringApplication](https://docs.sp
 
 ConfigurableApplicationContext：[org.springframework.context.ConfigurableApplicationContext](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/ConfigurableApplicationContext.html)
 
-1.1、@SpringBootApplication：开启(Spring)组件扫描和(Spring Boot)自动配置：
+3.1、@SpringBootApplication：开启(Spring)组件扫描和(Spring Boot)自动配置：
 
 ```
 1、指示configuration声明一个或多个@Bean方法以及触发器auto-configuration和类的类 component scanning。
@@ -173,15 +175,13 @@ SpringBooApplication.java：
 public @interface SpringBootApplication { }
 ```
 
-1.2、方法说明：
-
-1.2.1、public static ConfigurableApplicationContext run(Class<?>[] primarySources, String[] args)<br/>
-静态方法可以使用默认设置和用户提供的参数从指定的数据源运行SpringApplication。（args 通常从Java mian方法传递）
+3.2、方法说明：<br/>
+public static ConfigurableApplicationContext run(Class<?>[] primarySources, String[] args); 静态方法可以使用默认设置和用户提供的参数从指定的数据源运行SpringApplication。（args 通常从Java mian方法传递）
 
 
 
 ---
-### <a id="a_demoApplicationTests">二、DemoApplicationTests.java：测试类：</a> <a href="#a_springBootApplication">last</a> <a href="#a_pom">next</a>
+### <a id="a_demoApplicationTests">四、DemoApplicationTests.java：测试类：</a> <a href="#a_springBootApplication">last</a> <a href="#a_pom">next</a>
 @SpringBootTest [org.springframework.boot.test.context.SpringBootTest](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/test/context/SpringBootTest.html)
 
 @ActiveProfiles [org.springframework.test.context.ActiveProfiles](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/test/context/ActiveProfiles.html)
@@ -209,19 +209,19 @@ public class DemoApplicationTests {
 }
 ```
 
-2.1、@RunWith(SpringRunner.class)：RunWith：运行器。SpringRunner.class：运行Spring测试环境<br/>
-2.2、@SpringBootTest：SpringBoot自1.4.0版本开始引入的一个用于测试的注解。<br/>
+4.1、@RunWith(SpringRunner.class)：RunWith：运行器。SpringRunner.class：运行Spring测试环境<br/>
+4.2、@SpringBootTest：SpringBoot自1.4.0版本开始引入的一个用于测试的注解。<br/>
 
 ```
   classes：属性指定具体的启动类。
   SpringBootTest.WebEnvironment.RANDOM_PORT 经常和测试类中 @LocalServerPort 一起在注入属性时使用。会随机生成一个端口号。
 ```
 
-2.3、@ActiveProfiles(profiles = "test")：在测试类上面指定profiles，可以改变当前spring 的profile，来达到多环境的测试<br/>
+4.3、@ActiveProfiles(profiles = "test")：在测试类上面指定profiles，可以改变当前spring 的profile，来达到多环境的测试<br/>
 
 ---
-### <a id="a_pom">三、pom.xml：POM配置文件</a> <a href="#a_demoApplicationTests">last</a> <a href="#a_applicationProperties">next</a>
-3.1、配置项目基本信息：<br/>
+### <a id="a_pom">五、pom.xml：POM配置文件</a> <a href="#a_demoApplicationTests">last</a> <a href="#a_applicationProperties">next</a>
+5.1、配置项目基本信息：<br/>
 
 ```xml
 <!-- 1、项目基本信息 -->
@@ -233,7 +233,7 @@ public class DemoApplicationTests {
 <description>此项目基于Craig Walls的《Spring Boot实战》一书。使用的是Eclipse 集成的 STS插件自动创建的Spring Boot项目</description>
 ```
 
-属性说明：
+5.1.2、属性说明：
 
 ```
 name：项目名称。
@@ -244,7 +244,7 @@ packaging：打包方式：Jar / War。
 description：项目描述信息。
 ```
 
-Eclipse使用STS创建spring boot项目其他信息：
+5.1.3、Eclipse使用STS创建spring boot项目其他信息：
 
 ```
 Service URL: https://start.spring.io  ： 默认Service URL。
@@ -256,7 +256,7 @@ Package：项目包名。
 Woring sets / Add project to workong sets：是否需要引入其他工作项目。
 ```
 
-3.2：配置文件和构建等编码格式和JDK版本信息等 。<br/>
+5.2：配置文件和构建等编码格式和JDK版本信息等 。<br/>
 properties标签：
 
 ```xml
@@ -267,7 +267,7 @@ properties标签：
 </properties>
 ```
 
-3.3、配置构建信息：构建插件的主要功能是把项目打包成一个可执行的超级JAR（uber-JAR），包括把应用程序的所有依赖打入JAR文件内，并为JAR添加一个描述文件，其中的内容能让你用 java -jar 来运行应用程序。<br/>
+5.3、配置构建信息：构建插件的主要功能是把项目打包成一个可执行的超级JAR（uber-JAR），包括把应用程序的所有依赖打入JAR文件内，并为JAR添加一个描述文件，其中的内容能让你用 java -jar 来运行应用程序。<br/>
 build标签：
 
 ```xml
@@ -281,7 +281,7 @@ build标签：
 </build>
 ```
 
-3.4、将spring-boot-starter-parent作为上一级，这样一来就能利用Maven的依赖管理功能，继承很多常用库的依赖版本，在声明依赖时就不用再去指定版本号了。<br/>
+5.4.1、将spring-boot-starter-parent作为上一级，这样一来就能利用Maven的依赖管理功能，继承很多常用库的依赖版本，在声明依赖时就不用再去指定版本号了。<br/>
 parent标签：
 
 ```xml
@@ -293,7 +293,7 @@ parent标签：
 </parent>
 ```
 
-3.4.2、可以通过导入 spring-boot-dependencies 替代 spring-boot-starter-parent。<br/>
+5.4.2、可以通过导入 spring-boot-dependencies 替代 spring-boot-starter-parent。<br/>
 dependencyManagement标签：
 
 ```xml
@@ -310,8 +310,8 @@ dependencyManagement标签：
 </dependencyManagement>
 ```
 
-3.5、起步依赖本质上是一个Maven项目对象模型（Project Object Model，POM），定义了对其他库的传递依赖，这些东西加在一起即支持某项功能。很多起步依赖的命名都暗示了它们提供的某种或某类功能 。<br/>
-dependency依赖注入包说明：
+5.5、起步依赖本质上是一个Maven项目对象模型（Project Object Model，POM），定义了对其他库的传递依赖，这些东西加在一起即支持某项功能。很多起步依赖的命名都暗示了它们提供的某种或某类功能 。<br/>
+5.5.1、dependency依赖注入包说明：
 
 ```
 org.springframework.boot > spring-boot-starter：spring boot java启动
@@ -327,7 +327,7 @@ mysql > mysql-connector-java：Mysql：Mysql数据库
 javax.inject > javax.inject > 1 ：
 ```
 
-dependencies标签：
+5.5.2、dependencies标签：
 
 ```xml
 <dependencies>
@@ -377,8 +377,8 @@ dependencies标签：
 ```
 
 ---
-### <a id="a_applicationProperties">四、application.properties：配置文件</a> <a href="#a_pom">last</a> <a href="#a_getproperties">next</a>
-4.1、设置server信息
+### <a id="a_applicationProperties">六、application.properties：配置文件</a> <a href="#a_pom">last</a> <a href="#a_getproperties">next</a>
+6.1、设置server信息
 
 ```properties
 #设置Tomcat的监听端口
@@ -387,7 +387,7 @@ server.port=8888
 server.servlet.context-path=/boot
 ```
 
-4.2、设置数据库信息
+6.2、设置数据库信息
 
 ```properties
 #设置Mysql驱动类
@@ -400,7 +400,7 @@ spring.datasource.username=root
 spring.datasource.password=root
 ```
 
-4.3、设置JPA信息
+6.3、设置JPA信息
 
 ```properties
 #设置JPA hibernate.ddl-auto 配置信息
@@ -413,7 +413,7 @@ spring.jpa.hibernate.ddl-auto=create
 spring.jpa.show-sql=true
 ```
 
-### <a id="a_getproperties">五、获取默认配置文件或其他配置文件声明的属性值</a> <a href="#a_applicationProperties">last</a> <a href="#a_profile">next</a>
+### <a id="a_getproperties">七、获取默认配置文件或其他配置文件声明的属性值</a> <a href="#a_applicationProperties">last</a> <a href="#a_profile">next</a>
 
 application.properties：
 
@@ -566,7 +566,7 @@ public class MainByProperties {
 ```
 
 
-5.1.1、通过ConfigurableApplicationContext.getEnvironment().getProperty()获取application.properties的属性值<br/>
+7.1.1、通过ConfigurableApplicationContext.getEnvironment().getProperty()获取application.properties的属性值<br/>
 ConfigurableEnvironment：[org.springframework.core.env.ConfigurableEnvironment](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/core/env/ConfigurableEnvironment.html)
 
 
@@ -576,7 +576,7 @@ ConfigurableEnvironment：[org.springframework.core.env.ConfigurableEnvironment]
 3、当一个  Environment 被  ApplicationContext 使用时，重要的是在调用上下文的refresh（）方法之前执行任何此类PropertySource操作。这确保了在容器引导过程中所有的属性源都可用，包括属性占位符配置者的使用。
 ```
 
-5.1.2、通过ConfigurableEnvironment.getSystemEnvironment()获取指定系统环境中的属性值：<br/>
+7.1.2、通过ConfigurableEnvironment.getSystemEnvironment()获取指定系统环境中的属性值：<br/>
 
 ```
 1、演示结果参考：MainByProperties.showPropertiesBySystemEnvironment();
@@ -585,7 +585,7 @@ ConfigurableEnvironment：[org.springframework.core.env.ConfigurableEnvironment]
 2.2、请注意，大多数Environment实现将把这个系统环境映射包含为要搜索的默认PropertySource。因此，建议不直接使用该方法，除非明确指定绕过其他属性源
 ```
 
-5.2、通过 自动注入 Environment 获取属性值：<br/>
+7.2、通过 自动注入 Environment 获取属性值：<br/>
 Environment：[org.springframework.core.env.Environment](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/core/env/Environment.html)
 
 PropertyResolver：[org.springframework.core.env.PropertyResolver](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/core/env/PropertyResolver.html)
@@ -620,7 +620,7 @@ public class TestPropertiesByEnvironment {
 }
 ```
 
-5.3、通过 @Value 自动注入 application.properties声明的属性：<br/>
+7.3、通过 @Value 自动注入 application.properties声明的属性：<br/>
 @Value：[org.springframework.beans.factory.annotation.Value](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/annotation/Value.html)
 
 ```
@@ -672,7 +672,7 @@ public class TestPropertiesByValue {
 }
 ```
 
-5.4、通过 @PropertySource 加载指定资源文件：<br/>
+7.4、通过 @PropertySource 加载指定资源文件：<br/>
 @PropertySource：[org.springframework.context.annotation.PropertySource](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/PropertySource.html)
 
 @PropertySources：[org.springframework.context.annotation.PropertySources](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/PropertySources.html)
@@ -751,7 +751,7 @@ public class TestPropertiesByPropertySource {
 }
 ```
 
-5.5、通过 @ConfigurationProperties 加载指定前缀属性：<br/>
+7.5、通过 @ConfigurationProperties 加载指定前缀属性：<br/>
 @ConfigurationProperties：[org.springframework.boot.context.properties.ConfigurationProperties](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/context/properties/ConfigurationProperties.html)
 
 ```
@@ -823,7 +823,7 @@ public class TestPropertiesByPrefix {
 }
 ```
 
-5.6、通过实现 EnvironmentPostProcessor  自定义注入配置文件：<br/>
+7.6、通过实现 EnvironmentPostProcessor  自定义注入配置文件：<br/>
 EnvironmentPostProcessor：[org.springframework.boot.env.EnvironmentPostProcessor](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/env/EnvironmentPostProcessor.html)
 
 Properties：[java.util.Properties](https://docs.oracle.com/javase/10/docs/api/java/util/Properties.html)
@@ -898,7 +898,7 @@ public class TestEnvironmentPostProcessor implements EnvironmentPostProcessor {
 }
 ```
 
-### <a id="a_profile">六、设置需要激活配置文件</a> <a href="#a_getproperties">last</a> <a href="#a_condition">next</a>
+### <a id="a_profile">八、设置需要激活配置文件</a> <a href="#a_getproperties">last</a> <a href="#a_condition">next</a>
 SpringApplication：[org.springframework.boot.SpringApplication](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/SpringApplication.html)
 
 ```
@@ -918,7 +918,7 @@ SpringApplication：[org.springframework.boot.SpringApplication](https://docs.sp
 	或标志关闭横幅（"spring.main.banner-mode = off"）。
 ```
 
-6.1、通过 SpringApplication.setAdditionalProfiles() 设置需要激活文件 <br/>
+8.1、通过 SpringApplication.setAdditionalProfiles() 设置需要激活文件 <br/>
 public void setAdditionalProfiles(String... profiles)：设置要使用的其他配置文件值（在系统或命令行属性中设置的值之上:--spring.profiles.active=test,uat）
 
 application.properties：
@@ -1003,7 +1003,7 @@ public class MainByAdditionalProfiles {
 }
 ```
 
-6.2、通过 @Profile 当激活对应配置文件或包含指定前缀的属性，组件可以注册 <br/>
+8.2、通过 @Profile 当激活对应配置文件或包含指定前缀的属性，组件可以注册 <br/>
 @Profile：[org.springframework.context.annotation.Profile](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Profile.html)
 
 ```
@@ -1080,7 +1080,7 @@ public class TestBeanByProfile {
 }
 ```
 
-### <a id="a_condition">七、使用 @Conditional 和 Condition 组合实现基于条件的自动装配bean</a> <a href="#a_profile">last</a> <a href="#a_enable">next</a>
+### <a id="a_condition">九、使用 @Conditional 和 Condition 组合实现基于条件的自动装配bean</a> <a href="#a_profile">last</a> <a href="#a_enable">next</a>
 MainByCondition.java：
 
 ```Java
@@ -1124,7 +1124,7 @@ public class MainByCondition {
 }
 ```
 
-7.1、使用 @Conditional 和 Condition 组合自定义实现根据条件自动装配bean：<br/>
+9.1、使用 @Conditional 和 Condition 组合自定义实现根据条件自动装配bean：<br/>
 @Conditional：[org.springframework.context.annotation.Conditional](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Conditional.html)
 
 ```
@@ -1212,7 +1212,7 @@ public class TestUTF8Condition implements Condition {
 }
 ```
 
-7.2、使用常用的Conditional类实现自动装配bean：<br/>
+9.2、使用常用的Conditional类实现自动装配bean：<br/>
 @ConditionalOnProperty：[org.springframework.boot.autoconfigure.condition.ConditionalOnProperty](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/condition/ConditionalOnProperty.html)
 
 @ConditionalOnClass：[org.springframework.boot.autoconfigure.condition.ConditionalOnClass](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/condition/ConditionalOnClass.html)
@@ -1260,8 +1260,8 @@ public class TestConditionConfiguration {
 	public Runnable createrByConditionalOnMisisingBean() { return () -> { }; }
 }
 ```
-### <a id="a_enable">八、使用 @Eable启用特性</a> <a href="#a_condition">last</a> <a href="#a_pit">next</a>
-8.1、使用 @EnableAutoConfiguration 启用一个特性：将配置文件的属性注入到bean中：<br/>
+### <a id="a_enable">十、使用 @Eable启用特性</a> <a href="#a_condition">last</a> <a href="#a_pit">next</a>
+10.1、使用 @EnableAutoConfiguration 启用一个特性：将配置文件的属性注入到bean中：<br/>
 @EnableAutoConfiguration：[org.springframework.boot.autoconfigure.EnableAutoConfiguration](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/EnableAutoConfiguration.html)
 
 @EnableConfigurationProperties：[org.springframework.boot.context.properties.EnableConfigurationProperties](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/context/properties/EnableConfigurationProperties.html)
@@ -1341,7 +1341,7 @@ public class TestEnableAutoProperties {
 }
 ```
 
-8.2、使用 @EnableAsync 启用异步执行特性：<br/>
+10.2、使用 @EnableAsync 启用异步执行特性：<br/>
 @EnableAsync：[org.springframework.scheduling.annotation.EnableAsync](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/scheduling/annotation/EnableAsync.html)
 
 AdviceMode：[org.springframework.context.annotation.AdviceMode](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/AdviceMode.html)
@@ -1410,7 +1410,7 @@ public class TestEnableAsync implements Runnable {
 }
 ```
 
-8.3、使用 @Import 导入一个或多个类（可以普通类、配置类、ImportSelector接口实现类、ImportBeanDefinitionRegistrar接口实现类）：
+10.3、使用 @Import 导入一个或多个类（可以普通类、配置类、ImportSelector接口实现类、ImportBeanDefinitionRegistrar接口实现类）：<br/>
 @Import：[org.springframework.context.annotation.Import](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Import.html)
 
 @ImportResource：[org.springframework.context.annotation.ImportResource](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/ImportResource.html)
@@ -1473,7 +1473,7 @@ public class TestImportConfiguration {
 }
 ```
 
-8.4、模拟实现 @Enable、@Import、ImportBeanDefinitionRegistrar、BeanPostProcessor组合使用：<br/>
+10.4、模拟实现 @Enable、@Import、ImportBeanDefinitionRegistrar、BeanPostProcessor组合使用：<br/>
 MainByRealizeEnable.java：
 
 ```Java
@@ -1610,6 +1610,4 @@ public class RealizeBeanPostProcessor implements BeanPostProcessor {
 ---
 <a id="a_down"></a>  
 <a href="#a_top">Top</a> 
-<a href="#a_catalogue">Catalogue</a>  
-
-
+<a href="#a_catalogue">Catalogue</a>
