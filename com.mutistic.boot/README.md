@@ -19,7 +19,7 @@ Spring Boot 是伴随着[Spring4.0](https://github.com/mutistic/mutistic.spring/
 7. <a href="#a_getproperties">获取默认配置文件或其他配置文件声明的属性值</a>
 8. <a href="#a_profile">设置需要激活配置文件</a>
 9. <a href="#a_condition">使用 @Conditional 和 Condition 组合实现基于条件的自动装配bean</a>
-10. <a href="#a_enable>使用 @Eable启用特性</a>
+10. <a href="#a_enable">使用 @Eable启用特性</a>
 97. <a href="#a_pit">spring boot 入坑总结</a>
 98. <a href="#a_sql">sql</a>
 99. <a href="#a_down">down</a>
@@ -1260,8 +1260,7 @@ public class TestConditionConfiguration {
 	public Runnable createrByConditionalOnMisisingBean() { return () -> { }; }
 }
 ```
-
-### <a id="a_enable>八、使用 @Eable启用特性</a>
+### <a id="a_enable">八、使用 @Eable启用特性</a>
 8.1、使用 @EnableAutoConfiguration 启用一个特性：将配置文件的属性注入到bean中：<br/>
 @EnableAutoConfiguration：[org.springframework.boot.autoconfigure.EnableAutoConfiguration](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/EnableAutoConfiguration.html)
 
@@ -1352,7 +1351,7 @@ Ordered：[org.springframework.core.Ordered](https://docs.spring.io/spring/docs/
 @EnableAsync说明：
 
 ```
-启用S​​pring的异步方法执行功能，类似于Spring的<task:*>XML命名空间中的功能
+启用Spring的异步方法执行功能，类似于Spring的<task:*>XML命名空间中的功能
 
 @EnableAsync属性说明：
 java.lang.Class<? extends java.lang.annotation.Annotation> annotation() default Annotation.class; 指示要在类别或方法级别检测到的'异步'注释类型
@@ -1595,8 +1594,6 @@ public class RealizeBeanPostProcessor implements BeanPostProcessor {
 }
 ```
 
-
-### <a id="a_enable>使用 @Eable启用特性</a>
 
 ---
 ## <a id="a_pit">I、[spring boot 入坑总结](https://github.com/mutistic/mutistic.spring/tree/master/com.mutistic.boot/notes/pit)</a>
