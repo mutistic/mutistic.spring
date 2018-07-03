@@ -1694,7 +1694,7 @@ ApplicationListener: 由应用程序事件监听器实现的接口。
      基于观察者设计模式的标准java.util.EventListener接口。
      从Spring 3.0开始，ApplicationListener一般可以声明它感兴趣的事件类型。
      当使用Spring ApplicationContext注册时，将相应地过滤事件，只调用监听器以匹配事件对象
-  void onApplicationEvent(E event)：处理应用程序事件
+    void onApplicationEvent(E event)：处理应用程序事件
 	
 ApplicationEvent： 由所有应用程序事件扩展的类。抽象地说，一般事件的发布是没有意义的
 ```
@@ -1705,7 +1705,8 @@ ApplicationEvent： 由所有应用程序事件扩展的类。抽象地说，一
 1、自定义事件：一般是继承 ApplicationEvent 抽象类，重写构造函数
 2、定义监听器：一般是实现 ApplicationListener 接口，重写 onApplicationEvent()方法
 3、启动时，将注册监听器到Spring容器(Application)中
-4、发布事件到Context中：使用的是 ApplicationContext接口，其继承的 ApplicationEventPublisher接口的 publishEvent()方法实现事件的发布
+4、发布事件到Context中：使用的是ApplicationContext接口， 
+      其继承的ApplicationEventPublisher接口的 publishEvent()方法实现事件的发布
 ```
 
 MainByApplicationEvent.java：
@@ -1913,21 +1914,31 @@ public class TestEventListener {
 实现 org.springframework.context.ApplicationEvent 接口：
 
 ```
-org.springframework.web.socket.messaging.AbstractSubProtocolEvent：用于从WebSocket客户端接收并解析为更高级子协议（例如STOMP）的消息的事件的基类
-org.springframework.context.event.ApplicationContextEvent：用于ApplicationContext（应用程序上下文）的事件的基类。
-org.springframework.messaging.simp.broker.BrokerAvailabilityEvent：当代理的可用性更改时发生的事件
-org.springframework.context.PayloadApplicationEvent：一个带有任意有效负载的应用程序事件。主要用于框架内的内部使用。
-org.springframework.web.context.support.RequestHandledEvent：当一个请求在一个ApplicationContext中被处理时，事件就会发生。
-    由Spring自己的FrameworkServlet（通过一个特定的ServletRequestHandledEvent子类）支持，但也可以由任何其他web组件提出。例如，使用Spring的开箱即用的性能/侦听器。
+org.springframework.web.socket.messaging.AbstractSubProtocolEvent：
+      用于从WebSocket客户端接收并解析为更高级子协议（例如STOMP）的消息的事件的基类
+ApplicationContextEvent：
+      用于ApplicationContext（应用程序上下文）的事件的基类。
+org.springframework.messaging.simp.broker.BrokerAvailabilityEvent：
+      当代理的可用性更改时发生的事件
+org.springframework.context.PayloadApplicationEvent：
+      一个带有任意有效负载的应用程序事件。主要用于框架内的内部使用。
+org.springframework.web.context.support.RequestHandledEvent：
+      当一个请求在一个ApplicationContext中被处理时，事件就会发生。
+      由Spring自己的FrameworkServlet（通过一个特定的ServletRequestHandledEvent子类）支持，
+      但也可以由任何其他web组件提出。例如，使用Spring的开箱即用的性能/监听器。
 ```
 
 实现org.springframework.context.event.ApplicationContextEvent 接口：
 
 ```
-ContextClosedEvent：当ApplicationContext关闭时发生的事件。
-ContextRefreshedEvent：当ApplicationContext初始化或刷新时发生的事件。
-ContextStartedEvent：当ApplicationContext启动时发生的事件。
-ContextStoppedEvent：当ApplicationContext暂停时发生的事件。
+ContextClosedEvent：
+     当ApplicationContext关闭时发生的事件。
+ContextRefreshedEvent：
+     当ApplicationContext初始化或刷新时发生的事件。
+ContextStartedEvent：
+     当ApplicationContext启动时发生的事件。
+ContextStoppedEvent：
+     当ApplicationContext暂停时发生的事件。
 ```
 
 12.4、spring boot 常用监听器：<br/>
@@ -1935,13 +1946,19 @@ ContextStoppedEvent：当ApplicationContext暂停时发生的事件。
 实现org.springframework.boot.context.event.SpringApplicationEvent 接口：
 
 ```
-ApplicationEnvironmentPreparedEvent：当一个SpringApplication（spring应用程序）启动时发布的事件，并且环境首先可以用于检查和修改。
-ApplicationFailedEvent：当SpringApplication无法启动时发布的事件。
-ApplicationPreparedEvent：当一个spring应用程序启动时发布的事件，应用程序上下文已经完全准备好了，但是没有刷新。bean定义将被加载，并且环境已经准备好在这个阶段使用。
-ApplicationReadyEvent：事件发布的时间尽可能晚，以表明应用程序已经准备好服务请求。事件的来源是SpringApplication本身，但是要注意修改它的内部状态，因为那时所有的初始化步骤都已经完成了。
-ApplicationStartedEvent：一旦应用程序上下文被刷新，在任何应用程序和命令行运行者被调用之前，都会发布事件。
-ApplicationStartingEvent：在环境或应用程序上下文可用之前，在应用程序监听器注册之后，尽早发布一个spring应用程序，就可以尽可能早地发布。
-   事件的来源是SpringApplication本身，但是在这个早期阶段，要注意不要过多地使用它的内部状态，因为它可能会在生命周期的后期被修改。
+ApplicationEnvironmentPreparedEvent：
+     当一个SpringApplication（spring应用程序）启动时发布的事件，并且环境首先可以用于检查和修改。
+ApplicationFailedEvent：
+     当SpringApplication无法启动时发布的事件。
+ApplicationPreparedEvent：
+     当一个spring应用程序启动时发布的事件，应用程序上下文已经完全准备好了，但是没有刷新。bean定义将被加载，并且环境已经准备好在这个阶段使用。
+ApplicationReadyEvent：
+     事件发布的时间尽可能晚，以表明应用程序已经准备好服务请求。事件的来源是SpringApplication本身，但是要注意修改它的内部状态，因为那时所有的初始化步骤都已经完成了。
+ApplicationStartedEvent：
+     一旦应用程序上下文被刷新，在任何应用程序和命令行运行者被调用之前，都会发布事件。
+ApplicationStartingEvent：
+     在环境或应用程序上下文可用之前，在应用程序监听器注册之后，尽早发布一个spring应用程序，就可以尽可能早地发布。
+     事件的来源是SpringApplication本身，但是在这个早期阶段，要注意不要过多地使用它的内部状态，因为它可能会在生命周期的后期被修改。
 ```
 
 
