@@ -82,7 +82,6 @@ public class MainByEnableAutoConfiguration {
 	 * @param context
 	 */
 	private static void showBeanByGsonAutoConfiguration(ConfigurableApplicationContext context) {
-		// TODO Auto-generated method stub
 		CommonUtil.printOne("查看spring boot 启动时默认自动配置bean");
 		CommonUtil.printThree("自定义 ：Gson bean", context.getBean("createrGson"));
 		CommonUtil.printThree("获取org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration自动配置的默认的Gson bean", "gson()");

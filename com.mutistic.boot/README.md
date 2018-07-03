@@ -21,6 +21,7 @@ Spring Boot 是伴随着[Spring4.0](https://github.com/mutistic/mutistic.spring/
 9. <a href="#a_condition">使用 @Conditional 和 Condition 组合实现基于条件的自动装配bean</a>
 10. <a href="#a_enable">使用 @Eable启用特性</a>
 11. <a href="#a_enableAutoConfiguration">@EnableAutoConfiguration 深入分析</a>
+12. <a href="#a_event">简单实现自定义事件和监听</a>
 97. <a href="#a_pit">spring boot 入坑总结</a>
 98. <a href="#a_sql">sql</a>
 99. <a href="#a_down">down</a>
@@ -876,7 +877,7 @@ import com.mutistic.utils.CommonUtil;
 @Component
 public class TestEnvironmentPostProcessor implements EnvironmentPostProcessor {
 	/**
-	 * @description 给定的环境的后置处理器
+	 * 给定的环境的后置处理器
 	 * @param environment
 	 * @param application
 	 * @see org.springframework.boot.env.EnvironmentPostProcessor#postProcessEnvironment(org.springframework.core.env.ConfigurableEnvironment, org.springframework.boot.SpringApplication)
@@ -1196,7 +1197,7 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
 // Condition实现类：配合 @Conditional 基于条件自动装配
 public class TestUTF8Condition implements Condition {
 	/**
-	 * @description 判断 System.getProperty("file.encoding") 是否为 UTF-8
+	 * 判断 System.getProperty("file.encoding") 是否为 UTF-8
 	 * @param context
 	 * @param metadata
 	 * @return
@@ -1261,6 +1262,8 @@ public class TestConditionConfiguration {
 	public Runnable createrByConditionalOnMisisingBean() { return () -> { }; }
 }
 ```
+
+---
 ### <a id="a_enable">十、使用 @Eable启用特性</a> <a href="#a_condition">last</a> <a href="#a_enableAutoConfiguration">next</a>
 10.1、使用 @EnableAutoConfiguration 启用一个特性：将配置文件的属性注入到bean中：<br/>
 @EnableAutoConfiguration：[org.springframework.boot.autoconfigure.EnableAutoConfiguration](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/EnableAutoConfiguration.html)
@@ -1597,7 +1600,7 @@ public class RealizeBeanPostProcessor implements BeanPostProcessor {
 ```
 
 ---
-### <a id="a_enableAutoConfiguration">十一、@EnableAutoConfiguration 深入分析：</a> <a href="#a_enable">last</a> <a href="#">next</a>
+### <a id="a_enableAutoConfiguration">十一、@EnableAutoConfiguration 深入分析：</a> <a href="#a_enable">last</a> <a href="#a_event">next</a>
 @EnableAutoConfiguration：[org.springframework.boot.autoconfigure.EnableAutoConfiguration](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/EnableAutoConfiguration.html)
 
 AutoConfigurationImportSelector：[org.springframework.boot.autoconfigure.AutoConfigurationImportSelector](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/autoconfigure/AutoConfigurationImportSelector.html)
@@ -1679,6 +1682,268 @@ public class MainByEnableAutoConfiguration {
 	}
 }
 ```
+
+---
+### <a id="a_event">十二、简单实现自定义事件和监听：</a> <a href="#a_enableAutoConfiguration">last</a> <a href="#">next</a>
+ApplicationListener：[org.springframework.context.ApplicationListener.html](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/ApplicationListener.html)
+
+ApplicationEvent：[org.springframework.context.ApplicationEvent](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/ApplicationEvent.html)
+
+```
+ApplicationListener: 由应用程序事件监听器实现的接口。
+     基于观察者设计模式的标准java.util.EventListener接口。
+     从Spring 3.0开始，ApplicationListener一般可以声明它感兴趣的事件类型。
+     当使用Spring ApplicationContext注册时，将相应地过滤事件，只调用监听器以匹配事件对象
+  void onApplicationEvent(E event)：处理应用程序事件
+	
+ApplicationEvent： 由所有应用程序事件扩展的类。抽象地说，一般事件的发布是没有意义的
+```
+
+12.1、发布事件流程：
+
+```
+1、自定义事件：一般是继承 ApplicationEvent 抽象类，重写构造函数
+2、定义监听器：一般是实现 ApplicationListener 接口，重写 onApplicationEvent()方法
+3、启动时，将注册监听器到Spring容器(Application)中
+4、发布事件到Context中：使用的是 ApplicationContext接口，其继承的 ApplicationEventPublisher接口的 publishEvent()方法实现事件的发布
+```
+
+MainByApplicationEvent.java：
+
+```Java
+package com.mutistic.start.event;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.config.DelegatingApplicationListener;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.event.EventListenerFactory;
+import org.springframework.context.event.EventListenerMethodProcessor;
+import com.mutistic.utils.CommonUtil;
+// 简单实现自定义事件和监听
+@SpringBootApplication
+public class MainByApplicationEvent {
+	public static void main(String[] args) {
+		CommonUtil.printOne("简单实现自定义事件");
+		SpringApplication app = new SpringApplication(MainByApplicationEvent.class);
+		app.addListeners(new TestApplicationListener());  // 添加监听器：将监听器注册到spring容器（application）中
+		
+		ConfigurableApplicationContext context = app.run(args);
+		context.publishEvent(new TestApplicationEvent(new Object())); // 发布事件：将事件注册到context中
+		context.stop(); // 配合 监听spring事件：ContextStoppedEvent-应用停止事件
+		context.close();
+	}
+}
+```
+
+TestApplicationEvent.java：
+
+```Java
+package com.mutistic.start.event;
+import org.springframework.context.ApplicationEvent;
+import com.mutistic.utils.CommonUtil;
+// 自定义事件：一般是继承 ApplicationEvent抽象类
+public class TestApplicationEvent extends ApplicationEvent {
+	/**
+	 * 重写构造函数
+	 * @param source
+	 */
+	public TestApplicationEvent(Object source) {
+		super(source);
+//		CommonUtil.printTwo("自定义事件：TestApplicationEvent，构造器入参：", source);
+	}
+}
+```
+
+TestApplicationListener.java：
+
+```Java
+package com.mutistic.start.event;
+import org.springframework.context.ApplicationListener;
+import org.springframework.stereotype.Component;
+import com.mutistic.utils.CommonUtil;
+// 定义监听器： 一般是实现 ApplicationListener<E extend ApplicationEvent> 接口
+//@Component // 12.2.2、可以使用 SpringApplication.addListeners(new TestApplicationListener()); 添加监听器
+public class TestApplicationListener implements ApplicationListener<TestApplicationEvent> {
+	/**
+	 * 处理应用程序的事件
+	 * @param event
+	 * @see org.springframework.context.ApplicationListener#onApplicationEvent(org.springframework.context.ApplicationEvent)
+	 */
+	@Override
+	public void onApplicationEvent(TestApplicationEvent event) {
+		CommonUtil.printTwo("定义监听器:TestApplicationListener，监听事件：", event);
+	}
+}
+```
+
+12.2、注册监听器到Spring容器的四种方法:<br/>
+12.2.1、使用 SpringApplication.addListeners();
+
+```Java
+SpringApplication app = new SpringApplication(MainByApplicationEvent.class);
+app.addListeners(new TestApplicationListener());  // 添加监听器：将监听器注册到spring容器（application）中
+```
+
+12.2.2、可以使用 @Component 等方式将其纳入到spring容器中
+
+```Java
+@Component 
+public class TestApplicationListener implements ApplicationListener<TestApplicationEvent> { //... }
+```
+
+12.2.3、通过 context.listener.classes 参数配置(默认：application.properties)，多个监听器用 , 号隔开<br/>
+DelegatingApplicationListener：[org.springframework.boot.context.config.DelegatingApplicationListener](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/context/config/DelegatingApplicationListener.html)
+
+```
+1、DelegatingApplicationListener：应用程序监听器，它委托给其他监听器，这些监听器是在context.listener.classes环境属性下指定的
+
+2、方法说明
+private static final String PROPERTY_NAME = "context.listener.classes";  ： context.listener.classes属性字符串
+void onApplicationEvent(ApplicationEvent event)：
+    重写 ApplicationListener.onApplicationEvent()方法
+```
+
+实现原理：
+
+```
+1、具体实现原理是通过 DelegatingApplicationListener.onApplicationEvent() > getListeners()方法
+2、获取参数DelegatingApplicationListener.PROPERTY_NAME 配置的值
+3、然后在反射出具体类的 ApplicationListener 监听器
+```
+
+application.properties：
+
+```properties
+#配合 MainByApplicationEvent
+context.listener.classes=com.mutistic.start.event.TestApplicationListener
+```
+
+12.2.4、通过 @EventListener 注解实现事件的监听（作用于方法上，必须要有参数，参数为具体事件类 或者 EventObject子事件类（子类））<br/>
+@EventListener：[org.springframework.context.event.EventListener](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/event/EventListener.html)
+
+EventListenerMethodProcessor：[org.springframework.context.event.EventListenerMethodProcessor](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/event/EventListenerMethodProcessor.html)
+
+EventListenerFactory：[org.springframework.context.event.EventListenerFactory](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/event/EventListenerFactory.html)
+
+@EventListener：
+
+```
+1、将方法标记为应用程序事件的监听器的注释。
+2、如果带注释的方法支持单个事件类型，则该方法可以声明反映要监听的事件类型的单个参数。如果带注释的方法支持多种事件类型，
+    则此注释可以使用该classes 属性引用一个或多个受支持的事件类型
+3、事件可以是ApplicationEvent实例以及任意对象。
+4、@EventListener注释的处理是通过内部EventListenerMethodProcessorbean 执行的，内部bean在使用Java配置时自动注册，
+    <context:annotation-config/>或者<context:component-scan/> 在使用XML配置时通过or 元素手动注册 。
+5、带注释的方法可能具有非void返回类型。当它们执行时，方法调用的结果将作为新事件发送。如果返回类型是数组或集合，则每个元素都将作为新的单个事件发送。
+6、还可以定义调用某个事件的监听器的顺序。为此，请@Order在此事件监听器注释旁边添加Spring的常用 注释。
+7、虽然事件监听器可以声明它会抛出任意异常类型，但是事件监听器抛出的任何已检查异常都将被包装在一起， UndeclaredThrowableException 因为事件发布者只能处理运行时异常。
+```
+
+EventListenerMethodProcessor：
+
+```
+1、将带EventListener注释的方法注册为单个ApplicationListener 实例。
+
+2、方法说明：
+protected java.util.List<EventListenerFactory> getEventListenerFactories()：
+    返回EventListenerFactory用于处理带EventListener注释方法的实例
+public void afterSingletonsInstantiated()：
+    在单例预实例化阶段结束时调用，保证已经创建了所有常规单例bean。
+protected void processBean(java.util.List<EventListenerFactory> factories, java.lang.String beanName, java.lang.Class<?> targetType)：
+    内部调用EventListenerFactory.createApplicationListener()方法创建具体类型的监听器bean
+```
+
+EventListenerFactory：
+
+```
+1、用于创建ApplicationListener注释方法的策略接口EventListener。
+
+2、方法说明：
+boolean supportsMethod(java.lang.reflect.Method method)：
+    指定此工厂是否支持指定的工厂Method。
+ApplicationListener<?> createApplicationListener(java.lang.String beanName, java.lang.Class<?> type, java.lang.reflect.Method method)：
+    ApplicationListener为指定的方法创建一个。beanName - bean的名字、type - 实例的目标类型、method- 带EventListener注释的方法
+```
+
+实现原理：
+
+```
+1、具体实现原理是通过 EventListenerMethodProcessor.afterSingletonsInstantiated() > processBean()方法
+2、从spring容器中查找 有标注EventListener注解的方法
+3、然后通过 EventListenerFactory.createApplicationListener() 反射出具体类的ApplicationListener 监听器
+```
+
+TestEventListener.java：
+
+```java
+package com.mutistic.start.event;
+import java.util.EventObject;
+import org.springframework.context.event.ContextStoppedEvent;
+import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Component;
+import com.mutistic.utils.CommonUtil;
+// 通过 @EventListener 注解实现事件的监听
+// 作用于方法上，必须要有参数，参数为具体事件类 或者 EventObject子事件类（子类）
+@Component
+public class TestEventListener {
+	// 监听spring容器中的事件
+	@EventListener
+	public void eventObject(Object event) {
+//	public void eventObject(EventObject event) {
+		CommonUtil.printTwo("TestEventListener 通过 @EventListener注解监听到的事件：", event);
+	}
+	
+	// 监听指定事件
+	@EventListener
+	public void eventTest(TestApplicationEvent event) {
+		CommonUtil.printTwo("TestEventListener 通过 @EventListener注解监听指定事件TestApplicationEvent：", event);
+	}
+	
+	// 监听spring事件：ContextStoppedEvent-应用停止事件
+	@EventListener
+	public void eventContextStop(ContextStoppedEvent event) {
+		// ContextClosedEvent 应用关闭事件
+		CommonUtil.printTwo("测试监听 spring 事件：ContextStoppedEvent-应用停止事件：", event);
+	}	
+}
+```
+
+12.3、spring 常用监听器：<br/>
+参考 org.springframework.context.event包下：<br/>
+实现 org.springframework.context.ApplicationEvent 接口：
+
+```
+org.springframework.web.socket.messaging.AbstractSubProtocolEvent：用于从WebSocket客户端接收并解析为更高级子协议（例如STOMP）的消息的事件的基类
+org.springframework.context.event.ApplicationContextEvent：用于ApplicationContext（应用程序上下文）的事件的基类。
+org.springframework.messaging.simp.broker.BrokerAvailabilityEvent：当代理的可用性更改时发生的事件
+org.springframework.context.PayloadApplicationEvent：一个带有任意有效负载的应用程序事件。主要用于框架内的内部使用。
+org.springframework.web.context.support.RequestHandledEvent：当一个请求在一个ApplicationContext中被处理时，事件就会发生。
+    由Spring自己的FrameworkServlet（通过一个特定的ServletRequestHandledEvent子类）支持，但也可以由任何其他web组件提出。例如，使用Spring的开箱即用的性能/侦听器。
+```
+
+实现org.springframework.context.event.ApplicationContextEvent 接口：
+
+```
+ContextClosedEvent：当ApplicationContext关闭时发生的事件。
+ContextRefreshedEvent：当ApplicationContext初始化或刷新时发生的事件。
+ContextStartedEvent：当ApplicationContext启动时发生的事件。
+ContextStoppedEvent：当ApplicationContext暂停时发生的事件。
+```
+
+12.4、spring boot 常用监听器：<br/>
+参考 org.springframework.boot.context.event包下：<br/>
+实现org.springframework.boot.context.event.SpringApplicationEvent 接口：
+
+```
+ApplicationEnvironmentPreparedEvent：当一个SpringApplication（spring应用程序）启动时发布的事件，并且环境首先可以用于检查和修改。
+ApplicationFailedEvent：当SpringApplication无法启动时发布的事件。
+ApplicationPreparedEvent：当一个spring应用程序启动时发布的事件，应用程序上下文已经完全准备好了，但是没有刷新。bean定义将被加载，并且环境已经准备好在这个阶段使用。
+ApplicationReadyEvent：事件发布的时间尽可能晚，以表明应用程序已经准备好服务请求。事件的来源是SpringApplication本身，但是要注意修改它的内部状态，因为那时所有的初始化步骤都已经完成了。
+ApplicationStartedEvent：一旦应用程序上下文被刷新，在任何应用程序和命令行运行者被调用之前，都会发布事件。
+ApplicationStartingEvent：在环境或应用程序上下文可用之前，在应用程序监听器注册之后，尽早发布一个spring应用程序，就可以尽可能早地发布。
+   事件的来源是SpringApplication本身，但是在这个早期阶段，要注意不要过多地使用它的内部状态，因为它可能会在生命周期的后期被修改。
+```
+
 
 ---
 ## <a id="a_pit">I、[spring boot 入坑总结](https://github.com/mutistic/mutistic.spring/tree/master/com.mutistic.boot/notes/pit)</a> <a href="#a_catalogue">Catalogue</a> <a href="#a_sql">next</a>
