@@ -23,7 +23,7 @@ Spring Boot 是伴随着[Spring4.0](https://github.com/mutistic/mutistic.spring/
 11. <a href="#a_enableAutoConfiguration">@EnableAutoConfiguration 深入分析</a>
 12. <a href="#a_event">简单实现自定义事件和监听</a>
 13. <a href="#a_initializers">Spring初始化处理器</a>
-13. <a href="#a_runner">Spring容器运行后的最后一次回调接口</a>
+14. <a href="#a_runner">Spring容器运行后的最后一次回调接口</a>
 97. <a href="#a_pit">spring boot 入坑总结</a>
 98. <a href="#a_sql">sql</a>
 99. <a href="#a_down">down</a>
@@ -1687,6 +1687,12 @@ public class MainByEnableAutoConfiguration {
 
 ---
 ### <a id="a_event">十二、简单实现自定义事件和监听：</a> <a href="#a_enableAutoConfiguration">last</a> <a href="#a_initializers">next</a>
+ApplicationContextInitializer 接口是 Spring容器refresh()之前的回调接口：
+```
+	1、实现 ApplicationContextInitializer 接口。
+	2、注册初始化处理器 ApplicationContextInitializer 实现类。
+	PS：不能通过@Component方式注册初始化处理器
+```
 ApplicationListener：[org.springframework.context.ApplicationListener](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/ApplicationListener.html)
 
 ApplicationEvent：[org.springframework.context.ApplicationEvent](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/ApplicationEvent.html)
