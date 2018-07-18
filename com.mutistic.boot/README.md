@@ -22,6 +22,8 @@ Spring Boot 是伴随着[Spring4.0](https://github.com/mutistic/mutistic.spring/
 10. <a href="#a_enable">使用 @Eable启用特性</a>
 11. <a href="#a_enableAutoConfiguration">@EnableAutoConfiguration 深入分析</a>
 12. <a href="#a_event">简单实现自定义事件和监听</a>
+13. <a href="#a_initializers">Spring初始化处理器</a>
+13. <a href="#a_runner">Spring容器运行后的最后一次回调接口</a>
 97. <a href="#a_pit">spring boot 入坑总结</a>
 98. <a href="#a_sql">sql</a>
 99. <a href="#a_down">down</a>
@@ -1684,8 +1686,8 @@ public class MainByEnableAutoConfiguration {
 ```
 
 ---
-### <a id="a_event">十二、简单实现自定义事件和监听：</a> <a href="#a_enableAutoConfiguration">last</a> <a href="#">next</a>
-ApplicationListener：[org.springframework.context.ApplicationListener.html](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/ApplicationListener.html)
+### <a id="a_event">十二、简单实现自定义事件和监听：</a> <a href="#a_enableAutoConfiguration">last</a> <a href="#a_initializers">next</a>
+ApplicationListener：[org.springframework.context.ApplicationListener](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/ApplicationListener.html)
 
 ApplicationEvent：[org.springframework.context.ApplicationEvent](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/ApplicationEvent.html)
 
@@ -1777,7 +1779,7 @@ public class TestApplicationListener implements ApplicationListener<TestApplicat
 }
 ```
 
-12.2、注册监听器到Spring容器的四种方法:<br/>
+12.2、注册监听器到Spring容器的五种方法:<br/>
 12.2.1、使用 SpringApplication.addListeners();
 
 ```Java
@@ -1799,9 +1801,10 @@ DelegatingApplicationListener：[org.springframework.boot.context.config.Delegat
 1、DelegatingApplicationListener：应用程序监听器，它委托给其他监听器，这些监听器是在context.listener.classes环境属性下指定的
 
 2、方法说明
-private static final String PROPERTY_NAME = "context.listener.classes";  ： context.listener.classes属性字符串
+private static final String PROPERTY_NAME = "context.listener.classes";
+  context.listener.classes属性字符串
 void onApplicationEvent(ApplicationEvent event)：
-    重写 ApplicationListener.onApplicationEvent()方法
+      重写 ApplicationListener.onApplicationEvent()方法
 ```
 
 实现原理：
@@ -1909,8 +1912,16 @@ public class TestEventListener {
 }
 ```
 
+12.2.5、通过META-INF/spring.factories注册（注册多个用 , 逗号隔开）<br/>
+META-INF/spring.factories：
+
+```factories
+#配合 MainByApplicationEvent 演示 ApplicationListener接口
+org.springframework.context.ApplicationListener=com.mutistic.start.event.TestApplicationListener
+```
+
 12.3、spring 常用监听器：<br/>
-参考 org.springframework.context.event包下：<br/>
+参考 org.springframework.context.event 包下：<br/>
 实现 org.springframework.context.ApplicationEvent 接口：
 
 ```
@@ -1928,7 +1939,7 @@ org.springframework.web.context.support.RequestHandledEvent：
       但也可以由任何其他web组件提出。例如，使用Spring的开箱即用的性能/监听器。
 ```
 
-实现org.springframework.context.event.ApplicationContextEvent 接口：
+实现 org.springframework.context.event.ApplicationContextEvent 接口：
 
 ```
 ContextClosedEvent：
@@ -1942,8 +1953,8 @@ ContextStoppedEvent：
 ```
 
 12.4、spring boot 常用监听器：<br/>
-参考 org.springframework.boot.context.event包下：<br/>
-实现org.springframework.boot.context.event.SpringApplicationEvent 接口：
+参考 org.springframework.boot.context.event 包下：<br/>
+实现 org.springframework.boot.context.event.SpringApplicationEvent 接口：
 
 ```
 ApplicationEnvironmentPreparedEvent：
@@ -1960,6 +1971,306 @@ ApplicationStartingEvent：
      在环境或应用程序上下文可用之前，在应用程序监听器注册之后，尽早发布一个spring应用程序，就可以尽可能早地发布。
      事件的来源是SpringApplication本身，但是在这个早期阶段，要注意不要过多地使用它的内部状态，因为它可能会在生命周期的后期被修改。
 ```
+
+---
+### <a id="a_initializers">十三、Spring初始化处理器 ApplicationContextInitializer：</a> <a href="#a_event">last</a> <a href="#a_runner">next</a>
+ApplicationContextInitializer：[org.springframework.context.ApplicationContextInitializer](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/ApplicationContextInitializer.html)
+
+```
+ApplicationContextInitializer 
+    Spring初始化处理器：该接口是 Spring容器的ConfigurableApplicationContext.refresh()之前的回调接口：
+    通常在需要对应用程序上下文进行某些编程初始化的Web应用程序中使用。例如，根据上下文环境注册属性源或激活配置文件。
+    鼓励ApplicationContextInitializer检测Spring的Ordered是否已经实现，或者是否存在@order注释，并在调用之前对实例进行排序。
+	
+2、方法说明：
+void initialize(C extends ConfigurableApplicationContext applicationContext)：
+	初始化给定的应用程序上下文
+```
+
+MainByInitializer.java：
+```java
+package com.mutistic.start.initializer;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+// 演示Spring初始化处理器：ApplicationContextInitializer
+@SpringBootApplication
+public class MainByInitializer {
+	public static void main(String[] args) {
+		showByAddInitializers(args);
+		showByPropertions(args);
+		showByFactories(args);
+	}
+	// 1、通过 SpringApplication.addInitializers()方法注册初始化处理器
+	private static void showByAddInitializers(String[] args) {
+		SpringApplication app = new SpringApplication(MainByInitializer.class);
+		app.addInitializers(new TestApplicationContextInitializer());
+		ConfigurableApplicationContext context = app.run(args);
+		context.close();
+	}
+	//  2、通过配置项context.initializer.classes注册初始化处理器（注册多个用 , 逗号隔开）
+	private static void showByPropertions(String[] args) { SpringApplication.run(MainByInitializer.class, args).close(); }
+	// 3、通过MATE-INF/spring.facoties 注册初始化处理器（注册多个用 , 逗号隔开）
+	private static void showByFactories(String[] args) { SpringApplication.run(MainByInitializer.class, args).close(); }
+}
+```
+
+TestApplicationContextInitializer.java：
+```java
+package com.mutistic.start.initializer;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
+import com.mutistic.utils.CommonUtil;
+// @program 演示Spring容器初始化之前的回调接口：ApplicationContextInitializer 
+// 容器初始化之前指：ConfigurableApplicationContext#refresh()。
+public class TestApplicationContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+	/**
+	 * 演示Spring容器初始化之前的回调接口
+	 * @param applicationContext
+	 * @see org.springframework.context.ApplicationContextInitializer#initialize(org.springframework.context.ConfigurableApplicationContext)
+	 */
+	@Override
+	public void initialize(ConfigurableApplicationContext applicationContext) {
+		CommonUtil.printTwo("TestApplicationContextInitializer 获取bean数量", applicationContext.getBeanDefinitionCount());
+		for (String name : applicationContext.getBeanDefinitionNames()) {
+			CommonUtil.printThree("bean name：", name); // bean并未初始化 不能通过ConfigurableApplicationContext.getBean()获取bean
+		}
+	}
+}
+```
+
+13.1、通过 SpringApplication.addInitializers()方法注册初始化处理器：<br/>
+```java
+	private static void showByAddInitializers(String[] args) {
+		SpringApplication app = new SpringApplication(MainByInitializer.class);
+		app.addInitializers(new TestApplicationContextInitializer());
+		ConfigurableApplicationContext context = app.run(args);
+		context.close();
+	}
+```
+
+13.2、通过配置项context.initializer.classes注册初始化处理器（注册多个用 , 逗号隔开）：<br/>
+application.properties：
+```properties
+#配合 MainByInitializer
+context.initializer.classes=com.mutistic.start.initializer.TestApplicationContextInitializer
+```
+
+13.3、通过MATE-INF/spring.facoties 注册初始化处理器（注册多个用 , 逗号隔开）：<br/>
+META-INF/spring.factories：
+```facoties
+#配合 MainByInitializer 演示 ApplicationContextInitializer接口
+org.springframework.context.ApplicationContextInitializer=com.mutistic.start.initializer.TestApplicationContextInitializer
+```
+
+---
+### <a id="a_runner">十四、Spring容器运行后的最后一次回调接口：</a> <a href="#a_initializers">last</a> <a href="#">next</a>
+Spring容器运行后的最后一次回调接口：
+```
+   1、实现 CommandLineRunner 或 ApplicationRunner 接口。
+   2、注册 CommandLineRunner 或 ApplicationRunner 实现类。
+   PS：可用通过 @Order 注解 或者 org.springframework.core.Ordered接口 实现执行顺序（数字小的先执行）
+```
+
+@Order：[org.springframework.core.annotation.Order](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/core/annotation/Order.html)
+```
+@Order:
+  定义带注释的组件的排序顺序。
+  它value()是可选的，表示Ordered接口中定义的order值 。
+  较低的值具有较高的优先级 默认值为 Ordered.LOWEST_PRECEDENCE，表示最低优先级（丢失到任何其他指定的order值）。
+  注意：
+  自Spring 4.0以来，Spring中的多种组件都支持基于注释的排序，即使对于目标组件的order值（从目标类或其@Bean方法）考虑的集合注入也是如此。
+  虽然此类order值可能会影响注入点的优先级，但请注意它们不会影响单例启动顺序，这是由依赖关系和@DependsOn声明（影响运行时确定的依赖关系图）确定的正交关注点 。
+  
+  从Spring 4.1开始，标准Priority注释可以用作订购方案中此注释的替代品。请注意，@Priority当必须选择单个元素时，可能会有其他语义
+  （请参阅参考资料AnnotationAwareOrderComparator.getPriority(java.lang.Object)）。
+  或者，也可以通过Ordered接口基于每个实例确定order值，允许配置确定的实例值而不是附加到特定类的硬编码值
+
+2、方法说明：
+int value() default Ordered.LOWEST_PRECEDENCE：
+  order值：默认是Ordered.LOWEST_PRECEDENCE。
+```
+
+Ordered：[org.springframework.core.Ordered](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/core/Ordered.html)
+```
+Ordered：
+  Ordered是一个接口，可以由应该有序的对象来实现，例如在一个Collection中。
+  实际的顺序可以被解释为优先级，第一个对象（具有最低的顺序值）具有最高优先级。
+  请注意，这个接口还有一个优先级标记：PriorityOrdered。PriorityOrdered 对象表示的order值始终在普通 Ordered对象表示的相同order值之前应用。
+
+2、方法说明：
+static final int HIGHEST_PRECEDENCE=Integer.MIN_VALUE：
+  最高优先级值的有用常量。
+static final int LOWEST_PRECEDENCE=Integer.MAX_VALUE：
+  最低优先级值的有用常量。
+int getOrder()：
+  获取此对象的order值。
+  较高的值被解释为较低的优先级。因此，具有最低值的对象具有最高优先级（有点类似于Servlet load-on-startup值）。
+  相同的order值将导致受影响对象的任意排序位置。
+```
+
+MainByRunner.java：
+```java
+package com.mutistic.start.runner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import com.mutistic.utils.CommonUtil;
+// 演示Spring容器运行后的最后一次回调接口：CommandLineRunner 或 ApplicationRunner
+@SpringBootApplication
+public class MainByRunner {
+  public static void main(String[] args) {
+    // 系统参数定义格式：--key=value
+    if(null == args || args.length == 0) {
+      args = new String[2];
+      args[0] = "--test1=自定义测试运行参数1";
+      args[1] = "--tset2=自定义测试运行参数2";
+    }
+    CommonUtil.printOne("演示 Spring容器运行后的最后一次回调接口：");
+    SpringApplication.run(MainByRunner.class, args).close();
+  }
+}
+```
+
+14.1、通过CommandLineRunner接口实现Spring容器启动后的最后一次回调：<br/>
+CommandLineRunner：[org.springframework.boot.CommandLineRunner](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/CommandLineRunner.html)
+```
+CommandLineRunner： 
+  接口用于指示bean在SpringApplication中包含的时候应该运行
+  CommandLineRunner可以在同一应用程序上下文中定义多个bean，并可以使用Ordered 接口或@Order注释进行排序
+  
+2、方法说明：
+void run(String... args)：
+  用于运行bean的回调
+```
+
+TestCommandLineRunner.java：
+```java
+package com.mutistic.start.runner;
+import java.util.Arrays;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
+import com.mutistic.utils.CommonUtil;
+@Component
+@Order(2)
+public class TestCommandLineRunner implements CommandLineRunner {
+  /**
+   * 1、通过CommandLineRunner接口实现Spring容器启动后的最后一次回调
+   * @param args
+   * @throws Exception
+   * @see org.springframework.boot.CommandLineRunner#run(java.lang.String[])
+   */
+  @Override
+  public void run(String... args) throws Exception {
+    CommonUtil.printTwo("1、通过CommandLineRunner接口实现Spring容器启动后的最后一次回调（spring容器已启动）：", TestCommandLineRunner.class);
+    if(null != args) {
+      CommonUtil.printThree("直接获取启动系统参数：", Arrays.asList(args));
+    }
+  }
+}
+```
+
+14.2、通过ApplicationRunner接口实现Spring容器启动后的最后一次回调：<br/>
+ApplicationRunner[org.springframework.boot.ApplicationRunner](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/ApplicationRunner.html)
+```
+ApplicationRunner： 
+  接口用于指示bean在SpringApplication中包含的时候应该运行。
+  可以在同一个应用程序上下文中定义多个ApplicationRunner bean，并可以使用Ordered 接口或@Order注释进行排序
+  
+2、方法说明：
+void run(ApplicationArguments args)：
+  用于运行bean的回调
+```
+
+TestApplicationRunner.java：
+```java
+package com.mutistic.start.runner;
+import java.util.Arrays;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.core.Ordered;
+import org.springframework.stereotype.Component;
+import com.mutistic.utils.CommonUtil;
+// 2、演示 Spring容器启动后的最后一次回调接口：ApplicationRunner
+@Component
+public class TestApplicationRunner implements ApplicationRunner, Ordered {
+  /**
+   * 通过ApplicationRunner接口实现Spring容器启动后的最后一次回调
+   * @param args
+   * @throws Exception
+   * @see org.springframework.boot.ApplicationRunner#run(org.springframework.boot.ApplicationArguments)
+   */
+  @Override
+  public void run(ApplicationArguments args) throws Exception {
+    CommonUtil.printTwo("2、通过ApplicationRunner接口实现Spring容器启动后的最后一次回调（spring容器已启动）：", TestCommandLineRunner.class);
+    if(null != args) {
+      CommonUtil.printThree("通过 ApplicationArguments.getSourceArgs()方法获取启动参数：", Arrays.asList(args.getSourceArgs()));
+    }
+  }
+  /**
+   * 自定义执行顺序
+   * @return
+   * @see org.springframework.core.Ordered#getOrder()
+   */
+  @Override
+  public int getOrder() {  return 0; }
+}
+```
+
+14.3、通过 ApplicationArguments 获取系统运行参数
+ApplicationArguments：[org.springframework.boot.ApplicationArguments](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/ApplicationArguments.html)
+```
+ApplicationArguments： 
+  提供对用于运行SpringApplication的参数的访问。
+  
+2、方法说明：
+boolean containsOption(String name)：
+  返回从参数解析的选项参数集是否包含具有给定名称的选项
+List<String> getNonOptionArgs()：
+  返回已解析的非选项参数的集合。
+Set<String> getOptionNames()：
+  返回所有选项参数的名称。例如，如果参数为“--foo=bar --debug”，则返回值["foo", "debug"]。
+List<String> getOptionValues(String name)：
+  返回与具有给定名称的arguments选项关联的值集合。
+    如果该选项存在且没有参数（例如：“ - foo”），则返回一个空集合（[]）
+    如果该选项存在且具有单个值（例如“--foo = bar”），则返回具有一个元素的集合（["bar"]）
+    如果该选项存在且具有多个值（例如“--foo = bar --foo = baz”），则返回具有每个值的元素的集合（["bar", "baz"]）
+    如果该选项不存在，请返回 null  
+String[] getSourceArgs()：
+  返回传递给应用程序的原始未处理参数。
+```
+
+MainByRunner.java：
+```java
+package com.mutistic.start.runner;
+import java.util.Arrays;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+
+import com.mutistic.utils.CommonUtil;
+//演示通过 ApplicationArguments 获取系统运行参数
+@SpringBootApplication
+public class MainByRunner {
+  public static void main(String[] args) {
+    // 系统参数定义格式：--key=value
+    if(null == args || args.length == 0) {
+      args = new String[2];
+      args[0] = "--test1=自定义测试运行参数1";
+      args[1] = "--tset2=自定义测试运行参数2";
+    }
+
+    ConfigurableApplicationContext context = SpringApplication.run(MainByRunner.class, args);
+    CommonUtil.printOne("演示通过 ApplicationArguments 获取系统运行参数：");
+    ApplicationArguments appArgs = context.getBean(ApplicationArguments.class);
+    CommonUtil.printThree("通过 ApplicationArguments.getSourceArgs() 获取系统运行参数：", Arrays.asList(appArgs.getSourceArgs()));
+    CommonUtil.printThree("通过 ApplicationArguments.getOptionNames() 获取运行参数--key集合： ", appArgs.getOptionNames());
+    CommonUtil.printThree("通过 ApplicationArguments.getOptionValues() 获取运行参数--key绑定的值： ", appArgs.getOptionValues("testArgs"));
+  }
+}
+```
+
 
 
 ---
