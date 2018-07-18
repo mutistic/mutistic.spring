@@ -22,7 +22,7 @@ public class MainByInitializer {
 	 * 1、通过 SpringApplication.addInitializers()方法注册初始化处理器
 	 * 2、通过配置项context.initializer.classes注册初始化处理器（注册初始化处理器多个用 , 逗号隔开）
 	 * 3、通过MATE-INF/spring.facoties 注册初始化处理器（注册初始化处理器多个用 , 逗号隔开）
-	 * PS：不能通过@Component方式注册初始化处理器
+git
 	 */
 	/** */
 	public static void main(String[] args) {
