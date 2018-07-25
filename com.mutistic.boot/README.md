@@ -24,8 +24,9 @@ Spring Boot 是伴随着[Spring4.0](https://github.com/mutistic/mutistic.spring/
 12. <a href="#a_event">简单实现自定义事件和监听</a>
 13. <a href="#a_initializers">Spring初始化处理器</a>
 14. <a href="#a_runner">Spring容器运行后的最后一次回调接口</a>
-97. <a href="#a_pit">spring boot 入坑总结</a>
-98. <a href="#a_sql">sql</a>
+96. <a href="#a_pit">spring boot 入坑总结</a>
+97. <a href="#a_sql">sql</a>
+98. <a href="#a_sql">ea</a>
 99. <a href="#a_down">down</a>
 
 ---
@@ -2287,8 +2288,12 @@ public class MainByRunner {
 [pit4、继承JpaRepository时报错[JPA]](https://github.com/mutistic/mutistic.spring/blob/master/com.mutistic.boot/notes/pit/pit4_%E7%BB%A7%E6%89%BFJpaRepository%E6%97%B6%E6%8A%A5%E9%94%99%5BJPA%5D.docx)<br/>
 
 ---
-## <a id="a_sql">II、[sql](https://github.com/mutistic/mutistic.spring/tree/master/com.mutistic.boot/notes/sql)</a> <a href="#a_pit">last</a> <a href="#a_down">Down</a>
+## <a id="a_sql">II、[sql](https://github.com/mutistic/mutistic.spring/tree/master/com.mutistic.boot/notes/sql)</a> <a href="#a_pit">last</a> <a href="#a_ea">Down</a>
 [ddl_creater_database_study](https://github.com/mutistic/mutistic.spring/blob/master/com.mutistic.boot/notes/sql/ddl_creater_database_study.sql)
+
+---
+## <a id="a_ea">III、[EA](https://github.com/mutistic/mutistic.spring/tree/master/com.mutistic.boot/notes/ea)</a> <a href="#a_sql">last</a> <a href="#a_down">Down</a>
+[E1_SpringApplication运行分析.eap](https://github.com/mutistic/mutistic.spring/blob/master/com.mutistic.boot/notes/ea/E1_SpringApplication\350\277\220\350\241\214\345\210\206\346\236\220.eap)
 
 
 ---
