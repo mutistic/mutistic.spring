@@ -20,7 +20,7 @@
 [Spring Framework Documentation](https://docs.spring.io/spring/docs/current/spring-framework-reference)<br/>
 
 ---
-# [Spring Boot](https://github.com/mutistic/mutistic.spring.boot/blob/master/README.md)
+# [Spring Boot](https://github.com/mutistic/mutisitc.spring.boot/blob/master/README.md)
 此项目基于Craig Walls的《Spring Boot实战》一书。使用的是Eclipse 集成的 STS插件自动创建的Spring Boot项目。<br/>
 [spring Boot API](https://docs.spring.io/spring-boot/docs/current/api)<br/>
 [spring Boot API-无框架](https://docs.spring.io/spring-boot/docs/current/api/overview-summary.html)<br/>
@@ -28,7 +28,7 @@
 [Spring Boot 参考指南](https://docs.spring.io/spring-boot/docs/current/reference/html/index.html)
 
 ---
-# [Spring Boot Web](https://github.com/mutistic/mutistic.spring.boot.web/blob/master/README.md)
+# [Spring Boot Web](https://github.com/mutistic/mutisitc.spring.boot.web/blob/master/README.md)
 
 
 ---
