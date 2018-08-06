@@ -1,2 +1,0 @@
-#配合 TestControllerByStarter测试
-#org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.mutistic.starter.RedisConfiguration
