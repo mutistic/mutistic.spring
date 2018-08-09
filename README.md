@@ -28,7 +28,7 @@
 [Spring Boot 参考指南](https://docs.spring.io/spring-boot/docs/current/reference/html/index.html)
 
 ---
-# [Spring Boot Web](https://github.com/mutistic/mutisitc.spring.boot.web/blob/master/README.md)
+# [Spring Boot Web](https://github.com/mutistic/mutistic.spring.boot.web/blob/master/README.md)
 
 
 ---
